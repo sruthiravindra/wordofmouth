@@ -9,14 +9,15 @@ import { NavLink } from 'react-router-dom';
 import { useState } from 'react';
 
 const Header = () => {
+    const [menuOpen, setMenuOpen] = useState(false);
 
     return (
-        <Navbar sticky='top' expand='md'>
+        <Navbar dark color='primary' sticky='top' expand='md'>
             <NavbarBrand href='/' className='ms-5'>
                 <h1 className='mt-1'>Word of Mouth</h1>
             </NavbarBrand>
             <NavbarToggler onClick={() => setMenuOpen(!menuOpen)} />
-            <Collapse isOpen={menuOpen}>
+            <Collapse isOpen={menuOpen} navbar>
                 <Nav className='ms-auto' navbar>
                     <NavItem>
                         <NavLink className='nav-link' to='/'>

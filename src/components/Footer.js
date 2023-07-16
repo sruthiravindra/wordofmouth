@@ -34,7 +34,7 @@ const Footer = () => {
 
                         <ul className="list-unstyled mt-4">
                             <li>
-                                Home
+                                <Link to='/'>Home</Link>
                             </li>
                             <li>
                                 <Link to="/about">About Us</Link>
