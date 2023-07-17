@@ -1,56 +1,25 @@
-import { Navbar, 
-    NavbarBrand,
-    Collapse,
-    NavbarToggler,
-    Nav,
-    NavItem 
+import { 
+    Col,
+    Row,
+    Button
 } from "reactstrap";
-import { NavLink } from 'react-router-dom';
-import { useState } from 'react';
+import NavMenu from "../app/features/Nav/NavMenu";
 
 const Header = () => {
 
     return (
-        <Navbar sticky='top' expand='md'>
-            <NavbarBrand href='/' className='ms-5'>
-                <h1 className='mt-1'>Word of Mouth</h1>
-            </NavbarBrand>
-            <NavbarToggler onClick={() => setMenuOpen(!menuOpen)} />
-            <Collapse isOpen={menuOpen}>
-                <Nav className='ms-auto' navbar>
-                    <NavItem>
-                        <NavLink className='nav-link' to='/'>
-                            Salon
-                        </NavLink>
-                    </NavItem>
-                    <NavItem>
-                        <NavLink className='nav-link' to='/'>
-                            Artisan
-                        </NavLink>
-                    </NavItem>
-                    <NavItem>
-                        <NavLink className='nav-link' to='/'>
-                            Home Repair
-                        </NavLink>
-                    </NavItem>
-                    <NavItem>
-                        <NavLink className='nav-link' to='/'>
-                            Cleaning/Cooking
-                        </NavLink>
-                    </NavItem>
-                    <NavItem>
-                        <NavLink className='nav-link' to='/'>
-                            Driving
-                        </NavLink>
-                    </NavItem>
-                    <NavItem>
-                        <NavLink className='nav-link' to='/'>
-                            Child/Pet Care
-                        </NavLink>
-                    </NavItem>
-                </Nav>
-            </Collapse>
-        </Navbar>
+        <>
+            <Row className='mt-3'>
+                <Col md='9'>
+                    <h1>Word of Mouth</h1>
+                </Col>
+                <Col md='3' className='text-end pe-3'>
+                    <Button>Sign up / Log in</Button>
+                </Col>
+            </Row>
+            
+            <NavMenu />
+        </>
     );
 };
 

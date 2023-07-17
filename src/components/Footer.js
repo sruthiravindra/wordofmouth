@@ -1,4 +1,4 @@
-import { Row, Col, Container } from "reactstrap";
+import { Row, Col, Container, Input } from "reactstrap";
 import { Link } from "react-router-dom";
 
 const Footer = () => {
@@ -6,8 +6,8 @@ const Footer = () => {
         <footer className="site-footer">
             <Container>
                 <Row>
-                    <Col xs={{ size: 4, offset: 1 }} sm="2">
-                        <a
+                    <Col xs={{ offset: 1 }}>
+                    Follow Us! <a
                             className='btn btn-social-icon btn-instagram'
                             href='http://instagram.com/'
                         >
@@ -31,7 +31,10 @@ const Footer = () => {
                         >
                             <i className='fa fa-youtube' />
                         </a>
-
+                    </Col>
+                </Row>
+                <Row>
+                    <Col xs={{ size: 7, offset: 1 }}>
                         <ul className="list-unstyled mt-4">
                             <li>
                                 <Link to='/'>Home</Link>
@@ -43,9 +46,22 @@ const Footer = () => {
                                 Contact
                             </li>
                             <li>
+                                FAQ
+                            </li>
+                            <li>
                                 Terms and Condition
                             </li>
                         </ul>
+                    </Col>
+                    <Col>
+                        <Container className="mt-4">
+                            <Row>
+                                <Col>
+                                <h5>Subscribe to our newsletter</h5>
+                                <Input/>
+                                </Col>
+                            </Row>
+                        </Container>
                     </Col>
                 </Row>
             </Container>
