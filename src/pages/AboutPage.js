@@ -1,7 +1,7 @@
 import { Container, Row, Col, Button } from "reactstrap";
 import SubHeader from "../components/SubHeader";
 import banner1 from '../app/assets/img/aboutus_banner_1.jpg';
-import TeamsList from '../app/features/teams/TeamsList';
+import TeamsList from '../features/teams/TeamsList';
 
 const AboutPage = () => {
     return (

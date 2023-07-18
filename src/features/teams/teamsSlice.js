@@ -1,4 +1,4 @@
-import { TEAMS } from "../../shared/TEAMS";
+import { TEAMS } from "../../app/shared/TEAMS";
 
 export const selectAllTeams = () =>{
     return TEAMS;
