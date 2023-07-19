@@ -1,8 +1,13 @@
-a {
+a, p, h5 {
     text-decoration: none;
-    color: black;
+    color: #000000;
 }
 
 h6 {
     color: #d82c05;
+    text-decoration: none;
+}
+
+button {
+    height: 40px;
 }
