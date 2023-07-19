@@ -34,6 +34,7 @@ export const NAVDATA = [
         parent: 5,
         title: 'artisan',
         url: '/services',
+    },
     {
         id: 6,
         parent: 5,
@@ -42,72 +43,80 @@ export const NAVDATA = [
     },
     {
         id: 7,
-        parent: 'artisan',
+        parent: 5,
         title: 'masonry',
         url: '/services'
     },
     {
+        id: 8,
+        parent: 5,
         title: 'gardening',
         url: '/services'
     },
-{
-    id: 2,
-    title: 'home repair',
-    url: '/services',
-    submenu: [
-        {
-            title: 'plumbing',
-            url: '/services'
-        },
-        {
-            title: 'electric',
-            url: '/services'
-        },
-        {
-            title: 'construction',
-            url: '/services'
-        }
-        ]
-    },
     {
-        id: 3,
-        title: 'cleaning/cooking',
+        id: 9,
+        parent: 9,
+        title: 'home repair',
         url: '/services',
-        submenu: [
-            {
-                title: 'cleaning',
-                url: '/services'
-            },
-            {
-                title: 'cooking',
-                url: '/services'
-            }
-        ]
     },
     {
-        id: 4,
+        id: 10,
+        parent: 9,
+        title: 'plumbing',
+        url: '/services'
+    },
+    {
+        id: 11,
+        parent: 9,
+        title: 'electric',
+        url: '/services'
+    },
+    {
+        id: 12,
+        parent: 10,
+        title: 'construction',
+        url: '/services'
+    },
+    {
+        id: 13,
+        parent: 13,
+        title: 'home help',
+        url: '/services',
+    },   
+    {
+        id: 14,
+        parent: 13,
+        title: 'cleaning',
+        url: '/services'
+    },
+    {
+        id: 15,
+        parent: 13,
+        title: 'cooking',
+        url: '/services'
+    },
+    {
+        id: 16,
+        parent: 13,
+        title: 'child care',
+        url: '/services'
+    },
+    {
+        id: 17,
+        parent: 13,
+        title: 'pet care',
+        url: '/services'
+    },
+    {
+        id: 18,
+        parent: 18,
         title: 'driving',
         url: '/serivces',
-        submenu: [
-            {
-                title: 'driving',
-                url: '/services'
-            }
-        ]
     },
     {
-        id: 5,
-        title: 'child/pet care',
-        url: '/services',
-        submenu: [
-            {
-                title: 'child care',
-                url: '/services'
-            },
-            {
-                title: 'pet care',
-                url: '/services'
-            }
-        ]
+        id: 19,
+        parent: 18,
+        title: 'driving',
+        url: '/services'
     }
 ]

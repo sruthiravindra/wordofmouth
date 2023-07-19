@@ -1,3 +1,5 @@
+import profilePicDefault from '../assets/img/profile-default.png'
+
 export const USERS = [
     {
         id: 0,
@@ -9,7 +11,8 @@ export const USERS = [
         phone: '',
         profilePic: '../assets/profile-default.png',
         worker: false,
-        contacts: []
+        rating: 5,
+        contacts: [1, 2]
     },
     {
         id: 1,
@@ -21,7 +24,8 @@ export const USERS = [
         phone: '',
         profilePic: '../assets/profile-default.png',
         worker: false,
-        contacts: []
+        rating: 5,
+        contacts: [0, 2]
     },
     {
         id: 2,
@@ -33,7 +37,8 @@ export const USERS = [
         phone: '',
         profilePic: '../assets/profile-default.png',
         worker: false,
-        contacts: []
+        rating: 5,
+        contacts: [2, 3]
     },
     {
         id: 3,
@@ -43,9 +48,10 @@ export const USERS = [
         lastName: '',
         email: '',
         phone: '',
-        profilePic: '../assets/profile-default.png',
+        profilePic: profilePicDefault,
         worker: true,
-        contacts: []
+        rating: 4.4,
+        contacts: [0, 1, 2, 3, 5]
     },
     {
         id: 4,
@@ -55,20 +61,35 @@ export const USERS = [
         lastName: 'Rana',
         email: '',
         phone: '',
-        profilePic: '../assets/profile-default.png',
+        profilePic: profilePicDefault,
         worker: true,
-        contacts: []
+        rating: 3.7,
+        contacts: [1, 2, 3]
     },
     {
         id: 5,
+        username: 'taniyaG',
+        password: '77777',
+        firstName: 'Taniya',
+        lastName: 'Goyal',
+        email: '',
+        phone: '',
+        profilePic: profilePicDefault,
+        worker: true,
+        rating: 2.5,
+        contacts: [1, 2, 3, 4]
+    },
+    {
+        id: 6,
         username: '',
         password: '',
         firstName: '',
         lastName: '',
         email: '',
         phone: '',
-        profilePic: '../assets/profile-default.png',
+        profilePic: profilePicDefault,
         worker: false,
+        rating: 5,
         contacts: []
     }
 ];
