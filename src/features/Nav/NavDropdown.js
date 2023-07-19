@@ -6,16 +6,18 @@ import {
 } from 'reactstrap';
 import { NavLink } from 'react-router-dom';
 import { useState } from 'react';
+import { selectSubmenu } from './navSlice';
 
 const NavDropdown = ({ navItem }) => {
-    const { title, submenu } = navItem;
+    const { id, title: parentTitle } = navItem;
+    const submenu = selectSubmenu(id);
     const [dropdownOpen, setDropdownOpen] = useState(false);
     const toggle = () => setDropdownOpen(!dropdownOpen);
 
     return (
         <Dropdown nav isOpen={dropdownOpen} toggle={toggle}>
             <DropdownToggle nav>
-                {title}
+                {parentTitle}
             </DropdownToggle>
             <DropdownMenu>
                 {

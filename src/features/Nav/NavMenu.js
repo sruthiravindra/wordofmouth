@@ -1,17 +1,16 @@
-import { selectAllNav } from './NavSlice';
+import { selectParentNav } from './navSlice';
 import { 
     Navbar, 
     Collapse,
     NavbarToggler,
-    Nav,
-    NavItem,
+    Nav
 } from "reactstrap";
 import { useState } from 'react';
 import NavDropdown from './NavDropdown';
 
 const NavMenu = () => {
     const [menuOpen, setMenuOpen] = useState(false);
-    const navData = selectAllNav();
+    const navData = selectParentNav();
 
     return (
         <Navbar dark sticky='top' expand='md' >

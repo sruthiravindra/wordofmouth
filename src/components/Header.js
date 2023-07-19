@@ -3,7 +3,7 @@ import {
     Row,
     Button
 } from "reactstrap";
-import NavMenu from "../app/features/Nav/NavMenu";
+import NavMenu from "../features/Nav/NavMenu";
 
 const Header = () => {
 
