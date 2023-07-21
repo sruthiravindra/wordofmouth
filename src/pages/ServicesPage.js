@@ -1,10 +1,12 @@
 import { Container } from 'reactstrap';
 import WorkerList from '../features/Workers/WorkerList';
+import SubHeader from '../components/SubHeader'
 
 const ServicesPage = () => {
     return (
         <Container>
-            <WorkerList />
+            <SubHeader current='Services'/>
+            <WorkerList/>
         </Container>
     );
 };

@@ -15,13 +15,13 @@ const WorkerCard = ({ worker }) => {
                 </div>
                 <div class='flex-grow-1 ms-3'>
                     <Row className='mt-1'>
-                        <Col sm='6'>
+                        <Col>
                             <Link to={`${id}`} textDecoration='none'>
                                 <h5>{firstName} {lastName} ({rating})</h5>
                                 <h6>gardening</h6>
                             </Link>
                         </Col>
-                        <Col sm='6' className='d-flex justify-content-end pe-3'>
+                        <Col className='d-flex justify-content-end pe-3'>
                             <Button className='btn-sm'>Request contact</Button>
                         </Col>
                     </Row>

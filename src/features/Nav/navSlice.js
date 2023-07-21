@@ -9,7 +9,7 @@ export const selectParentNav = () => {
 };
 
 export const selectSubmenu = (id) => {
-    return NAVDATA.filter((nav) => nav.parent === parseInt(id));
+    return NAVDATA.filter((nav) => nav.parent === parseInt(id) && nav.parent !== nav.id);
 };
 
 export const selectNavById = (id) => {
