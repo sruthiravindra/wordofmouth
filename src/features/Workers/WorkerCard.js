@@ -1,6 +1,7 @@
 import { Card, Button, Col, Row } from 'reactstrap';
 import { Link } from 'react-router-dom';
 import styles from './WorkerCard.css';
+import StarRating from './StarRating';
 
 const WorkerCard = ({ worker }) => {
     const {firstName, lastName, profilePic, id, rating, contacts} = worker;
@@ -17,7 +18,8 @@ const WorkerCard = ({ worker }) => {
                     <Row className='mt-1'>
                         <Col>
                             <Link to={`${id}`} textDecoration='none'>
-                                <h5>{firstName} {lastName} ({rating})</h5>
+                                <h5>{firstName} {lastName}</h5>
+                                <StarRating /><p>{rating}</p>
                                 <h6>gardening</h6>
                             </Link>
                         </Col>
