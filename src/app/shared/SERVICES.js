@@ -1,4 +1,4 @@
-export const NAVDATA = [
+export const SERVICES = [
     {
         id: 0,
         parent: 0,

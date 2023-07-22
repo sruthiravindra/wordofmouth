@@ -51,7 +51,8 @@ export const USERS = [
         profilePic: profilePicDefault,
         worker: true,
         rating: 4.4,
-        contacts: [0, 1, 2, 3, 5]
+        contacts: [0, 1, 2, 3, 5],
+        services: [14, 15, 16, 17, 1, 4]
     },
     {
         id: 4,
@@ -64,7 +65,8 @@ export const USERS = [
         profilePic: profilePicDefault,
         worker: true,
         rating: 3.7,
-        contacts: [1, 2, 3]
+        contacts: [1, 2, 3],
+        services: [10, 11, 8]
     },
     {
         id: 5,
@@ -77,7 +79,8 @@ export const USERS = [
         profilePic: profilePicDefault,
         worker: true,
         rating: 2.5,
-        contacts: [1, 2, 3, 4]
+        contacts: [1, 2, 3, 4],
+        services: [1, 2, 3, 4]
     },
     {
         id: 6,

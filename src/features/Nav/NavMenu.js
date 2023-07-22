@@ -1,4 +1,4 @@
-import { selectParentNav } from './navSlice';
+import { selectParentNav } from './servicesSlice';
 import { 
     Navbar, 
     Collapse,

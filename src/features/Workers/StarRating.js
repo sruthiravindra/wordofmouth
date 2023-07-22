@@ -2,13 +2,13 @@
 
 const StarRating = (rating) => {
     return (
-        <>
+        <div className='d-inline mx-2'>
             <i className='fa fa-star'></i>
             <i className='fa fa-star'></i>
             <i className='fa fa-star'></i>
             <i className='fa fa-star'></i>
             <i className='fa fa-star'></i>
-        </>
+        </div>
     );
 };
 
