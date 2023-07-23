@@ -33,7 +33,8 @@ export const NAVDATA = [
         id: 5,
         parent: 5,
         title: 'artisan',
-        url: '/services',
+        url: '/services'
+    },
     {
         id: 6,
         parent: 5,
