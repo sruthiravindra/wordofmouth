@@ -1,8 +1,8 @@
 import { Card, Button, Col, Row } from 'reactstrap';
 import { Link } from 'react-router-dom';
 import styles from './WorkerCard.css';
-import StarRating from './StarRating';
-import ServiceList from './ServiceList';
+import StarRating from '../Reviews/StarRating';
+import ServiceList from '../services/ServiceList';
 
 const WorkerCard = ({ worker }) => {
     const {firstName, lastName, profilePic, id, rating, contacts, services} = worker;
@@ -19,7 +19,7 @@ const WorkerCard = ({ worker }) => {
                 <div class='flex-grow-1 ms-3'>
                     <Row className='mt-1'>
                         <Col>
-                            <Link to={`${id}`} textDecoration='none'>
+                            <Link to={`${id}`} className='workerLink'>
                                 <h5 className='d-inline'>{firstName} {lastName}</h5>
                                 <StarRating /><p className='d-inline'>({rating})</p>
                             </Link>

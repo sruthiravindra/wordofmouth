@@ -6,7 +6,7 @@ import {
 } from 'reactstrap';
 import { NavLink } from 'react-router-dom';
 import { useState } from 'react';
-import { selectSubmenu } from './servicesSlice';
+import { selectSubmenu } from '../services/servicesSlice';
 
 const NavDropdown = ({ navItem }) => {
     const { id, title: parentTitle } = navItem;

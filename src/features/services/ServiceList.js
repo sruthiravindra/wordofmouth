@@ -1,4 +1,4 @@
-import { selectServiceTitleById } from '../Nav/servicesSlice';
+import { selectServiceTitleById } from './servicesSlice';
 import { Row, Col } from 'reactstrap';
 
 const ServiceList = ({ serviceIds }) => {

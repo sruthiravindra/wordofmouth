@@ -2,7 +2,9 @@ import { Container, Row, Col, Button } from "reactstrap";
 import { selectUserById } from "../features/Users/UsersSlice";
 import { useParams } from "react-router-dom";
 import SubHeader from "../components/SubHeader";
-import StarRating from "../features/Workers/StarRating";
+import StarRating from "../features/Reviews/StarRating";
+import ServiceList from "../features/services/ServiceList";
+import WorkerReview from "../features/Reviews/WorkerReview";
 
 const WorkerProfilePage = () => {
     const { userId } = useParams();
@@ -23,39 +25,20 @@ const WorkerProfilePage = () => {
                 <div class='flex-grow-1'>
                     <Row className='mb-2'>
                         <Col>
-                            <h3>{user.firstName} {user.lastName}</h3>
+                            <h3 class='d-inline'>{user.firstName} {user.lastName}</h3>
                             <StarRating rating={user.rating}/>
-                            <p>{user.rating}</p>
+                            <p class='d-inline'>{user.rating}</p>
                         </Col>
                         <Col className='d-flex justify-content-end'>
                             <Button className='btn-sm'>Request contact</Button>
                         </Col>
                     </Row>
                     <Row>
-                        <Col lg='4' sm='6'>
-                            <ul>
-                                <li>service description</li>
-                                <li>service description</li>
-                                <li>service description</li>
-                            </ul>
-                        </Col>
-                        <Col lg='4' sm='6'>
-                            <ul>
-                                <li>service description</li>
-                                <li>service description</li>
-                                <li>service description</li>
-                            </ul>
-                        </Col>
-                        <Col lg='4' sm='6'>
-                            <ul>
-                                <li>service description</li>
-                                <li>service description</li>
-                                <li>service description</li>
-                            </ul>
-                        </Col>
+                        <ServiceList serviceIds={user.services} />
                     </Row>
                 </div>
             </div>
+            <WorkerReview />
         </Container>
     );
 };
