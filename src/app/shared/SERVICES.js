@@ -33,7 +33,7 @@ export const SERVICES = [
         id: 5,
         parent: 5,
         title: 'artisan',
-        url: '/services',
+        url: '/services'
     },
     {
         id: 6,

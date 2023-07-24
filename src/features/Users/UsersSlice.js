@@ -7,3 +7,6 @@ export const selectWorkers = () => {
 export const selectUserById = (id) => {
     return USERS.find((user) => user.id === parseInt(id));
 };
+export const selectUserByEmailPassword = ({email, password})=>{
+    return USERS.filter((user)=> user.email === email && user.password === password);
+}

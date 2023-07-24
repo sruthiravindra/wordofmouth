@@ -1,5 +1,5 @@
 import WorkerCard from "./WorkerCard";
-import { selectWorkers } from "../Users/UsersSlice";
+import { selectWorkers } from "../users/usersSlice";
 import { Container } from "reactstrap";
 
 const WorkerList = () => {

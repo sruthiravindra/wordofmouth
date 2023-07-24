@@ -1,9 +1,9 @@
 import { 
     Col,
-    Row,
-    Button
+    Row
 } from "reactstrap";
 import NavMenu from "../features/Nav/NavMenu";
+import UserLoginForm from "../features/user/UserLoginForm";
 
 const Header = () => {
 
@@ -14,7 +14,7 @@ const Header = () => {
                     <h1>Word of Mouth</h1>
                 </Col>
                 <Col md='3' className='text-end pe-3'>
-                    <Button>Sign up / Log in</Button>
+                    <UserLoginForm />
                 </Col>
             </Row>
             
