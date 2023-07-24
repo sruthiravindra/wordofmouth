@@ -27,7 +27,7 @@ const UserLoginForm = () => {
             <span className='ml-auto'>
                 {
                     currentUser ? (
-                        <img src={currentUser.profilePicImage}
+                        <img src={currentUser.profilePic}
                         alt={currentUser.username}
                         style={{ width: '3rem', height: '3rem' }}
                     />
