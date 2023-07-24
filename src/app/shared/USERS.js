@@ -7,7 +7,8 @@ export const USERS = [
         lastName: 'Ravindran',
         email: 'sruthi.ravindran@gmail.com',
         phone: '',
-        profilePic: require('../../app/assets/profile-default.png'),
+        profilePic: '../../app/assets/profile-default.png',
+        profilePicImage: require('../../app/assets/profile-default.png'),
         worker: false,
         contacts: []
     },
@@ -19,7 +20,8 @@ export const USERS = [
         lastName: 'Guenther',
         email: '',
         phone: '',
-        profilePic: require('../assets/profile-default.png'),
+        profilePic: '../assets/profile-default.png',
+        profilePicImage: require('../../app/assets/profile-default.png'),
         worker: false,
         contacts: []
     },
@@ -31,7 +33,8 @@ export const USERS = [
         lastName: 'Rana',
         email: '',
         phone: '',
-        profilePic: require('../assets/profile-default.png'),
+        profilePic: '../assets/profile-default.png',
+        profilePicImage: require('../../app/assets/profile-default.png'),
         worker: false,
         contacts: []
     },
@@ -43,7 +46,8 @@ export const USERS = [
         lastName: '',
         email: '',
         phone: '',
-        profilePic: require('../assets/profile-default.png'),
+        profilePic: '../assets/profile-default.png',
+        profilePicImage: require('../../app/assets/profile-default.png'),
         worker: true,
         contacts: []
     },
@@ -55,7 +59,8 @@ export const USERS = [
         lastName: 'Rana',
         email: '',
         phone: '',
-        profilePic: require('../assets/profile-default.png'),
+        profilePic: '../assets/profile-default.png',
+        profilePicImage: require('../../app/assets/profile-default.png'),
         worker: true,
         contacts: []
     },
@@ -67,7 +72,8 @@ export const USERS = [
         lastName: '',
         email: '',
         phone: '',
-        profilePic: require('../assets/profile-default.png'),
+        profilePic: '../assets/profile-default.png',
+        profilePicImage: require('../../app/assets/profile-default.png'),
         worker: false,
         contacts: []
     }
