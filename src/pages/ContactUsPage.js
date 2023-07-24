@@ -6,7 +6,7 @@ const ContactUsPage = () => {
     return (
         <Container>
             <SubHeader current='Contact Us' />
-            <Row className="mb-5 align-items-center">
+            <Row className="text-center mb-5 align-items-center">
                 <Col>
                     <h3>How can we help you?</h3>
                     <Input
