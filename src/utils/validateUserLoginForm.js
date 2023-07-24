@@ -1,6 +1,5 @@
-export const validateLoginForm = (values) => {
+export const validateUserLoginForm = (values) => {
     const errors = {};
-    console.log(values);
     if(!values.email){
         errors.email = 'Required';
     }else if(!values.email.includes('@')){
@@ -10,7 +9,6 @@ export const validateLoginForm = (values) => {
     if(!values.password){
         errors.password = 'Required';
     }
-    console.log(errors);
 
     return errors;
 }

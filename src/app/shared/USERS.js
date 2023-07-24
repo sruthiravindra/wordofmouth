@@ -5,9 +5,9 @@ export const USERS = [
         password: '12345',
         firstName: 'Sruthi',
         lastName: 'Ravindran',
-        email: '',
+        email: 'sruthi.ravindran@gmail.com',
         phone: '',
-        profilePic: '../assets/profile-default.png',
+        profilePic: require('../../app/assets/profile-default.png'),
         worker: false,
         contacts: []
     },
@@ -19,7 +19,7 @@ export const USERS = [
         lastName: 'Guenther',
         email: '',
         phone: '',
-        profilePic: '../assets/profile-default.png',
+        profilePic: require('../assets/profile-default.png'),
         worker: false,
         contacts: []
     },
@@ -31,7 +31,7 @@ export const USERS = [
         lastName: 'Rana',
         email: '',
         phone: '',
-        profilePic: '../assets/profile-default.png',
+        profilePic: require('../assets/profile-default.png'),
         worker: false,
         contacts: []
     },
@@ -43,7 +43,7 @@ export const USERS = [
         lastName: '',
         email: '',
         phone: '',
-        profilePic: '../assets/profile-default.png',
+        profilePic: require('../assets/profile-default.png'),
         worker: true,
         contacts: []
     },
@@ -55,7 +55,7 @@ export const USERS = [
         lastName: 'Rana',
         email: '',
         phone: '',
-        profilePic: '../assets/profile-default.png',
+        profilePic: require('../assets/profile-default.png'),
         worker: true,
         contacts: []
     },
@@ -67,7 +67,7 @@ export const USERS = [
         lastName: '',
         email: '',
         phone: '',
-        profilePic: '../assets/profile-default.png',
+        profilePic: require('../assets/profile-default.png'),
         worker: false,
         contacts: []
     }
