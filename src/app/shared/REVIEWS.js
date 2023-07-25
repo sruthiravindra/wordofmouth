@@ -1,8 +1,8 @@
-const REVIEWS = [
+export const REVIEWS = [
     {
         id: 0,
         userId: 3,
-        author: 'effieG',
+        authorId: 1,
         title: 'excellent service',
         rating: 5,
         description: 'Renu is so professional and kind!',
@@ -11,7 +11,7 @@ const REVIEWS = [
     {
         id: 1,
         userId: 3,
-        author: 'urshilaR',
+        authorId: 2,
         title: 'wonderful!',
         rating: 5,
         description: 'She does a great job waxing :)',

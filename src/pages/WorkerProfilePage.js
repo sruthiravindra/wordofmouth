@@ -4,7 +4,7 @@ import { useParams } from "react-router-dom";
 import SubHeader from "../components/SubHeader";
 import StarRating from "../features/Reviews/StarRating";
 import ServiceList from "../features/services/ServiceList";
-import WorkerReview from "../features/Reviews/WorkerReview";
+import ReviewList from "../features/Reviews/ReviewList";
 
 const WorkerProfilePage = () => {
     const { userId } = useParams();
@@ -38,7 +38,7 @@ const WorkerProfilePage = () => {
                     </Row>
                 </div>
             </div>
-            <WorkerReview />
+            <ReviewList userId={userId}/>
         </Container>
     );
 };

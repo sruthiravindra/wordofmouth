@@ -9,4 +9,4 @@ export const selectUserById = (id) => {
 };
 export const selectUserByEmailPassword = ({email, password})=>{
     return USERS.filter((user)=> user.email === email && user.password === password);
-}
+};

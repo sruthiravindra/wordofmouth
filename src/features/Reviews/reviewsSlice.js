@@ -23,5 +23,7 @@ export const reviewsReducer = reviewsSlice.reducer;
 export const { addReview } = reviewsSlice.actions;
 
 export const selectReviewsByUserId = (userId) => (state) => {
-    return REVIEWS.filter((review) => review.userId === userId);
+    return state.reviews.reviewsArray.filter(
+        (review) => review.userId === parseInt(userId)
+    );
 };
