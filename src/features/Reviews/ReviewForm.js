@@ -29,7 +29,7 @@ const ReviewForm = ({userId}) => {
         <>
             <Button onClick={() => setModalOpen(true)}>
                 <i className='fa fa-pencil' />
-                Add Comment
+                Add Review
             </Button>
             <Modal isOpen={modalOpen}>
                 <ModalHeader toggle={() => setModalOpen(false)}>

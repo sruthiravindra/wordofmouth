@@ -6,15 +6,17 @@ import { validateUserLoginForm } from "../../utils/validateUserLoginForm";
 import { ErrorMessage } from "formik";
 import { useDispatch, useSelector } from "react-redux";
 import { selectCurrentUser, setCurrentUser } from "../user/userSlice";
-import { selectUserByEmailPassword } from "../Users/UsersSlice";
+import { selectUserByEmailPassword, selectAllUsers } from "../Users/UsersSlice";
 
 const UserLoginForm = () => {
     const [modalOpen, setModalOpen] = useState(false);
     const [loginError, setLoginError] = useState("");
     const currentUser = useSelector(selectCurrentUser);
+    const allUsers = useSelector(selectAllUsers);
     const dispatch = useDispatch();
+    
     const handleSubmit = (values) => {
-        const currentUser = selectUserByEmailPassword(values)
+        const currentUser = allUsers.filter((user)=> user.email === values.email && user.password === values.password);
         if (currentUser.length) {
             dispatch(setCurrentUser(currentUser[0]));
             setModalOpen(false);

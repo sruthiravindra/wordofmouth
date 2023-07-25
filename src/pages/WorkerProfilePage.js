@@ -1,15 +1,17 @@
 import { Container, Row, Col, Button } from "reactstrap";
 import { selectUserById } from "../features/Users/UsersSlice";
 import { useParams } from "react-router-dom";
+import { useSelector } from "react-redux/es/hooks/useSelector";
 import SubHeader from "../components/SubHeader";
 import StarRating from "../features/Reviews/StarRating";
 import ServiceList from "../features/services/ServiceList";
 import ReviewList from "../features/Reviews/ReviewList";
 import ReviewForm from "../features/Reviews/ReviewForm";
 
+
 const WorkerProfilePage = () => {
     const { userId } = useParams();
-    const user = selectUserById(userId);
+    const user = useSelector(selectUserById(userId));
     console.log(user);
 
     return (

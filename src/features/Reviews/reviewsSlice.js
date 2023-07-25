@@ -27,3 +27,10 @@ export const selectReviewsByUserId = (userId) => (state) => {
         (review) => review.userId === parseInt(userId)
     );
 };
+
+export const calculateReviewAverage = (selectedReviews) => {
+    const total = selectedReviews.reduce((acc, cur) => {
+        return acc + cur.rating
+    }, 0)
+    return total / selectedReviews.length;
+}
