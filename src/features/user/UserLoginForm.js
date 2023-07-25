@@ -8,8 +8,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { selectCurrentUser, setCurrentUser } from "../user/userSlice";
 import { selectUserByEmailPassword } from "../users/usersSlice";
 
-const UserLoginForm = () => {
-    const [modalOpen, setModalOpen] = useState(false);
+const UserLoginForm = (props) => {
+    const [modalLoginOpen, setModalLoginOpen] = useState(props.modalLoginOpen);
     const [loginError, setLoginError] = useState("");
     const currentUser = useSelector(selectCurrentUser);
     const dispatch = useDispatch();
@@ -17,7 +17,7 @@ const UserLoginForm = () => {
         const currentUser = selectUserByEmailPassword(values)
         if (currentUser.length) {
             dispatch(setCurrentUser(currentUser[0]));
-            setModalOpen(false);
+            setModalLoginOpen(false);
         } else {
             setLoginError("Invalid email, password");
         }
@@ -32,15 +32,14 @@ const UserLoginForm = () => {
                         style={{ width: '3rem', height: '3rem' }}
                     />
                     ) : (
-                        <Button onClick={() => setModalOpen(true)}>
+                        <Button onClick={() => setModalLoginOpen(true)}>
                             Log In
                         </Button>
                     )
                 }
             </span>
-
-            <Modal isOpen={modalOpen}>
-                <ModalHeader toggle={() => setModalOpen(false)}>
+            <Modal isOpen={modalLoginOpen}>
+                <ModalHeader toggle={() => setModalLoginOpen(false)}>
                     Login
                 </ModalHeader>
                 <ModalBody>
@@ -77,7 +76,8 @@ const UserLoginForm = () => {
                             <br />
                             <p><Link to="/">Forgot Password</Link></p>
                             <p>Not a registered user?
-                                {' '}<Link to="/">Click here to register</Link>
+                                {' '}
+                                <Button onClick={()=>props.onFormSwitch('register')}>Click here to register</Button>
                             </p>
                         </Form>
                     </Formik>
