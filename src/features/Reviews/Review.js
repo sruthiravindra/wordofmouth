@@ -7,7 +7,7 @@ const Review = ({ review }) => {
     const author = selectUserById(review.authorId) 
 
     return (
-        <Card className='pt-2'>
+        <Card className='pt-2 mb-1'>
             <div className='d-flex align-items-center'>
                 <div class='flex-shrink-0 m-2'>
                     <img 
@@ -22,7 +22,7 @@ const Review = ({ review }) => {
                             <p className='d-inline'>{review.title}</p>
                             <StarRating />
                             <p className='d-inline'>({review.rating})</p>
-                            <p>{review.description}</p>
+                            <p>{review.reviewText}</p>
                         </Col>                   
                         <Col>
                             <p className='d-inline'>- {author.firstName} {author.lastName}</p>

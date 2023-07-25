@@ -5,6 +5,7 @@ import SubHeader from "../components/SubHeader";
 import StarRating from "../features/Reviews/StarRating";
 import ServiceList from "../features/services/ServiceList";
 import ReviewList from "../features/Reviews/ReviewList";
+import ReviewForm from "../features/Reviews/ReviewForm";
 
 const WorkerProfilePage = () => {
     const { userId } = useParams();
@@ -39,6 +40,10 @@ const WorkerProfilePage = () => {
                 </div>
             </div>
             <ReviewList userId={userId}/>
+            <div className='text-end mt-4'>
+                <ReviewForm userId={userId}/>
+            </div>
+
         </Container>
     );
 };

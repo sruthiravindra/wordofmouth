@@ -5,7 +5,7 @@ export const REVIEWS = [
         authorId: 1,
         title: 'excellent service',
         rating: 5,
-        description: 'Renu is so professional and kind!',
+        reviewText: 'Renu is so professional and kind!',
         date: '2023-07-25T16:38Z'
     },
     {
@@ -14,7 +14,7 @@ export const REVIEWS = [
         authorId: 2,
         title: 'wonderful!',
         rating: 5,
-        description: 'She does a great job waxing :)',
+        reviewText: 'She does a great job waxing :)',
         date: '2023-06-03T11:20Z'
     }
 ]

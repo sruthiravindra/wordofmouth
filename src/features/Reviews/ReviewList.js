@@ -5,7 +5,6 @@ import { selectReviewsByUserId } from './reviewsSlice';
 
 const ReviewList = ({ userId }) => {
     const reviews = useSelector(selectReviewsByUserId(userId));
-    console.log(reviews);
 
     return (
         <Container>
