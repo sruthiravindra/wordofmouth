@@ -17,13 +17,13 @@ const usersSlice = createSlice({
             state.usersArray.push(newUser);
         },
         updateRating: (state, action) => {
-            
+
         }
     }
 });
 
 export const usersReducers = usersSlice.reducer;
-export const {addUser} = usersSlice.actions;
+export const {addUser, updateRating} = usersSlice.actions;
 
 export const selectAllUsers = (state) => {
     return state.users.usersArray;

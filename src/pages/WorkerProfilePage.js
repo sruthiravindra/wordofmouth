@@ -7,6 +7,7 @@ import StarRating from "../features/Reviews/StarRating";
 import ServiceList from "../features/services/ServiceList";
 import ReviewList from "../features/Reviews/ReviewList";
 import ReviewForm from "../features/Reviews/ReviewForm";
+import WorkerImageGallery from "../features/Workers/WorkerImageGallery";
 
 
 const WorkerProfilePage = () => {
@@ -41,6 +42,7 @@ const WorkerProfilePage = () => {
                     </Row>
                 </div>
             </div>
+            <WorkerImageGallery />
             <ReviewList userId={userId}/>
             <div className='text-end mt-4'>
                 <ReviewForm userId={userId}/>

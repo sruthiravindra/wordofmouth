@@ -10,8 +10,10 @@ const ReviewForm = ({userId}) => {
     const [modalOpen, setModalOpen] = useState(false);
     const currentUser = useSelector(selectCurrentUser)
     const dispatch = useDispatch();
+
     const handleSubmit = (values) => {
         console.log(values);
+        console.log(currentUser);
         const review = {
             userId: parseInt(userId),
             authorId: parseInt(currentUser.id),

@@ -52,7 +52,7 @@ export const USERS = [
         worker: true,
         rating: 4.4,
         contacts: [0, 1, 2, 3, 5],
-        services: [14, 15, 16, 17, 1, 4]
+        services: [14, 15, 16, 17, 1, 4],
     },
     {
         id: 4,

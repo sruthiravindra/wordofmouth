@@ -6,7 +6,7 @@ import { validateUserLoginForm } from "../../utils/validateUserLoginForm";
 import { ErrorMessage } from "formik";
 import { useDispatch, useSelector } from "react-redux";
 import { selectCurrentUser, setCurrentUser } from "../user/userSlice";
-import { selectUserByEmailPassword, selectAllUsers } from "../Users/UsersSlice";
+import { selectAllUsers } from "../Users/UsersSlice";
 
 const UserLoginForm = () => {
     const [modalOpen, setModalOpen] = useState(false);
@@ -29,10 +29,15 @@ const UserLoginForm = () => {
             <span className='ml-auto'>
                 {
                     currentUser ? (
-                        <img src={currentUser.profilePic}
-                        alt={currentUser.username}
-                        style={{ width: '3rem', height: '3rem' }}
-                    />
+                        <>
+                            <p className='d-inline'>{currentUser.username}</p>
+                            <img src={currentUser.profilePic}
+                            alt={currentUser.username}
+                            style={{ width: '3rem', height: '3rem' }}/>
+                            <Link to='/contacts'>
+                                <Button>My Contacts</Button>
+                            </Link>
+                        </>   
                     ) : (
                         <Button onClick={() => setModalOpen(true)}>
                             Log In

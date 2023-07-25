@@ -19,7 +19,7 @@ const WorkerCard = ({ worker }) => {
                 <div class='flex-grow-1 ms-3'>
                     <Row className='mt-1'>
                         <Col>
-                            <Link to={`${id}`} className='workerLink'>
+                            <Link to={`${id}`} className='unstyledLink'>
                                 <h5 className='d-inline'>{firstName} {lastName}</h5>
                                 <StarRating /><p className='d-inline'>({rating})</p>
                             </Link>
