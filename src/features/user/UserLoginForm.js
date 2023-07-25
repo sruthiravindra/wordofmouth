@@ -6,7 +6,7 @@ import { validateUserLoginForm } from "../../utils/validateUserLoginForm";
 import { ErrorMessage } from "formik";
 import { useDispatch, useSelector } from "react-redux";
 import { selectCurrentUser, setCurrentUser } from "../user/userSlice";
-import { selectUserByEmailPassword } from "../users/usersSlice";
+import { selectUserByEmailPassword } from "../Users/UsersSlice";
 
 const UserLoginForm = () => {
     const [modalOpen, setModalOpen] = useState(false);

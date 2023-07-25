@@ -20,7 +20,7 @@ export const USERS = [
         password: '56789',
         firstName: 'Effie',
         lastName: 'Guenther',
-        email: '',
+        email: 'effiegguenther@gmail.com',
         phone: '',
         profilePic: profilePicDefault,
         worker: false,
