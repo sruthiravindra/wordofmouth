@@ -1,7 +1,7 @@
 import { Card, Row, Col } from 'reactstrap';
 import { useSelector } from 'react-redux';
 import StarRating from './StarRating';
-import {selectUserById} from '../Users/UsersSlice';
+import {selectUserById} from '../users/UsersSlice';
 import { formatDate } from '../../utils/formatDate';
 
 const Review = ({ review }) => {

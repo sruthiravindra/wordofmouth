@@ -1,5 +1,5 @@
 import { Container, Row, Col, Button } from "reactstrap";
-import { selectUserById } from "../features/Users/UsersSlice";
+import { selectUserById } from "../features/users/UsersSlice";
 import { useParams } from "react-router-dom";
 import { useSelector } from "react-redux/es/hooks/useSelector";
 import SubHeader from "../components/SubHeader";
