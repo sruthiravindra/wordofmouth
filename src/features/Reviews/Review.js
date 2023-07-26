@@ -21,7 +21,7 @@ const Review = ({ review }) => {
                     <Row>
                         <Col>
                             <p className='d-inline'>{review.title}</p>
-                            <StarRating />
+                            <StarRating rating={review.rating}/>
                             <p className='d-inline'>({review.rating})</p>
                             <p>{review.reviewText}</p>
                         </Col>                   

@@ -21,7 +21,7 @@ const WorkerCard = ({ worker }) => {
                         <Col>
                             <Link to={`${id}`} className='unstyledLink'>
                                 <h5 className='d-inline'>{firstName} {lastName}</h5>
-                                <StarRating /><p className='d-inline'>({rating})</p>
+                                <StarRating rating={rating}/><p className='d-inline'>({rating})</p>
                             </Link>
                         </Col>
                         <Col className='d-flex justify-content-end pe-3'>
