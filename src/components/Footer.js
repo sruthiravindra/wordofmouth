@@ -1,4 +1,4 @@
-import { Row, Col, Container, Input } from "reactstrap";
+import { Row, Col, Container, Input, Button } from "reactstrap";
 import { Link } from "react-router-dom";
 
 const Footer = () => {
@@ -6,7 +6,7 @@ const Footer = () => {
         <footer className="site-footer">
             <Container>
                 <Row>
-                    <Col xs={{ offset: 1 }}>
+                    <Col className='sm-4'>
                     Follow Us! <a
                             className='btn btn-social-icon btn-instagram'
                             href='http://instagram.com/'
@@ -34,16 +34,16 @@ const Footer = () => {
                     </Col>
                 </Row>
                 <Row>
-                    <Col xs={{ size: 7, offset: 1 }}>
+                    <Col className='sm-6'>
                         <ul className="list-unstyled mt-4">
                             <li>
-                                <Link to='/'>Home</Link>
+                                <Link to='/' className='red-link'>Home</Link>
                             </li>
                             <li>
-                                <Link to="/about">About Us</Link>
+                                <Link to="/about" className='red-link'>About Us</Link>
                             </li>
                             <li>
-                                <Link to="/contactus">Contact</Link>
+                                <Link to="/contactus" className='red-link'>Contact</Link>
                             </li>
                             <li>
                                 FAQ
@@ -54,14 +54,13 @@ const Footer = () => {
                         </ul>
                     </Col>
                     <Col>
-                        <Container className="mt-4">
-                            <Row>
-                                <Col>
-                                <h5>Subscribe to our newsletter</h5>
-                                <Input/>
-                                </Col>
-                            </Row>
-                        </Container>
+                        <Row>
+                            <Col>
+                            <h5>Subscribe to our newsletter</h5>
+                            <input type='text' className='py-1'></input>
+                            <Button>Go</Button>
+                            </Col>
+                        </Row>
                     </Col>
                 </Row>
             </Container>

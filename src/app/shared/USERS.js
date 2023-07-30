@@ -12,7 +12,7 @@ export const USERS = [
         profilePic: profilePicDefault,
         worker: false,
         rating: 5,
-        contacts: [1, 2]
+        contacts: [3, 4]
     },
     {
         id: 1,
@@ -25,7 +25,7 @@ export const USERS = [
         profilePic: profilePicDefault,
         worker: false,
         rating: 5,
-        contacts: [0, 2]
+        contacts: [4, 5]
     },
     {
         id: 2,

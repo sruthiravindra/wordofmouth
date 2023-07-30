@@ -6,7 +6,7 @@ import { validateUserLoginForm } from "../../utils/validateUserLoginForm";
 import { ErrorMessage } from "formik";
 import { useDispatch, useSelector } from "react-redux";
 import { selectCurrentUser, setCurrentUser } from "../user/userSlice";
-import { selectAllUsers } from "../users/UsersSlice";
+import { selectAllUsers, selectUserByEmailPassword } from "../users/UsersSlice";
 
 const UserLoginForm = (props) => {
     const [modalLoginOpen, setModalLoginOpen] = useState(props.modalLoginOpen);
@@ -26,7 +26,7 @@ const UserLoginForm = (props) => {
     }
     return (
         <>
-            <span className='ml-auto'>
+            <span className='ml-auto user'>
                 {
                     currentUser ? (
                         <>

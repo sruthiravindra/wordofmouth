@@ -30,7 +30,7 @@ h2 {
 }
 
 .site-footer {
-  background-image: linear-gradient(#cec8ff, white);
+  background-image: linear-gradient(#cecece, white);
   padding: 20px 0;
   margin-top: 2rem;
 }
@@ -61,7 +61,25 @@ h2 {
   transition: 300ms ease-in;
 }
 
+
+/* custom classes */
+
 .unstyledLink {
   text-decoration: none;
   color: #000000;
+}
+
+.light-title {
+  color: white;
+}
+
+div .btn {
+  color: #d82c05;
+  background-color: rgba(255, 255, 255, 0.425);
+  border: #d82c05 1px solid;
+}
+
+.red-link {
+  color: #d82c05;
+  text-decoration: none;
 }

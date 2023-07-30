@@ -17,7 +17,6 @@ const SubHeader = ({current, profile}) => {
                     )}
                     <BreadcrumbItem active>{current}</BreadcrumbItem>
                 </Breadcrumb>
-                <h2>{current}</h2>
             </Col>
         </Row>
     );
