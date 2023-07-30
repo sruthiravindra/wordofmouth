@@ -2,6 +2,7 @@ import { Container, Row, Col, Button } from "reactstrap";
 import { selectUserById } from "../features/users/UsersSlice";
 import { useParams } from "react-router-dom";
 import { useSelector } from "react-redux/es/hooks/useSelector";
+import { selectCurrentUser } from "../features/user/userSlice";
 import SubHeader from "../components/SubHeader";
 import StarRating from "../features/Reviews/StarRating";
 import ServiceList from "../features/services/ServiceList";
@@ -13,7 +14,7 @@ import WorkerImageGallery from "../features/Workers/WorkerImageGallery";
 const WorkerProfilePage = () => {
     const { userId } = useParams();
     const user = useSelector(selectUserById(userId));
-    console.log(user);
+    const currentUser = useSelector(selectCurrentUser);
 
     return (
         <Container>
@@ -34,7 +35,14 @@ const WorkerProfilePage = () => {
                             <p class='d-inline'>{user.rating}</p>
                         </Col>
                         <Col className='d-flex justify-content-end'>
-                            <Button className='btn-sm'>Request contact</Button>
+                            { 
+                                (currentUser && currentUser.contacts.includes(user.id)) ?
+                                    (<div className='text-end'>
+                                        <Button className='btn-sm mb-1 d-block'>{user.phone}</Button>
+                                        <Button className='btn-sm d-block'>{user.email}</Button>
+                                    </div>) :
+                                (<Button className='btn-sm'>Request contact</Button>)
+                            }
                         </Col>
                     </Row>
                     <Row>

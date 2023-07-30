@@ -1,11 +1,13 @@
 import { Card, Button, Col, Row } from 'reactstrap';
 import { Link } from 'react-router-dom';
-import styles from './WorkerCard.css';
 import StarRating from '../Reviews/StarRating';
 import ServiceList from '../services/ServiceList';
+import { selectCurrentUser } from '../user/userSlice';
+import { useSelector } from 'react-redux';
 
 const WorkerCard = ({ worker }) => {
-    const {firstName, lastName, profilePic, id, rating, contacts, services} = worker;
+    const {firstName, lastName, profilePic, id, rating, contacts, services, phone, email} = worker;
+    const currentUser = useSelector(selectCurrentUser);
 
     return (
         <Card className='mb-2'>
@@ -23,13 +25,20 @@ const WorkerCard = ({ worker }) => {
                                 <h5 className='d-inline'>{firstName} {lastName}</h5>
                                 <StarRating rating={rating}/><p className='d-inline'>({rating})</p>
                             </Link>
+                            <ServiceList serviceIds={services}/>
+                            <p>location  |  payment  |  {contacts.length} customers</p>
                         </Col>
                         <Col className='d-flex justify-content-end pe-3'>
-                            <Button className='btn-sm'>Request contact</Button>
+                            { 
+                                (currentUser && currentUser.contacts.includes(id)) ?
+                                    (<div className='text-end'>
+                                        <Button className='btn-sm mb-1 d-block'>{phone}</Button>
+                                        <Button className='btn-sm d-block'>{email}</Button>
+                                    </div>) :
+                                (<Button className='btn-sm'>Request contact</Button>)
+                            }
                         </Col>
                     </Row>
-                    <ServiceList serviceIds={services}/>
-                    <p>location  |  payment  |  {contacts.length} customers</p>
                 </div>
             </div>
         </Card>

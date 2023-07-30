@@ -37,3 +37,12 @@ export const selectUserById = (id) => (state) => {
 export const selectUserByEmailPassword = ({email, password}) => (state) => {
     return state.users.usersArray.filter((user)=> user.email === email && user.password === password);
 };
+export const selectUsersByUserIdArray = (userIdArray) => (state) => {
+    const userArray = [];
+    state.users.usersArray.map(
+        (user) => {
+            if (userIdArray.includes(user.id)) userArray.push(user);
+        }
+    );
+    return userArray;
+};
