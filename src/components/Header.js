@@ -25,12 +25,12 @@ const Header = () => {
     return (
         <>
             <Row className='mt-3'>
-                <Col md='9'>
+                <Col className='col-6'>
                     <Link to='/' className='unstyledLink'>
                         <h1>Word of Mouth</h1>
                     </Link>
                 </Col>
-                <Col md='3' className='text-end pe-3'>
+                <Col className='text-end pe-3'>
                     {
                         <>
                         {

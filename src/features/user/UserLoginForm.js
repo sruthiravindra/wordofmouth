@@ -7,6 +7,7 @@ import { ErrorMessage } from "formik";
 import { useDispatch, useSelector } from "react-redux";
 import { selectCurrentUser, setCurrentUser } from "../user/userSlice";
 import { selectAllUsers, selectUserByEmailPassword } from "../users/UsersSlice";
+import UserMenu from "./UserMenu";
 
 const UserLoginForm = (props) => {
     const [modalLoginOpen, setModalLoginOpen] = useState(props.modalLoginOpen);
@@ -29,15 +30,7 @@ const UserLoginForm = (props) => {
             <span className='ml-auto user'>
                 {
                     currentUser ? (
-                        <>
-                            <p className='d-inline'>{currentUser.username}</p>
-                            <img src={currentUser.profilePic}
-                            alt={currentUser.username}
-                            style={{ width: '3rem', height: '3rem' }}/>
-                            <Link to='/contacts'>
-                                <Button>My Contacts</Button>
-                            </Link>
-                        </>   
+                        <UserMenu />
                     ) : (
                         <Button onClick={() => setModalLoginOpen(true)}>
                             Log In
