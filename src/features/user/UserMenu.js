@@ -10,8 +10,10 @@ const UserMenu = () => {
     const [dropdownOpen, setDropdownOpen] = useState(false);
     const toggle = () => setDropdownOpen(!dropdownOpen);
     const dispatch = useDispatch();
-    const logout = () => dispatch(setCurrentUser(null));
-
+    const logout = () => {
+        dispatch(setCurrentUser(null));
+        console.log(currentUser);
+    }
     return(
         <>
             <Dropdown isOpen={dropdownOpen} toggle={toggle} style={{zIndex: 9999}}>

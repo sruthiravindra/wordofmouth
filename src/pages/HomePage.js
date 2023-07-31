@@ -1,7 +1,13 @@
 import { Container, Row, Col, Button } from 'reactstrap';
 import ktmAerialImg from '../app/assets/img/ktm-aerial.jpeg';
+import { useSpring, animated } from 'react-spring';
 
 const HomePage = () => {
+    const fadeProps = useSpring({
+        from: { opacity: 0 },
+        to: { opacity: 1 },
+      })
+
     return (
         <>
             <Row>
@@ -12,11 +18,11 @@ const HomePage = () => {
                     >
                         <div className='mask h-100' style={{ backgroundColor: 'rgba(0, 0, 0, 0.1)' }}>
                             <div className='d-flex justify-content-center align-items-center h-100'>
-                                <div>
+                                <animated.div style={fadeProps}>
                                     <h2 className='mb-3 light-title'>Find top-rated service professionals in your area</h2>
                                     <input type='text' className='py-1'></input>
                                     <Button className='custom-button'>Go</Button>
-                                </div>
+                                </animated.div>
                             </div>
                         </div>
                     </div>

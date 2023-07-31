@@ -77,10 +77,18 @@ div .btn {
   color: #d82c05;
   background-color: rgba(255, 255, 255, 0.425);
   border: #d82c05 1px solid;
-  height: 40px;
 }
 
 .red-link {
   color: #d82c05;
   text-decoration: none;
+}
+
+.service-list {
+  list-style-type: none;
+}
+
+.banner {
+  background-color: rgb(233, 231, 231);
+  padding: 0.2em 1em;
 }

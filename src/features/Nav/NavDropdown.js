@@ -23,7 +23,7 @@ const NavDropdown = ({ navItem }) => {
                 {
                     submenu.map((subNavItem) => {
                         return (
-                            <NavLink className='nav-link' to={subNavItem.url}>
+                            <NavLink className='nav-link' to={subNavItem.url} key={subNavItem.id}>
                                 <DropdownItem>{subNavItem.title}</DropdownItem>
                             </NavLink>
                         );

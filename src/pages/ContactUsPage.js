@@ -29,14 +29,7 @@ const ContactUsPage = () => {
                     <div className="square border rounded p-5">
                         <h3>You can also reach us on!</h3>
                         <br />
-                        <h5>Our Address</h5>
-                        <address>
-                            1 akjdh
-                            <br />
-                            Katmandu, WA 98001
-                            <br />
-                            Nepal
-                        </address>
+            
                         <a
                         role='button'
                         className='btn btn-link'

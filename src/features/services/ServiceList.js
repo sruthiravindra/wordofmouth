@@ -6,11 +6,14 @@ const ServiceList = ({ serviceIds }) => {
 
     return (
         <Row>
-            <Col>
-                <ul>
+            <Col className='mx-3 my-3'>
+                <p>Services</p>
+                <ul className='service-list border border-secondary py-2'>
                     {
                         serviceTitles.map((service) => {
-                            return (<li>{service}</li>);
+                            return (
+                                <li className=''>{service}</li>
+                            );
                         })
                     }
                 </ul>
