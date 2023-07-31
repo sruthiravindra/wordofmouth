@@ -12,7 +12,7 @@ const ServiceList = ({ serviceIds }) => {
                     {
                         serviceTitles.map((service) => {
                             return (
-                                <li className=''>{service}</li>
+                                <li>{service}</li>
                             );
                         })
                     }

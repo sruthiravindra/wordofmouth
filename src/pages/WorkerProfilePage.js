@@ -9,48 +9,60 @@ import ServiceList from "../features/services/ServiceList";
 import ReviewList from "../features/Reviews/ReviewList";
 import ReviewForm from "../features/Reviews/ReviewForm";
 import WorkerImageGallery from "../features/Workers/WorkerImageGallery";
+import { useSpring, animated } from 'react-spring';
 
 
 const WorkerProfilePage = () => {
     const { userId } = useParams();
-    const user = useSelector(selectUserById(userId));
+    const worker = useSelector(selectUserById(userId));
+    const {firstName, lastName, profilePic, id, rating, contacts, services, phone, email, username} = worker;
     const currentUser = useSelector(selectCurrentUser);
+    const fadeProps = useSpring({
+        from: { opacity: 0 },
+        to: { opacity: 1 },
+        config: { duration: 500 }
+      })
 
     return (
         <Container>
-            <SubHeader current={user.username} profile={true} />
-
-            <div className='d-flex align-items-center'>
-                <div class='flex-shrink-0'>
-                    <img 
-                    src={user.profilePic} 
-                    alt='profile picture'
-                    width='150px'/>
-                </div>
-                <div class='flex-grow-1'>
-                    <Row className='mb-2'>
-                        <Col>
-                            <h3 class='d-inline'>{user.firstName} {user.lastName}</h3>
-                            <StarRating rating={user.rating}/>
-                            <p class='d-inline'>{user.rating}</p>
-                        </Col>
-                        <Col className='d-flex justify-content-end'>
-                            { 
-                                (currentUser && currentUser.contacts.includes(user.id)) ?
-                                    (<div className='text-end'>
-                                        <Button className='btn-sm mb-1 d-block'>{user.phone}</Button>
-                                        <Button className='btn-sm d-block'>{user.email}</Button>
-                                    </div>) :
-                                (<Button className='btn-sm'>Request contact</Button>)
-                            }
-                        </Col>
-                    </Row>
-                    <Row>
-                        <ServiceList serviceIds={user.services} />
-                    </Row>
-                </div>
-            </div>
+            <SubHeader current={username} profile={true} />
+            <Row className='d-flex align-items-center'>
+                <Col xs='2' lg='1'>
+                    <div class='flex-shrink-0'>
+                        <img 
+                        src={profilePic} 
+                        alt='profile picture'
+                        className='img-fluid'/>
+                    </div>
+                </Col>
+                <Col className='d-flex justify-content-start'>
+                        <h5 className='d-inline'>{firstName} {lastName}</h5>
+                        <StarRating rating={rating}/>
+                        <p className='d-inline'>({rating})</p>
+                </Col>
+                <Col className='d-flex justify-content-end pe-3' xs='3'>
+                    <animated.div style={fadeProps}>
+                        { 
+                            (currentUser && currentUser.contacts.includes(id)) ?
+                                (<div className='text-end'>
+                                    <Button className='btn-sm mb-1 d-block'>{phone}</Button>
+                                    <Button className='btn-sm d-block'>{email}</Button>
+                                </div>) :
+                            (<Button className='btn-sm'>Request contact</Button>)
+                        }
+                    </animated.div>
+                </Col>
+            </Row>
+            <Row>
+                <Col>
+                    <ServiceList serviceIds={services}/>
+                    <p className='ms-2 banner'>location  |  payment  |  {contacts.length} customers</p>
+                </Col>
+            </Row>
+            <hr />
             <WorkerImageGallery />
+            <hr />
+            <h6>Reviews for {firstName} {lastName}</h6>
             <ReviewList userId={userId}/>
             <div className='text-end mt-4'>
                 <ReviewForm userId={userId}/>

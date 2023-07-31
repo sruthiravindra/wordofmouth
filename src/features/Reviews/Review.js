@@ -8,30 +8,31 @@ const Review = ({ review }) => {
     const author = useSelector(selectUserById(review.authorId));
 
     return (
-        <Card className='pt-2 mb-1'>
-            <div className='d-flex align-items-center'>
-                <div class='flex-shrink-0 m-2'>
+        <Card className='p-2 mb-1'>
+            <Row>
+                <Col xs='2' lg='1'>
                     <img 
                         src={author.profilePic}
                         alt='user profile picture'
-                        width='50px'
+                        className='img-fluid'
                     />
-                </div>
-                <div class='flex-grow-1'> 
+                </Col>
+                <Col>
                     <Row>
-                        <Col>
+                        <Col xs='12'>
                             <p className='d-inline'>{review.title}</p>
                             <StarRating rating={review.rating}/>
                             <p className='d-inline'>({review.rating})</p>
                             <p>{review.reviewText}</p>
                         </Col>                   
-                        <Col>
+                        <Col xs='12' className='text-end my-1'>
                             <p className='d-inline'>- {author.firstName} {author.lastName}</p>
-                            <p className='d-inline ms-2'>{formatDate(review.date)}</p>
+                            <p className='d-inline mx-2'>|</p>
+                            <p className='d-inline me-3'>{formatDate(review.date)}</p>
                         </Col>
-                    </Row>  
-                </div>
-            </div>
+                    </Row>
+                </Col>
+            </Row>
         </Card>
     )
 };
