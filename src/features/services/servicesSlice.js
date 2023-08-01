@@ -21,3 +21,14 @@ export const selectServiceTitleById = (serviceIds) => {
         return SERVICES[id].title
     })
 };
+
+export const searchServicesByTitle = (searchText) =>{
+    let matched_services = SERVICES.filter((service)=>service.title.toLowerCase().indexOf(searchText.toLowerCase()) >=0)
+    .map((service)=>{
+        return(service.id)
+
+    });
+    return SERVICES.filter((service)=>{
+        return ( matched_services.indexOf(service.id) != -1 ) || (matched_services.indexOf(service.parent) != -1)
+    }) 
+}

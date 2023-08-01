@@ -1,47 +1,27 @@
-import { Formik, Form, Field } from "formik";
-import { FormGroup, Label, Modal, ModalBody, ModalHeader, Button } from "reactstrap";
+import React from "react";
+import "./login.css";
+import {
+    Modal,
+    ModalHeader,
+    ModalBody,
+    FormGroup,
+    Label,
+    Button
+} from 'reactstrap';
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Formik, Form, Field,ErrorMessage } from "formik";
 import { validateUserLoginForm } from "../../utils/validateUserLoginForm";
-import { ErrorMessage } from "formik";
 import { useDispatch, useSelector } from "react-redux";
-import { selectCurrentUser, setCurrentUser } from "../user/userSlice";
-import { selectAllUsers, selectUserByEmailPassword } from "../users/UsersSlice";
-import UserMenu from "./UserMenu";
+import { Link } from "react-router-dom";
 
-const UserLoginForm = (props) => {
-
-    //const [modalLoginOpen, setModalLoginOpen] = useState(props.modalLoginOpen);
-    const modalLoginOpen = props.modalLoginOpen;
-    const setModalLoginOpen = props.setModalLoginOpen;
+const Login = (props) => {
     const [loginError, setLoginError] = useState("");
-    const currentUser = useSelector(selectCurrentUser);
-    const allUsers = useSelector(selectAllUsers);
-    const dispatch = useDispatch();
-    console.log("in user login",modalLoginOpen,props.modalLoginOpen, props.currentForm)
-    
+    const [modalLoginOpen, setModalLoginOpen] = useState(true);
     const handleSubmit = (values) => {
-        const currentUser = allUsers.filter((user)=> user.email === values.email && user.password === values.password);
-        if (currentUser.length) {
-            dispatch(setCurrentUser(currentUser[0]));
-            setModalLoginOpen(false);
-        } else {
-            setLoginError("Invalid email, password");
-        }
+
     }
     return (
         <>
-            <span className='ml-auto user'>
-                {
-                    currentUser ? (
-                        <UserMenu />
-                    ) : (
-                        <Button onClick={() => setModalLoginOpen(true)}>
-                            Log In
-                        </Button>
-                    )
-                }
-            </span>
             <Modal isOpen={modalLoginOpen}>
                 <ModalHeader toggle={() => setModalLoginOpen(false)}>
                     Login
@@ -81,14 +61,14 @@ const UserLoginForm = (props) => {
                             <p><Link to="/">Forgot Password</Link></p>
                             <p>Not a registered user?
                                 {' '}
-                                <Button onClick={()=>props.onFormSwitch('register')}>Click here to register</Button>
+                                <Button onClick={() => props.onFormSwitch('register')}>Click here to register</Button>
                             </p>
                         </Form>
                     </Formik>
                 </ModalBody>
             </Modal>
         </>
-    );
-};
+    )
+}
 
-export default UserLoginForm;
+export default Login;

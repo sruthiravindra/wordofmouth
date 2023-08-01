@@ -12,7 +12,8 @@ export const USERS = [
         profilePic: profilePicDefault,
         worker: false,
         rating: 5,
-        contacts: [3, 4]
+        contacts: [3, 4],
+        services: []
     },
     {
         id: 1,
@@ -25,7 +26,8 @@ export const USERS = [
         profilePic: profilePicDefault,
         worker: false,
         rating: 5,
-        contacts: [4, 5]
+        contacts: [4, 5],
+        services: []
     },
     {
         id: 2,
@@ -38,7 +40,8 @@ export const USERS = [
         profilePic: profilePicDefault,
         worker: false,
         rating: 5,
-        contacts: [2, 3]
+        contacts: [2, 3],
+        services: []
     },
     {
         id: 3,
@@ -84,15 +87,16 @@ export const USERS = [
     },
     {
         id: 6,
-        username: '',
-        password: '',
-        firstName: '',
-        lastName: '',
-        email: '',
+        username: 'ajay',
+        password: 'nair',
+        firstName: 'ajay',
+        lastName: 'nair',
+        email: 'aj@gmail.com',
         phone: '',
         profilePic: profilePicDefault,
-        worker: false,
+        worker: true,
         rating: 5,
-        contacts: []
+        contacts: [],
+        services: [18,13]
     }
 ];
