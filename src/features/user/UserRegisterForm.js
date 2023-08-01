@@ -2,12 +2,27 @@ import { Formik, Field, Form, ErrorMessage } from "formik";
 import { useState } from "react";
 import { FormGroup, Input, Button, Label, ModalHeader, ModalBody, Modal } from "reactstrap";
 import { validateUserRegisterForm } from "../../utils/validateUserRegisterForm";
+import { setCurrentUser } from "../user/userSlice";
+import { addUser } from "../users/UsersSlice";
+import { useDispatch, useSelector } from "react-redux";
+import profilePicDefault from '../../app/assets/img/profile-default.png'
 
 const UserRegisterForm = (props) => {
 
-    const [modalRegisterOpen, setModalRegisterOpen] = useState(props.modalRegisterOpen);
+    // const [modalRegisterOpen, setModalRegisterOpen] = useState(props.modalRegisterOpen);
+    const modalRegisterOpen = props.modalRegisterOpen;
+    const setModalRegisterOpen = props.setModalRegisterOpen;
+    const dispatch = useDispatch();
 
     const handleSubmit = (values) => {
+        const currentUser = {
+            username: values.firstName,
+            password: values.password,
+            email: values.email,
+            profilePic: profilePicDefault
+        }
+        const newUser = dispatch(addUser(currentUser));
+        dispatch(setCurrentUser(currentUser));
         setModalRegisterOpen(false);
     }
     return (
@@ -19,10 +34,10 @@ const UserRegisterForm = (props) => {
                 <ModalBody>
                     <Formik
                         initialValues={{
-                            firstName: '',
-                            email: '',
-                            password: '',
-                            confirmPassword: ''
+                            firstName: 'asaasds',
+                            email: 'a@a.com',
+                            password: '12',
+                            confirmPassword: '12'
                         }}
                         onSubmit={handleSubmit}
                         validate={validateUserRegisterForm}
