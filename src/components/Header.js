@@ -1,4 +1,4 @@
-import {Col, Row } from "reactstrap";
+import { Col, Row } from "reactstrap";
 import { Link } from "react-router-dom";
 import NavMenu from "../features/Nav/NavMenu";
 import UserLoginForm from "../features/user/UserLoginForm";
@@ -12,15 +12,16 @@ const Header = () => {
     const toggleForm = (formName) => {
         console.log(formName);
         setCurrentForm(formName);
-        if(formName === 'login'){
+        if (formName === 'login') {
             setModalLoginOpen(true);
             setModalRegisterOpen(false);
         }
-        if(formName === 'register'){
+        if (formName === 'register') {
             setModalLoginOpen(false);
             setModalRegisterOpen(true);
         }
     }
+
 
     return (
         <>
@@ -33,12 +34,9 @@ const Header = () => {
                 <Col md='3' className='text-end pe-3'>
                     {
                         <>
-                        {
-
-                        (currentForm==='login')?
-                            <UserLoginForm onFormSwitch={toggleForm} modalLoginOpen={modalLoginOpen} />
-                           : <UserRegisterForm onFormSwitch={toggleForm} modalRegisterOpen={modalRegisterOpen} />
-                        }
+                        
+                        <UserLoginForm onFormSwitch={toggleForm} setModalLoginOpen={setModalLoginOpen} modalLoginOpen={modalLoginOpen} />
+                        <UserRegisterForm onFormSwitch={toggleForm} setModalRegisterOpen={setModalRegisterOpen} modalRegisterOpen={modalRegisterOpen} />
 
                         </>
                     }
