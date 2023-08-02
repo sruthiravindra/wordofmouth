@@ -10,8 +10,17 @@ import WorkerProfilePage from './pages/WorkerProfilePage';
 import ContactUsPage from './pages/ContactUsPage';
 import ContactsPage from './pages/ContactsPage';
 import AccountPage from './pages/AccountPage';
+import { useDispatch } from 'react-redux';
+import { useEffect } from 'react';
+import { fetchServices } from './features/services/servicesSlice';
 
 function App() {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(fetchServices());
+  }, [dispatch]);
+
   return (
     <div className="App">
       <Header/>
