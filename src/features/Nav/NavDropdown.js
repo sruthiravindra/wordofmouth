@@ -7,6 +7,7 @@ import {
 import { useState } from 'react';
 import { selectServicesByParent } from '../services/servicesSlice';
 import { useSelector } from 'react-redux';
+import { NavLink } from 'react-router-dom';
 
 const NavDropdown = ({ parentService }) => {
     const { title: parentTitle } = parentService;
@@ -23,9 +24,9 @@ const NavDropdown = ({ parentService }) => {
                 {
                     subservices.map((subService, idx) => {
                         return (
-                            //<NavLink className='nav-link' to={subService.url} key={idx}>
+                            <NavLink className='nav-link' to={subService.url} key={idx}>
                                 <DropdownItem>{subService.title}</DropdownItem>
-                            //</NavLink>
+                            </NavLink>
                         );
                     })
                 }
