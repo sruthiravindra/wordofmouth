@@ -1,6 +1,6 @@
 import { Card, Button, Col, Row,  } from 'reactstrap';
 import { Link } from 'react-router-dom';
-import StarRating from '../Reviews/StarRating';
+import StarRating from '../reviews/StarRating';
 import ServiceList from '../services/ServiceList';
 import { selectCurrentUser } from '../user/userSlice';
 import { useSelector } from 'react-redux';
