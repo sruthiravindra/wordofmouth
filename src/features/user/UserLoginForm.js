@@ -6,7 +6,7 @@ import { validateUserLoginForm } from "../../utils/validateUserLoginForm";
 import { ErrorMessage } from "formik";
 import { useDispatch, useSelector } from "react-redux";
 import { selectCurrentUser, setCurrentUser } from "../user/userSlice";
-import { selectAllUsers, selectUserByEmailPassword } from "../users/UsersSlice";
+import { selectAllUsers, selectUserByEmailPassword } from "../users/usersSlice";
 import UserMenu from "./UserMenu";
 
 const UserLoginForm = (props) => {

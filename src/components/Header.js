@@ -1,6 +1,6 @@
 import { Col, Row } from "reactstrap";
 import { Link } from "react-router-dom";
-import NavMenu from "../features/Nav/NavMenu";
+import NavMenu from "../features/nav/NavMenu";
 import UserLoginForm from "../features/user/UserLoginForm";
 import UserRegisterForm from "../features/user/UserRegisterForm";
 import { useState } from "react";
