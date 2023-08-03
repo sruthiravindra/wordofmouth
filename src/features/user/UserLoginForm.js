@@ -8,10 +8,13 @@ import { useDispatch, useSelector } from "react-redux";
 import { selectCurrentUser, setCurrentUser } from "../user/userSlice";
 import { selectAllUsers, selectUserByEmailPassword } from "../users/usersSlice";
 import UserMenu from "./UserMenu";
-import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
+import { getAuth, GoogleAuthProvider, signInWithPopup } from "firebase/auth";
+import { signInWithEmailAndPassword } from "firebase/auth";
 
 const UserLoginForm = (props) => {
-    const auth = getAuth();
+    const auth = getAuth(); // this is for firebase
+    const provider = new GoogleAuthProvider(); // this is for google
+    provider.addScope('https://www.googleapis.com/auth/contacts.readonly');
 
     //const [modalLoginOpen, setModalLoginOpen] = useState(props.modalLoginOpen);
     const modalLoginOpen = props.modalLoginOpen;
@@ -22,7 +25,7 @@ const UserLoginForm = (props) => {
     const dispatch = useDispatch();
 
     const ContinueToLogin = (values) => {
-        const currentUser = allUsers.filter((user) => user.email === values.email && user.password === values.password);
+        const currentUser = allUsers.filter((user) => user.email === values.email);
         if (currentUser.length) {
             dispatch(setCurrentUser(currentUser[0]));
             setModalLoginOpen(false);
@@ -31,7 +34,7 @@ const UserLoginForm = (props) => {
         }
     }
 
-    const LoginWithFirebase = (values) =>{
+    const LoginWithFirebase = (values) => {
         signInWithEmailAndPassword(auth, values.email, values.password)
         .then((userCredential) => {
           // Signed in 
@@ -45,6 +48,28 @@ const UserLoginForm = (props) => {
         });
     }
 
+    const LoginWithGoogle = () => {
+        const auth = getAuth();
+        signInWithPopup(auth, provider)
+            .then((result) => {
+                // This gives you a Google Access Token. You can use it to access the Google API.
+                const credential = GoogleAuthProvider.credentialFromResult(result);
+                const token = credential.accessToken;
+                // The signed-in user info.
+                const user = result.user;
+                // IdP data available using getAdditionalUserInfo(result)
+                ContinueToLogin(user.email);
+            }).catch((error) => {
+                // Handle Errors here.
+                const errorCode = error.code;
+                const errorMessage = error.message;
+                // The email of the user's account used.
+                const email = error.customData.email;
+                // The AuthCredential type that was used.
+                const credential = GoogleAuthProvider.credentialFromError(error);
+                // ...
+            });
+    }
     return (
         <>
             <span className='ml-auto user'>
@@ -88,7 +113,11 @@ const UserLoginForm = (props) => {
                             </FormGroup>
                             <Button type="submit">
                                 Login
-                            </Button>
+                            </Button>{' '}
+                            <Button
+                                variant="contained"
+                                color="secondary"
+                                onClick={() => LoginWithGoogle(props)} >Login with google</Button>
                             <div style={{ color: "red", display: (loginError == "") ? "none" : "" }}>
                                 <span>{loginError}</span>
                             </div>
@@ -97,11 +126,11 @@ const UserLoginForm = (props) => {
                             <p><Link to="/">Forgot Password</Link></p>
                             <p>Not a registered user?
                                 {' '}
-                                <Button onClick={() => props.onFormSwitch('register')}>Click here to register</Button>
                                 <Button
                                     variant="contained"
                                     color="secondary"
-                                    onClick={() => LoginWithFirebase(props)} >Login Using</Button>
+                                    onClick={() => props.onFormSwitch('register')} >Click here to register</Button>
+
                             </p>
                         </Form>
                     </Formik>
