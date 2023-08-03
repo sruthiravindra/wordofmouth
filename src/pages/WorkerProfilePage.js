@@ -1,14 +1,14 @@
 import { Container, Row, Col, Button } from "reactstrap";
-import { selectUserById } from "../features/users/UsersSlice";
+import { selectUserById } from "../features/users/usersSlice";
 import { useParams } from "react-router-dom";
 import { useSelector } from "react-redux/es/hooks/useSelector";
 import { selectCurrentUser } from "../features/user/userSlice";
 import SubHeader from "../components/SubHeader";
-import StarRating from "../features/Reviews/StarRating";
+import StarRating from "../features/reviews/StarRating";
 import ServiceList from "../features/services/ServiceList";
-import ReviewList from "../features/Reviews/ReviewList";
-import ReviewForm from "../features/Reviews/ReviewForm";
-import WorkerImageGallery from "../features/Workers/WorkerImageGallery";
+import ReviewList from "../features/reviews/ReviewList";
+import ReviewForm from "../features/reviews/ReviewForm";
+import WorkerImageGallery from "../features/workers/WorkerImageGallery";
 import { useSpring, animated } from 'react-spring';
 
 
