@@ -8,8 +8,10 @@ import { useDispatch, useSelector } from "react-redux";
 import { selectCurrentUser, setCurrentUser } from "../user/userSlice";
 import { selectAllUsers, selectUserByEmailPassword } from "../users/usersSlice";
 import UserMenu from "./UserMenu";
+import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 
 const UserLoginForm = (props) => {
+    const auth = getAuth();
 
     //const [modalLoginOpen, setModalLoginOpen] = useState(props.modalLoginOpen);
     const modalLoginOpen = props.modalLoginOpen;
@@ -18,17 +20,31 @@ const UserLoginForm = (props) => {
     const currentUser = useSelector(selectCurrentUser);
     const allUsers = useSelector(selectAllUsers);
     const dispatch = useDispatch();
-    console.log("in user login",modalLoginOpen,props.modalLoginOpen, props.currentForm)
-    
-    const handleSubmit = (values) => {
-        const currentUser = allUsers.filter((user)=> user.email === values.email && user.password === values.password);
+
+    const ContinueToLogin = (values) => {
+        const currentUser = allUsers.filter((user) => user.email === values.email && user.password === values.password);
         if (currentUser.length) {
             dispatch(setCurrentUser(currentUser[0]));
             setModalLoginOpen(false);
         } else {
-            setLoginError("Invalid email, password");
+            setLoginError("User not registered");
         }
     }
+
+    const LoginWithFirebase = (values) =>{
+        signInWithEmailAndPassword(auth, values.email, values.password)
+        .then((userCredential) => {
+          // Signed in 
+          const user = userCredential.user;
+          ContinueToLogin(values)
+        })
+        .catch((error) => {
+          const errorCode = error.code;
+          const errorMessage = error.message;
+            setLoginError(errorMessage);
+        });
+    }
+
     return (
         <>
             <span className='ml-auto user'>
@@ -52,7 +68,7 @@ const UserLoginForm = (props) => {
                             email: '',
                             password: ''
                         }}
-                        onSubmit={handleSubmit}
+                        onSubmit={LoginWithFirebase}
                         validate={validateUserLoginForm}
                     >
                         <Form>
@@ -81,7 +97,11 @@ const UserLoginForm = (props) => {
                             <p><Link to="/">Forgot Password</Link></p>
                             <p>Not a registered user?
                                 {' '}
-                                <Button onClick={()=>props.onFormSwitch('register')}>Click here to register</Button>
+                                <Button onClick={() => props.onFormSwitch('register')}>Click here to register</Button>
+                                <Button
+                                    variant="contained"
+                                    color="secondary"
+                                    onClick={() => LoginWithFirebase(props)} >Login Using</Button>
                             </p>
                         </Form>
                     </Formik>

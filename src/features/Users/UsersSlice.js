@@ -56,6 +56,9 @@ export const selectWorkers = (state) => {
 export const selectUserById = (id) => (state) => {
     return state.users.usersArray.find((user) => user.id === parseInt(id));
 };
+export const selectUserByEmail = ({ email }) => (state) => {
+    return state.users.usersArray.filter((user) => user.email === email);
+};
 export const selectUserByEmailPassword = ({ email, password }) => (state) => {
     return state.users.usersArray.filter((user) => user.email === email && user.password === password);
 };
