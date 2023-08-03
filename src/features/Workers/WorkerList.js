@@ -1,5 +1,5 @@
 import WorkerCard from "./WorkerCard";
-import { selectWorkers } from "../users/UsersSlice";
+import { selectWorkers } from "../users/usersSlice";
 import { useSelector } from "react-redux";
 import { Container } from "reactstrap";
 

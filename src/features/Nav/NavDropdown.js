@@ -4,13 +4,14 @@ import {
     DropdownMenu,
     DropdownItem
 } from 'reactstrap';
-import { NavLink } from 'react-router-dom';
 import { useState } from 'react';
-import { selectSubmenu } from '../services/servicesSlice';
+import { selectServicesByParent } from '../services/servicesSlice';
+import { useSelector } from 'react-redux';
+import { NavLink } from 'react-router-dom';
 
-const NavDropdown = ({ navItem }) => {
-    const { id, title: parentTitle } = navItem;
-    const submenu = selectSubmenu(id);
+const NavDropdown = ({ parentService }) => {
+    const { title: parentTitle } = parentService;
+    const subservices = useSelector(selectServicesByParent(parentTitle));
     const [dropdownOpen, setDropdownOpen] = useState(false);
     const toggle = () => setDropdownOpen(!dropdownOpen);
 
@@ -21,10 +22,10 @@ const NavDropdown = ({ navItem }) => {
             </DropdownToggle>
             <DropdownMenu>
                 {
-                    submenu.map((subNavItem) => {
+                    subservices.map((subService, idx) => {
                         return (
-                            <NavLink className='nav-link' to={subNavItem.url} key={subNavItem.id}>
-                                <DropdownItem>{subNavItem.title}</DropdownItem>
+                            <NavLink className='nav-link' to={subService.url} key={idx}>
+                                <DropdownItem>{subService.title}</DropdownItem>
                             </NavLink>
                         );
                     })

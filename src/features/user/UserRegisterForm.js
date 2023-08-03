@@ -3,7 +3,7 @@ import { useState } from "react";
 import { FormGroup, Input, Button, Label, ModalHeader, ModalBody, Modal } from "reactstrap";
 import { validateUserRegisterForm } from "../../utils/validateUserRegisterForm";
 import { setCurrentUser } from "../user/userSlice";
-import { addUser } from "../users/UsersSlice";
+import { addUser } from "../users/usersSlice";
 import { useDispatch, useSelector } from "react-redux";
 import profilePicDefault from '../../app/assets/img/profile-default.png'
 
