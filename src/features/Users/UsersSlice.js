@@ -16,7 +16,7 @@ export const fetchUsers = createAsyncThunk(
         }
 
         const data = await querySnapshot.docs.map((doc) => {
-            return { ...doc.data() }
+            return { id:doc.id,...doc.data() }
         });
         return data;
     }
@@ -30,7 +30,8 @@ export const addUsers = createAsyncThunk(
             "firstName": user.firstName,
             "email": user.email,
             "profilePic": user.profilePic,
-            "worker": false
+            "worker": false,
+            "services":[]
         };
 
         try {
