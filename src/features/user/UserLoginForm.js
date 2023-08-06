@@ -23,7 +23,6 @@ const UserLoginForm = (props) => {
     const currentUser = useSelector(selectCurrentUser);
     const allUsers = useSelector(selectAllUsers);
     const dispatch = useDispatch();
-
     const ContinueToLogin = (values) => {
         const currentUser = allUsers.filter((user) => user.email === values.email);
         if (currentUser.length) {
