@@ -11,7 +11,7 @@ const usersSlice = createSlice({
         setCurrentUser : (state,action)=>{
             return {
                 ...state,
-                currentUser: action.payload
+                currentUser: action.payload 
             }
         }
     }

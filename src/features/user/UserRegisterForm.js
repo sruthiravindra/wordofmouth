@@ -3,7 +3,7 @@ import { useState } from "react";
 import { FormGroup, Input, Button, Label, ModalHeader, ModalBody, Modal } from "reactstrap";
 import { validateUserRegisterForm } from "../../utils/validateUserRegisterForm";
 import { setCurrentUser } from "../user/userSlice";
-import { addUser } from "../users/usersSlice";
+import { addUsers, selectAllUsers } from "../users/usersSlice";
 import { useDispatch, useSelector } from "react-redux";
 import profilePicDefault from '../../app/assets/img/profile-default.png'
 import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
@@ -12,19 +12,20 @@ const UserRegisterForm = (props) => {
     const modalRegisterOpen = props.modalRegisterOpen;
     const setModalRegisterOpen = props.setModalRegisterOpen;
     const dispatch = useDispatch();
+    const allUsers = useSelector(selectAllUsers);
     const auth = getAuth();
 
     const continueToAddUserInStore = (values) => {
         const currentUser = {
-            username: values.firstName,
+            firstName: values.firstName,
             email: values.email,
             profilePic: profilePicDefault
         }
-        const newUser = dispatch(addUser(currentUser));
-        dispatch(setCurrentUser(currentUser));
+        dispatch(addUsers(currentUser));
         setModalRegisterOpen(false);
     }
     const RegisterWithFirebase = (values) => {
+       
         createUserWithEmailAndPassword(auth, values.email, values.password)
             .then((userCredential) => {
                 // Signed in 

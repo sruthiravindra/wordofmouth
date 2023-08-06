@@ -1,11 +1,55 @@
-import { SERVICES } from '../../app/shared/SERVICES';
-import { USERS } from '../../app/shared/USERS';
-import { createSlice, current } from '@reduxjs/toolkit';
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import { collection, getDocs, addDoc } from 'firebase/firestore';
+import { database } from '../../firebaseConfig';
 import { searchServicesByTitle } from '../services/servicesSlice';
+import { useDispatch } from 'react-redux';
+import { setCurrentUser } from '../user/userSlice';
+
+
+export const fetchUsers = createAsyncThunk(
+    'users/fetchUsers',
+    async () => {
+        const collectionRef = collection(database, "userData");
+        const querySnapshot = await getDocs(collectionRef);
+        if (querySnapshot.empty || !querySnapshot.size) {
+            return Promise.reject("Unable to fetch, status :" + querySnapshot.status);
+        }
+
+        const data = await querySnapshot.docs.map((doc) => {
+            return { ...doc.data() }
+        });
+        return data;
+    }
+)
+
+export const addUsers = createAsyncThunk(
+    'users/addUsers',
+    async (user, { dispatch }) => {
+        const collectionRef = collection(database, "userData");
+        let newUser = {
+            "firstName": user.firstName,
+            "email": user.email,
+            "profilePic": user.profilePic,
+            "worker": false
+        };
+
+        try {
+            const querySnapshot = await addDoc(collectionRef, newUser);
+            console.log("Document written with ID: ", querySnapshot.id); 
+            dispatch(addUser({id:querySnapshot.id,...newUser}));
+            dispatch(setCurrentUser({id:querySnapshot.id,...newUser}));
+        } catch (e) {
+            return Promise.reject("Unable to create, status :" + e);
+        }
+    }
+)
 
 const initialState = {
-    usersArray: USERS,
-    filteredUsersArray: []
+    usersArray: [],
+    filteredUsersArray: [],
+    isLoading: true,
+    errMsg: '',
+    actionReturnData: 0
 }
 
 const usersSlice = createSlice({
@@ -13,11 +57,7 @@ const usersSlice = createSlice({
     initialState: initialState,
     reducers: {
         addUser: (state, action) => {
-            const newUser = {
-                id: state.usersArray.length + 1,
-                ...action.payload
-            };
-            state.usersArray.push(newUser);
+            state.usersArray.push(action.payload);
         },
         getFilteredUsersArray: (state, action) => {
             let keyword = action.payload;
@@ -41,6 +81,28 @@ const usersSlice = createSlice({
         updateRating: (state, action) => {
 
         }
+    },
+    extraReducers: {
+        [fetchUsers.pending]: (state) => {
+            state.isLoading = true;
+        },
+        [fetchUsers.fulfilled]: (state, action) => {
+            state.isLoading = false;
+            state.errMsg = '';
+            state.usersArray = action.payload;
+        },
+        [fetchUsers.rejected]: (state, action) => {
+            state.isLoading = false;
+            state.errMsg = action.error ? action.error.message : 'Fetch failed';
+        },
+        [addUsers.fulfilled]: (state, action) => {
+            state.isLoading = false;
+            state.errMsg = '';
+        },
+        [addUsers.rejected]: (state, action) => {
+            state.isLoading = false;
+            state.errMsg = action.error ? action.error.message : 'Add failed';
+        }
     }
 });
 
@@ -63,11 +125,11 @@ export const selectUserByEmailPassword = ({ email, password }) => (state) => {
     return state.users.usersArray.filter((user) => user.email === email && user.password === password);
 };
 export const selectUsersByUserIdArray = (userIdArray) => (state) => {
-    const userArray = [];
+    const usersArray = [];
     state.users.usersArray.map(
         (user) => {
-            if (userIdArray.includes(user.id)) userArray.push(user);
+            if (userIdArray.includes(user.id)) usersArray.push(user);
         }
     );
-    return userArray;
+    return usersArray;
 };
