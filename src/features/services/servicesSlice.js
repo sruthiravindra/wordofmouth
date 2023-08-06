@@ -12,7 +12,7 @@ export const fetchServices = createAsyncThunk(
             return Promise.reject('Unable to fetch, status: ' + querySnapshot.status);
         }
         const data = querySnapshot.docs.map((doc) => {
-                return { ...doc.data()};
+                return { id:doc.id,...doc.data()};
         })
         return data
     }
@@ -78,9 +78,9 @@ export const selectNavById = (id) => {
     return SERVICES.find((navItem) => navItem.id === parseInt(id));
 };
 
-export const selectServiceTitleById = (serviceIds) => {
+export const selectServiceTitleById = (serviceIds) => (state) => {
     return serviceIds.map((id) => {
-        return SERVICES[id].title
+        return state.services.servicesArray.find((service)=>service.id===id).title
     })
 };
 
