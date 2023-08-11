@@ -1,5 +1,5 @@
-import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import { collection, getDocs, addDoc } from 'firebase/firestore';
+import { createSlice, createAsyncThunk, current } from '@reduxjs/toolkit';
+import { collection, getDocs, getDoc, addDoc, doc, updateDoc } from 'firebase/firestore';
 import { database } from '../../firebaseConfig';
 import { searchServicesByTitle } from '../services/servicesSlice';
 import { useDispatch } from 'react-redux';
@@ -31,16 +31,37 @@ export const addUsers = createAsyncThunk(
             "email": user.email,
             "profilePic": user.profilePic,
             "worker": false,
-            "services":[]
+            "services":[],
+            "contacts":[]
         };
 
         try {
             const querySnapshot = await addDoc(collectionRef, newUser);
-            console.log("Document written with ID: ", querySnapshot.id); 
             dispatch(addUser({id:querySnapshot.id,...newUser}));
             dispatch(setCurrentUser({id:querySnapshot.id,...newUser}));
         } catch (e) {
             return Promise.reject("Unable to create, status :" + e);
+        }
+    }
+)
+
+export const updateUserProfilePic = createAsyncThunk(
+    'users/updateUserProfilePic',
+    async(data,{dispatch})=>{
+
+        const userId = data.id;
+        const collectionRef = doc(database, "userData", userId );
+        try{
+            await updateDoc(collectionRef, {
+                profilePic: data.image
+            });
+            
+            const docSnap = await getDoc(collectionRef);
+            const updatedUser = {id: userId,...docSnap.data()} ;
+            dispatch(updateProfilePic({id:userId,profilePic:data.image}));
+            dispatch(setCurrentUser(updatedUser));
+        }catch (e) {
+            return Promise.reject("Unable to update, status :" + e);
         }
     }
 )
@@ -59,6 +80,10 @@ const usersSlice = createSlice({
     reducers: {
         addUser: (state, action) => {
             state.usersArray.push(action.payload);
+        },
+        updateProfilePic: (state, action) => {
+            state.usersArray.find((user)=>user.id===action.payload.id).profilePic = action.payload.profilePic;
+            return(state);
         },
         getFilteredUsersArray: (state, action) => {
             let keyword = action.payload;
@@ -103,12 +128,16 @@ const usersSlice = createSlice({
         [addUsers.rejected]: (state, action) => {
             state.isLoading = false;
             state.errMsg = action.error ? action.error.message : 'Add failed';
+        },
+        [updateUserProfilePic.rejected]: (state, action) => {
+            state.isLoading = false;
+            state.errMsg = action.error ? action.error.message : 'Update failed';
         }
     }
 });
 
 export const usersReducers = usersSlice.reducer;
-export const { addUser, updateRating, getFilteredUsersArray } = usersSlice.actions;
+export const { addUser, updateProfilePic, updateRating, getFilteredUsersArray } = usersSlice.actions;
 
 export const selectAllUsers = (state) => {
     return state.users.usersArray;

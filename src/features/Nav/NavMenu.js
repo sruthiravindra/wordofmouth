@@ -15,7 +15,7 @@ const NavMenu = () => {
     const parentServices = useSelector(selectParentServices);
 
     return (
-        <Navbar dark sticky='top' expand='md' >
+        <Navbar dark sticky='top' expand='md' className='mb-0' >
             <NavbarToggler onClick={() => setMenuOpen(!menuOpen)} />
             <Collapse isOpen={menuOpen} navbar>
                 <Nav className='ms-auto' navbar>
