@@ -12,7 +12,6 @@ const UserMenu = () => {
     const dispatch = useDispatch();
     const logout = () => {
         dispatch(setCurrentUser(null));
-        console.log(currentUser);
     }
     return(
         <>
