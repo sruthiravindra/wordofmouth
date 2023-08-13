@@ -1,5 +1,5 @@
 import { Container } from 'reactstrap';
-import WorkerList from '../features/Workers/WorkerList';
+import WorkerList from '../features/workers/WorkerList';
 import SubHeader from '../components/SubHeader'
 
 const ServicesPage = () => {
