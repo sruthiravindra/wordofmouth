@@ -5,7 +5,7 @@ import 'react-phone-number-input/style.css'
 
 const CustomPhoneField = React.forwardRef(
     ({ name, onChange, formik, ...rest }, ref) => (
-        <PhoneInput {...rest} ref={ref} name={name} onChange={onChange} />
+        <PhoneInput {...rest} ref={ref} name={name} onChange={onChange} value={rest.defaultValue} formik={formik}/>
       )
     );
     
