@@ -66,6 +66,26 @@ export const updateUserProfilePic = createAsyncThunk(
     }
 )
 
+export const updateUserDetails = createAsyncThunk(
+    "users/updateUserDetails",
+    async(data,{dispatch}) =>{
+
+        const userId = data.id;
+        const collectionRef = doc(database, "userData", userId );
+        try{
+            await updateDoc(collectionRef, {
+                ...data
+            });
+            const docSnap = await getDoc(collectionRef);
+            const updatedUser = {id: userId,...docSnap.data()} ;
+            dispatch(fetchUsers());
+            dispatch(setCurrentUser(updatedUser));
+        }catch (e) {
+            return Promise.reject("Unable to update, status :" + e);
+        }
+    }
+)
+
 const initialState = {
     usersArray: [],
     filteredUsersArray: [],
@@ -128,6 +148,14 @@ const usersSlice = createSlice({
         [addUsers.rejected]: (state, action) => {
             state.isLoading = false;
             state.errMsg = action.error ? action.error.message : 'Add failed';
+        },
+        [updateUserProfilePic.pending]: (state, action) => {
+            state.isLoading = true;
+            state.errMsg = '';
+        },
+        [updateUserProfilePic.fulfilled]: (state, action) => {
+            state.isLoading = false;
+            state.errMsg = '';
         },
         [updateUserProfilePic.rejected]: (state, action) => {
             state.isLoading = false;

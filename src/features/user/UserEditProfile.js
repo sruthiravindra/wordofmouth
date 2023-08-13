@@ -6,19 +6,34 @@ import CustomPhoneField from "../../utils/CustomPhoneField";
 import { selectCurrentUser } from "./userSlice";
 import SubHeader from "../../components/SubHeader";
 import UserProfileUpload from "./UserProfileUpload";
-import { updateUserProfilePic } from "../users/usersSlice";
+import { updateUserProfilePic, updateUserDetails } from "../users/usersSlice";
 import { useDispatch } from "react-redux";
+import Error from '../../components/Error';
+import Loading from '../../components/Loading';
 
 const UserEditProfile = () => {
     const currentUser = useSelector(selectCurrentUser);
     const dispatch = useDispatch();
     const ref = React.createRef();
+    const isLoading = useSelector((state) => state.user.currentUser.isLoading);
+    const errMsg = useSelector((state) => state.user.currentUser.errMsg);
+    if (isLoading) {
+        return (
+            <Row>
+                <Loading />
+            </Row>
+        );
+    }
 
-    const handleChange = () => {
-        console.log(ref.current);
+    if (errMsg) {
+        return (
+            <Row>
+                <Error errMsg={errMsg} />
+            </Row>
+        );
     }
     const handleSubmit = (values) => {
-        console.log(values);
+        dispatch(updateUserDetails({id:currentUser.id,...values}))
     }
     return (
         <Container>
@@ -69,6 +84,7 @@ const UserEditProfile = () => {
                                                 ref={ref}
                                                 name="phone"
                                                 formik={formik}
+                                                defaultValue={currentUser.phone}
                                                 onChange={e => formik.setFieldValue("phone", e)}
                                             />
                                             <ErrorMessage name="phone">
