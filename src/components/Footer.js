@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 
 const Footer = () => {
     return (
-        <footer className="site-footer">
+        <footer className="site-footer mt-0">
             <Container>
                 <Row>
                     <Col className='sm-4'>

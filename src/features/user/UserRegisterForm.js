@@ -2,28 +2,40 @@ import { Formik, Field, Form, ErrorMessage } from "formik";
 import { useState } from "react";
 import { FormGroup, Input, Button, Label, ModalHeader, ModalBody, Modal } from "reactstrap";
 import { validateUserRegisterForm } from "../../utils/validateUserRegisterForm";
-import { setCurrentUser } from "../user/userSlice";
-import { addUser } from "../users/usersSlice";
+import { addUsers } from "../users/usersSlice";
 import { useDispatch, useSelector } from "react-redux";
 import profilePicDefault from '../../app/assets/img/profile-default.png'
+import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
 
 const UserRegisterForm = (props) => {
-
-    // const [modalRegisterOpen, setModalRegisterOpen] = useState(props.modalRegisterOpen);
     const modalRegisterOpen = props.modalRegisterOpen;
     const setModalRegisterOpen = props.setModalRegisterOpen;
     const dispatch = useDispatch();
+    const auth = getAuth();
 
-    const handleSubmit = (values) => {
+    const continueToAddUserInStore = (values) => {
         const currentUser = {
-            username: values.firstName,
-            password: values.password,
+            firstName: values.firstName,
             email: values.email,
             profilePic: profilePicDefault
         }
-        const newUser = dispatch(addUser(currentUser));
-        dispatch(setCurrentUser(currentUser));
+        dispatch(addUsers(currentUser));
         setModalRegisterOpen(false);
+    }
+    const RegisterWithFirebase = (values) => {
+       
+        createUserWithEmailAndPassword(auth, values.email, values.password)
+            .then((userCredential) => {
+                // Signed in 
+                const user = userCredential.user;
+                continueToAddUserInStore(values);
+            })
+            .catch((error) => {
+                const errorCode = error.code;
+                const errorMessage = error.message;
+                alert(errorMessage);
+                // ..
+            });
     }
     return (
         <>
@@ -36,10 +48,10 @@ const UserRegisterForm = (props) => {
                         initialValues={{
                             firstName: 'asaasds',
                             email: 'a@a.com',
-                            password: '12',
-                            confirmPassword: '12'
+                            password: '123456',
+                            confirmPassword: '123456'
                         }}
-                        onSubmit={handleSubmit}
+                        onSubmit={RegisterWithFirebase}
                         validate={validateUserRegisterForm}
                     >
                         <Form>

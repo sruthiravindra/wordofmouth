@@ -8,6 +8,7 @@ import { useSelector } from 'react-redux';
 const WorkerCard = ({ worker }) => {
     const {firstName, lastName, profilePic, id, rating, contacts, services, phone, email} = worker;
     const currentUser = useSelector(selectCurrentUser);
+    console.log(id);
 
     return (
         <Card className='mb-2 p-2'>
