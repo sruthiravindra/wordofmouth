@@ -1,4 +1,66 @@
 import { SERVICES } from '../../app/shared/SERVICES';
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import { collection, getDocs } from 'firebase/firestore';
+import { database } from '../../firebaseConfig';
+
+export const fetchServices = createAsyncThunk(
+    'services/fetchServices',
+    async () => {
+        const collectionRef = collection(database, "serviceData");
+        const querySnapshot = await getDocs(collectionRef)
+        if (querySnapshot.empty || !querySnapshot.size) {
+            return Promise.reject('Unable to fetch, status: ' + querySnapshot.status);
+        }
+        const data = querySnapshot.docs.map((doc) => {
+                return { id:doc.id,...doc.data()};
+        })
+        return data
+    }
+)
+
+const initialState = {
+    servicesArray: [],
+    isLoading: true,
+    errMsg: ''
+}
+
+const servicesSlice = createSlice({
+    name: 'services',
+    initialState,
+    reducers: {},
+    extraReducers: {
+        [fetchServices.pending]: (state) => {
+            state.isLoading = true;
+        },
+        [fetchServices.fulfilled]: (state, action) => {
+            state.isLoading = false;
+            state.errMsg = '';
+            state.servicesArray = action.payload;
+        },
+        [fetchServices.rejected]: (state, action) => {
+            state.isLoading = false;
+            state.errMsg = action.error ? action.error.message : 'Fetch failed';
+        }
+    }
+});
+
+export const servicesReducer = servicesSlice.reducer;
+export const selectAllServices = (state) => {
+    return state.services.servicesArray
+}
+export const selectParentServices = (state) => {
+    return state.services.servicesArray.filter(
+        (service) => service.parent === "self"
+    )
+};
+export const selectServicesByParent = (parent) => (state) => {
+    return state.services.servicesArray.filter(
+        (service) => service.parent === parent
+    )
+}
+
+
+//local data selectors 
 
 export const selectAllNav = () => {
     return SERVICES;
@@ -16,9 +78,9 @@ export const selectNavById = (id) => {
     return SERVICES.find((navItem) => navItem.id === parseInt(id));
 };
 
-export const selectServiceTitleById = (serviceIds) => {
+export const selectServiceTitleById = (serviceIds) => (state) => {
     return serviceIds.map((id) => {
-        return SERVICES[id].title
+        return state.services.servicesArray.find((service)=>service.id===id).title
     })
 };
 
