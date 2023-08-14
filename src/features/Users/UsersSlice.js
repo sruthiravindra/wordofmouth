@@ -33,7 +33,8 @@ export const addUsers = createAsyncThunk(
             "profilePic": user.profilePic,
             "worker": false,
             "services":[],
-            "contacts":[]
+            "contacts":[],
+            "contactRequests": []
         };
         console.log(newUser);
 
@@ -84,6 +85,34 @@ export const updateUserDetails = createAsyncThunk(
             dispatch(setCurrentUser(updatedUser));
         }catch (e) {
             return Promise.reject("Unable to update, status :" + e);
+        }
+    }
+)
+
+export const requestContact = createAsyncThunk(
+    "users/requestContact",
+    async (data, {dispatch}) => {
+        const {workerId, currentUserId, workerContactRequests, userContactRequests} = data
+        const workerDocRef = doc(database, "userData", workerId);
+        const userDocRef = doc(database, "userData", currentUserId);
+
+        try{
+            //add the current user's id to the worker's contact requests
+            await updateDoc(workerDocRef, {
+                contactRequests: [...workerContactRequests, currentUserId]
+            });
+        }catch (e) {
+            return Promise.reject("Unable to update, status:" + e)
+        }
+
+        try{
+            //add the worker's id to the current user's contact requests
+            await updateDoc(userDocRef, {
+                contactRequests: [...userContactRequests, workerId]
+            });
+            dispatch(fetchUsers())
+        }catch (e) {
+            return Promise.reject("Unable to update, status:" + e)
         }
     }
 )

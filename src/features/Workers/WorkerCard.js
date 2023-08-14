@@ -4,12 +4,14 @@ import StarRating from '../reviews/StarRating';
 import ServiceList from '../services/ServiceList';
 import { selectCurrentUser } from '../user/userSlice';
 import { useSelector } from 'react-redux';
+import { current } from '@reduxjs/toolkit';
+import { updateUserDetails } from '../users/usersSlice';
+import RequestContactButton from '../users/RequestContactButton';
 
 const WorkerCard = ({ worker }) => {
     const {firstName, lastName, profilePic, id, rating, contacts, services, phone, email} = worker;
     const currentUser = useSelector(selectCurrentUser);
-    console.log(id);
-
+    
     return (
         <Card className='mb-2 p-2'>
             <Row className=''>
@@ -33,8 +35,12 @@ const WorkerCard = ({ worker }) => {
                             (<div className='text-end'>
                                 <Button className='btn-sm mb-1 d-block'>{phone}</Button>
                                 <Button className='btn-sm d-block'>{email}</Button>
+                            </div>) : 
+                        (!currentUser) ?
+                            (<div className='text-end'>
+                                <Button className='btn-sm mb-1'>Login to request contact</Button>
                             </div>) :
-                        (<Button className='btn-sm'>Request contact</Button>)
+                        (<RequestContactButton workerId={id} workerContactRequests={worker.contactRequests} currentUserId={currentUser.id} currentUserContactRequests={currentUser.contactRequests}/>)
                     }
                 </Col>
             </Row>
