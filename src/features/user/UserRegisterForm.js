@@ -1,11 +1,11 @@
 import { Formik, Field, Form, ErrorMessage } from "formik";
-import { useState } from "react";
-import { FormGroup, Input, Button, Label, ModalHeader, ModalBody, Modal } from "reactstrap";
+import { FormGroup, Button, Label, ModalHeader, ModalBody, Modal } from "reactstrap";
 import { validateUserRegisterForm } from "../../utils/validateUserRegisterForm";
 import { addUsers } from "../users/usersSlice";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import profilePicDefault from '../../app/assets/img/profile-default.png'
 import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
+import CustomPhoneField from "../../utils/CustomPhoneField";
 
 const UserRegisterForm = (props) => {
     const modalRegisterOpen = props.modalRegisterOpen;
@@ -16,8 +16,9 @@ const UserRegisterForm = (props) => {
     const continueToAddUserInStore = (values) => {
         const currentUser = {
             firstName: values.firstName,
+            lastName: values.lastName,
             email: values.email,
-            profilePic: profilePicDefault
+            profilePic: profilePicDefault,
         }
         dispatch(addUsers(currentUser));
         setModalRegisterOpen(false);
@@ -46,10 +47,11 @@ const UserRegisterForm = (props) => {
                 <ModalBody>
                     <Formik
                         initialValues={{
-                            firstName: 'asaasds',
-                            email: 'a@a.com',
-                            password: '123456',
-                            confirmPassword: '123456'
+                            firstName: '',
+                            lastName: '',
+                            email: '',
+                            password: '',
+                            confirmPassword: ''
                         }}
                         onSubmit={RegisterWithFirebase}
                         validate={validateUserRegisterForm}
@@ -59,6 +61,13 @@ const UserRegisterForm = (props) => {
                                 <Label htmlFor="firstName">First Name</Label>
                                 <Field id="firstName" name="firstName" placeholder="Enter First Name" className="form-control" />
                                 <ErrorMessage name='firstName'>
+                                    {(msg) => <p className="text-danger">{msg}</p>}
+                                </ErrorMessage>
+                            </FormGroup>
+                            <FormGroup>
+                                <Label htmlFor="lastName">Last Name</Label>
+                                <Field id="lastName" name="lastName" placeholder="Enter Last Name" className="form-control" />
+                                <ErrorMessage name='lastName'>
                                     {(msg) => <p className="text-danger">{msg}</p>}
                                 </ErrorMessage>
                             </FormGroup>

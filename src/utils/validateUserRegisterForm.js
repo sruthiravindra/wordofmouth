@@ -3,16 +3,24 @@ export const validateUserRegisterForm = (values) => {
 
     if(!values.firstName){
         errors.firstName = 'Required';
-    }else if(values.firstName.length < 6){
-        errors.firstName = 'Firstname should not be less than 6 characters';
+    }else if(values.firstName.length < 2){
+        errors.firstName = 'must be at least 2 characters';
     }else if(values.firstName.length > 15){
-        errors.firstName = 'Firstname shoule be less than 15 characters';
+        errors.firstName = 'cannot be more than 15 characters';
+    }
+
+    if(!values.lastName){
+        errors.lastName = 'Required'
+    }else if(values.lastName.length < 2){
+        errors.lastName = 'must be at least 2 characters'
+    }else if(values.lastName.length > 15){
+        errors.lastName='cannot be more than 15 characters'
     }
 
     if(!values.email){
         errors.email = 'Required';
     }else if(!values.email.includes('@')){
-        errors.email = 'Email should contain a @';
+        errors.email = 'Email should contain @';
     }
 
     if(!values.password){

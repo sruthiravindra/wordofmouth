@@ -28,12 +28,14 @@ export const addUsers = createAsyncThunk(
         const collectionRef = collection(database, "userData");
         let newUser = {
             "firstName": user.firstName,
+            "lastName": user.lastName,
             "email": user.email,
             "profilePic": user.profilePic,
             "worker": false,
             "services":[],
             "contacts":[]
         };
+        console.log(newUser);
 
         try {
             const querySnapshot = await addDoc(collectionRef, newUser);
