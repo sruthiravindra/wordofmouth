@@ -92,7 +92,7 @@ export const updateUserDetails = createAsyncThunk(
 export const requestContact = createAsyncThunk(
     "users/requestContact",
     async (data, {dispatch}) => {
-        const {workerId, currentUserId, workerContactRequests, userContactRequests} = data
+        const {workerId, currentUserId, workerContactRequests, currentUserContactRequests} = data
         const workerDocRef = doc(database, "userData", workerId);
         const userDocRef = doc(database, "userData", currentUserId);
 
@@ -108,7 +108,7 @@ export const requestContact = createAsyncThunk(
         try{
             //add the worker's id to the current user's contact requests
             await updateDoc(userDocRef, {
-                contactRequests: [...userContactRequests, workerId]
+                contactRequests: [...currentUserContactRequests, workerId]
             });
             dispatch(fetchUsers())
         }catch (e) {
