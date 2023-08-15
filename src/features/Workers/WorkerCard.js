@@ -35,12 +35,18 @@ const WorkerCard = ({ worker }) => {
                             (<div className='text-end'>
                                 <Button className='btn-sm mb-1 d-block'>{phone}</Button>
                                 <Button className='btn-sm d-block'>{email}</Button>
-                            </div>) : 
+                            </div>) :
+                        (currentUser && currentUser.contactRequests.includes(id)) ?
+                            (
+                                <>
+                                    <p className='clicked-button'>Contact Requested</p>
+                                </>
+                            ) :
                         (!currentUser) ?
                             (<div className='text-end'>
                                 <Button className='btn-sm mb-1'>Login to request contact</Button>
                             </div>) :
-                        (<RequestContactButton workerId={id} workerContactRequests={worker.contactRequests} currentUserId={currentUser.id} currentUserContactRequests={currentUser.contactRequests}/>)
+                        (<RequestContactButton workerId={id} currentUserId={currentUser.id} />)
                     }
                 </Col>
             </Row>

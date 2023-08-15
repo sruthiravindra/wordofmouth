@@ -92,25 +92,61 @@ export const updateUserDetails = createAsyncThunk(
 export const requestContact = createAsyncThunk(
     "users/requestContact",
     async (data, {dispatch}) => {
-        const {workerId, currentUserId, workerContactRequests, currentUserContactRequests} = data
+        const {workerId, currentUserId} = data
         const workerDocRef = doc(database, "userData", workerId);
         const userDocRef = doc(database, "userData", currentUserId);
 
         try{
-            //add the current user's id to the worker's contact requests
-            await updateDoc(workerDocRef, {
-                contactRequests: [...workerContactRequests, currentUserId]
-            });
+            const workerDocSnap = await getDoc(workerDocRef);
+            const userDocSnap = await getDoc(userDocRef);
+            if (workerDocSnap.exists() && userDocSnap.exists()) {
+                //effie: i am accessing the data directly from the database here because passing it through as a parameter was not in sync with the state
+                const worker = workerDocSnap.data();
+                const user = userDocSnap.data();
+
+                await updateDoc(workerDocRef, {
+                    contactRequests: [...worker.contactRequests, currentUserId]
+                });
+                await updateDoc(userDocRef, {
+                    contactRequests: [...user.contactRequests, workerId]
+                });
+                dispatch(fetchUsers())
+            } else {
+                console.log('documents do not exist')
+            }
         }catch (e) {
             return Promise.reject("Unable to update, status:" + e)
         }
+    }
+)
+
+export const addContact = createAsyncThunk(
+    "users/addContact",
+    async (data, {dispatch}) => {
+        const {contactId, currentUserId} = data
+        const userDocRef = doc(database, "userData", currentUserId);
+        const contactDocRef = doc(database, "userData", contactId);
 
         try{
-            //add the worker's id to the current user's contact requests
-            await updateDoc(userDocRef, {
-                contactRequests: [...currentUserContactRequests, workerId]
-            });
-            dispatch(fetchUsers())
+            const userDocSnap = await getDoc(userDocRef);
+            const contactDocSnap = await getDoc(contactDocRef);
+            if (userDocSnap.exists() && contactDocSnap.exists()) {
+                //effie: i am accessing the data directly from the database here because passing it through as a parameter was not in sync with the state
+                const user = userDocSnap.data();
+                const contact = contactDocSnap.data();
+
+                await updateDoc(contactDocRef, {
+                    contacts: [...contact.contacts, currentUserId],
+                    contactRequests: contact.contactRequests.filter((id) => id !== currentUserId)
+                });
+                await updateDoc(userDocRef, {
+                    contacts: [...user.contacts, contactId],
+                    contactRequests: user.contactRequests.filter((id) => id != contactId)
+                });
+                dispatch(fetchUsers())
+            } else {
+                console.log('documents do not exist')
+            }
         }catch (e) {
             return Promise.reject("Unable to update, status:" + e)
         }
@@ -155,9 +191,7 @@ const usersSlice = createSlice({
 
             )
         },
-        updateRating: (state, action) => {
-
-        }
+        updateRating: (state, action) => {}
     },
     extraReducers: {
         [fetchUsers.pending]: (state) => {
@@ -191,6 +225,18 @@ const usersSlice = createSlice({
         [updateUserProfilePic.rejected]: (state, action) => {
             state.isLoading = false;
             state.errMsg = action.error ? action.error.message : 'Update failed';
+        },
+        [requestContact.pending]: (state) => {
+            state.isLoading = true;
+            state.errMsg='';
+        },
+        [requestContact.fulfilled]: (state) => {
+            state.isLoading = false;
+            state.errMsg = ''
+        },
+        [requestContact.rejected]: (state, action) => {
+            state.isLoading = false;
+            state.errMsg = action.error ? action.error.message : 'Request failed';
         }
     }
 });

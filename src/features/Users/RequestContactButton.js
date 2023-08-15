@@ -1,25 +1,29 @@
 import { Button } from 'reactstrap';
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch } from 'react-redux'
+import { useState } from 'react';
 import { requestContact } from './usersSlice';
 
-const RequestContactButton = ({ workerId, workerContactRequests, currentUserId, currentUserContactRequests }) => {
+const RequestContactButton = ({ workerId, currentUserId }) => {
     const dispatch = useDispatch();
+    const [buttonClicked, setButtonClicked] = useState(false);
 
-    return (
+    return !buttonClicked ? (
         <Button 
             className='btn-sm' 
             onClick={() => {
                 const data = {
                     "workerId": workerId,
-                    "workerContactRequests": workerContactRequests, 
                     "currentUserId": currentUserId,
-                    "currentUserContactRequests": currentUserContactRequests
                 };
                 dispatch(requestContact(data));
+                setButtonClicked(true);
             }}>
-                Request contact
+            Request contact
         </Button>
-
+    ) : (
+        <>
+            <p className='clicked-button'>Contact Requested</p>
+        </>
     )
 }
 

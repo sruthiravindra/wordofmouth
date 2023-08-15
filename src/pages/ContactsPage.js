@@ -38,7 +38,16 @@ const ContactsPage = () => {
                     }
                 </TabPane>
                 <TabPane tabId='2'>
-                    <ContactRequestList userIdArray={currentUser.contactRequests} />
+                    {
+                        (currentUser.contactRequests.length === 0) ? (
+                            <div className='contacts-message'>
+                                <h6>You don't have any requests yet</h6>
+                                <p><a href='/services'>Start your search here</a></p>
+                            </div>
+                        ) : (
+                            <ContactRequestList userIdArray={currentUser.contactRequests} />
+                        )
+                    }
                 </TabPane>
             </TabContent>
         </>

@@ -105,3 +105,10 @@ div .btn {
 .contacts-message {
   margin: 2em 1em;
 }
+
+.clicked-button {
+  text-align: center;
+  font-size: small;
+  color: rgb(22, 137, 203);
+  padding: 0.5em;
+}

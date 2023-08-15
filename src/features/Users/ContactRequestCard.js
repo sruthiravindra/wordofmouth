@@ -2,6 +2,7 @@ import { Card, Button, Col, Row } from 'reactstrap';
 import { Link } from 'react-router-dom';
 import StarRating from '../reviews/StarRating';
 import ServiceList from '../services/ServiceList';
+import AddContactButton from './AddContactButton';
 
 const ContactRequestCard = ({ contact }) => {
     const {firstName, lastName, profilePic, id, rating, services} = contact;
@@ -30,11 +31,19 @@ const ContactRequestCard = ({ contact }) => {
                                         <></>
                                     )
                                 }
+                                <p>Status: pending</p>
+                                <p>Sent: date/time</p>
                             </Col>
-                        </Row>
-                        <Row>
-                            <p>Status: pending</p>
-                            <p>Sent: date/time</p>
+                            {
+                                (contact.worker === false) ? (
+                                    <Col>
+                                        <AddContactButton contactId={id} />
+                                    </Col>
+                                ) : (
+                                    <></>
+                                )
+
+                            }
                         </Row>
                     </div>
                 </div>
