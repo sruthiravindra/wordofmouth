@@ -92,3 +92,16 @@ div .btn {
   background-color: rgb(233, 231, 231);
   padding: 0.2em 1em;
 }
+
+.col.service-display p {
+  color: grey;
+  border: 1px solid grey;
+  border-radius: 0.6em;
+  display: inline;
+  margin: 0em 0.1em;
+  padding: 0.2em 0.5em;
+}
+
+.contacts-message {
+  margin: 2em 1em;
+}

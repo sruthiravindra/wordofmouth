@@ -15,9 +15,7 @@ const RequestContactButton = ({ workerId, workerContactRequests, currentUserId, 
                     "currentUserId": currentUserId,
                     "currentUserContactRequests": currentUserContactRequests
                 };
-                console.log(data);
                 dispatch(requestContact(data));
-                console.log('contact requested')
             }}>
                 Request contact
         </Button>
