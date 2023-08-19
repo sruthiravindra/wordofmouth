@@ -11,6 +11,46 @@ import { useDispatch } from "react-redux";
 import Error from '../../components/Error';
 import Loading from '../../components/Loading';
 
+import DropdownTreeSelect from 'react-dropdown-tree-select'
+import 'react-dropdown-tree-select/dist/styles.css'
+import { selectAllServices } from "../services/servicesSlice";
+
+const ServicesDropdownList = ({ fldName, onFormChange, formik, ...rest }) => {
+    const allServices = useSelector(selectAllServices);
+
+    // convert array to hierarchical structure
+    const optionslist = Array.from(
+        allServices.reduce((acc, o) => {
+
+            // check if current item is parent if yes then set current id and name else find the parent item and set it id and name
+            const { id: value, title: label } = (o.parent === 'self') ? o : allServices.find(op => op.title === o.parent)
+
+            if (!acc.has(value)) acc.set(value, { value, label }) // if the current item's parent doesn't exist, create it in the Map
+
+            const parent = acc.get(value) // get the current parent
+            parent.children ??= [] // init children if it doesn't exist
+
+            if (o.id !== value) parent.children.push({"value": o.id, "label": o.title, "parent": o.parent}) // add the item to the children
+
+            return acc
+        }, new Map()).values()
+    ).filter(o => !o.hasOwnProperty('parent'))
+
+    const onChange = (currentNode, selectedNodes) => {
+        //onFormChange(selectedNodes);
+        console.log('onChange::', currentNode, selectedNodes)
+    }
+    const onAction = (node, action) => {
+        console.log('onAction::', action, node)
+    }
+    const onNodeToggle = currentNode => {
+        console.log('onNodeToggle::', currentNode)
+    }
+    return (
+        <DropdownTreeSelect name={fldName} data={optionslist} onChange={onChange} onAction={onAction} onNodeToggle={onNodeToggle} />
+    )
+}
+
 const UserEditProfile = () => {
     const currentUser = useSelector(selectCurrentUser);
     const dispatch = useDispatch();
@@ -33,7 +73,7 @@ const UserEditProfile = () => {
         );
     }
     const handleSubmit = (values) => {
-        dispatch(updateUserDetails({id:currentUser.id,...values}))
+        dispatch(updateUserDetails({ id: currentUser.id, ...values }))
     }
     return (
         <Container>
@@ -42,7 +82,7 @@ const UserEditProfile = () => {
                 <Col className="mx-auto col-10 col-md-8 col-lg-6">
                     <Row>
                         <Col className="col-md-4">
-                            <UserProfileUpload saveImage={updateUserProfilePic} userId={currentUser.id}/>
+                            <UserProfileUpload saveImage={updateUserProfilePic} userId={currentUser.id} />
                         </Col>
                         <Col className="col-md-8">
                             <Formik
@@ -50,7 +90,8 @@ const UserEditProfile = () => {
                                     firstName: currentUser.firstName,
                                     lastName: currentUser.lastName,
                                     email: currentUser.email,
-                                    phone: currentUser.phone
+                                    phone: currentUser.phone,
+                                    services: currentUser.services
                                 }}
                                 onSubmit={handleSubmit}
                             // validate={validateForm }
@@ -91,8 +132,17 @@ const UserEditProfile = () => {
                                                 {(msg) => <p className="text-danger">{msg}</p>}
                                             </ErrorMessage>
                                         </FormGroup>
-                                        <Button type="submit">Submit</Button>
 
+                                        <FormGroup>
+                                            <Label htmlFor="services" >Services you can provide</Label>
+                                            <ServicesDropdownList
+                                                ref={ref}
+                                                fldName="services"
+                                                formik={formik}
+                                                defaultValue={currentUser.services}
+                                                onFormChange={e => formik.setFieldValue("services", e)} />
+                                        </FormGroup>
+                                        <Button type="submit">Submit</Button>
                                     </Form>
                                 )}
                             </Formik>
