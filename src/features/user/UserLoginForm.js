@@ -63,8 +63,8 @@ const UserLoginForm = (props) => {
                 <ModalBody>
                     <Formik
                         initialValues={{
-                            email: 'a@a.com',
-                            password: '123456'
+                            email: 'adhikari.krishna@lama.org.np',
+                            password: '99070277'
                         }}
                         onSubmit={LoginWithFirebase}
                         validate={validateUserLoginForm}
