@@ -1,11 +1,13 @@
 import { useSelector } from "react-redux";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { selectCurrentUser, setCurrentUser } from "./userSlice";
 import { Link } from "react-router-dom";
 import { Button, DropdownMenu, DropdownToggle, Dropdown, DropdownItem } from 'reactstrap';
 import { useDispatch } from "react-redux";
+import { getImageSRC } from "../../utils/getImageSRC";
 
 const UserMenu = () => {
+    const [imgSRC, setImgSRC] = useState('');
     const currentUser = useSelector(selectCurrentUser);
     const [dropdownOpen, setDropdownOpen] = useState(false);
     const toggle = () => setDropdownOpen(!dropdownOpen);
@@ -13,13 +15,21 @@ const UserMenu = () => {
     const logout = () => {
         dispatch(setCurrentUser(null));
     }
-    return(
+    useEffect(() => {
+        if (currentUser.profilePic) 
+        {
+            getImageSRC(`${currentUser.profilePic}`).then(
+                (value) => setImgSRC(value)
+            )
+        }
+    }, []);
+    return (
         <>
-            <Dropdown isOpen={dropdownOpen} toggle={toggle} style={{zIndex: 9999}}>
+            <Dropdown isOpen={dropdownOpen} toggle={toggle} style={{ zIndex: 9999 }}>
                 <DropdownToggle caret>
-                    <img src={currentUser.profilePic}
-                    alt={currentUser.username}
-                    style={{ width: '2rem', height: '2rem' }}/>
+                    <img src={imgSRC}
+                        alt={currentUser.username}
+                        style={{ width: '2rem', height: '2rem' }} />
                     <p className='d-inline'>{currentUser.username}</p>
                 </DropdownToggle>
                 <DropdownMenu>
@@ -38,7 +48,7 @@ const UserMenu = () => {
                     </DropdownItem>
                 </DropdownMenu>
             </Dropdown>
-        </> 
+        </>
     );
 };
 
