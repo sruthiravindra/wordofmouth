@@ -1,16 +1,37 @@
-import { Card, Button, Col, Row,  } from 'reactstrap';
+import { Card, Button, Col, Row, CardTitle,  } from 'reactstrap';
 import { Link } from 'react-router-dom';
 import StarRating from '../reviews/StarRating';
 import ServiceList from '../services/ServiceList';
 import { selectCurrentUser } from '../user/userSlice';
 import { useSelector } from 'react-redux';
-import { current } from '@reduxjs/toolkit';
-import { updateUserDetails } from '../users/usersSlice';
 import RequestContactButton from '../users/RequestContactButton';
+import { storage } from '../../firebaseConfig';
+import { ref, getDownloadURL } from 'firebase/storage';
+import { useEffect, useState } from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faLocationDot } from '@fortawesome/free-solid-svg-icons';
 
 const WorkerCard = ({ worker }) => {
-    const {firstName, lastName, profilePic, id, rating, contacts, services, phone, email} = worker;
+    const {firstName, lastName, profilePic, id, rating, contacts, services, phone, email, address} = worker;
     const currentUser = useSelector(selectCurrentUser);
+    const [imgSRC, setImgSRC] = useState('');
+
+    //this retrieves the profile picture from firebase storage
+    useEffect(() => {
+        const getImageSRC = async (storageURL) => {
+            const storageRef = ref(storage, storageURL);
+            if (storageRef) {
+                try {
+                const downloadURL = await getDownloadURL(storageRef);
+                setImgSRC(downloadURL);
+                } catch (error) {
+                    console.error('Error retreiving downloadURL:', error);
+                }
+            }
+        }
+    
+        if (profilePic) getImageSRC(`${profilePic}`);
+    }, [])
     
     return (
         <Card className='mb-2 p-2'>
@@ -18,16 +39,21 @@ const WorkerCard = ({ worker }) => {
                 <Col xs='2' lg='1'>
                     <div class='flex-shrink-0'>
                         <img 
-                        src={profilePic} 
+                        src={imgSRC} 
                         alt='profile picture'
-                        className='img-fluid'/>
+                        className='img-fluid profile-pic-small'/>
                     </div>
                 </Col>
-                <Col className='d-flex justify-content-start align-items-center'>
+                <Col className=''>
                     <Link to={`${id}`} className='unstyledLink'>
                         <h5 className='d-inline'>{firstName} {lastName}</h5>
                         <StarRating rating={rating}/><p className='d-inline'>({rating})</p>
                     </Link>
+                    <div className='location'>
+                        <FontAwesomeIcon icon={faLocationDot} className='d-inline me-1'/>
+                        <p className='d-inline'>{address}</p>
+                    </div>
+                    <ServiceList serviceIds={services}/>
                 </Col>
                 <Col className='d-flex justify-content-end pe-3' xs='3'>
                     { 
@@ -51,10 +77,6 @@ const WorkerCard = ({ worker }) => {
                 </Col>
             </Row>
             <Row>
-                <Col>
-                    <ServiceList serviceIds={services}/>
-                    <p className='ms-2 banner'>location  |  payment  |  {contacts.length} customers</p>
-                </Col>
             </Row>
         </Card>
     )

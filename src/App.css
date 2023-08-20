@@ -112,3 +112,13 @@ div .btn {
   color: rgb(22, 137, 203);
   padding: 0.5em;
 }
+
+.profile-pic-small {
+  border: 1px solid rgb(199, 199, 199);
+  border-radius: 3em;
+}
+
+.location {
+  font-size: small;
+  margin-left: 0.3em;
+}
