@@ -34,10 +34,15 @@ const Header = () => {
                 <Col className='text-end pe-3'>
                     {
                         <>
-                        
-                        <UserLoginForm onFormSwitch={toggleForm} setModalLoginOpen={setModalLoginOpen} modalLoginOpen={modalLoginOpen} />
-                        <UserRegisterForm onFormSwitch={toggleForm} setModalRegisterOpen={setModalRegisterOpen} modalRegisterOpen={modalRegisterOpen} />
-
+                            <UserLoginForm 
+                                onFormSwitch={toggleForm} 
+                                setModalLoginOpen={setModalLoginOpen} 
+                                modalLoginOpen={modalLoginOpen} 
+                            />
+                            <UserRegisterForm 
+                                onFormSwitch={toggleForm} 
+                                setModalRegisterOpen={setModalRegisterOpen} 
+                                modalRegisterOpen={modalRegisterOpen} />
                         </>
                     }
                 </Col>
