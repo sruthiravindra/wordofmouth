@@ -1,11 +1,11 @@
 import { Formik, Field, Form, ErrorMessage } from "formik";
 import { FormGroup, Button, Label, ModalHeader, ModalBody, Modal } from "reactstrap";
 import { validateUserRegisterForm } from "../../utils/validateUserRegisterForm";
-import { addUsers } from "../users/usersSlice";
+import { updateUserDetails } from "../users/usersSlice";
 import { useDispatch } from "react-redux";
-import profilePicDefault from '../../app/assets/img/profile-default.png'
 import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
-import CustomPhoneField from "../../utils/CustomPhoneField";
+import { database } from "../../firebaseConfig";
+import { doc, onSnapshot } from "firebase/firestore";
 
 const UserRegisterForm = (props) => {
     const modalRegisterOpen = props.modalRegisterOpen;
@@ -13,31 +13,31 @@ const UserRegisterForm = (props) => {
     const dispatch = useDispatch();
     const auth = getAuth();
 
-    const continueToAddUserInStore = (values) => {
-        const currentUser = {
-            firstName: values.firstName,
-            lastName: values.lastName,
-            email: values.email,
-            profilePic: profilePicDefault,
+    const registerUser = async (values) => {
+        try {
+            const userCredential = await createUserWithEmailAndPassword(auth, values.email, values.password);
+            const uid = userCredential.user.uid
+            const docRef = doc(database, `userData/${uid}`);
+
+            //wait for the doc to be added by the cloud function, then add the rest of the data captured in the register form
+            const listener = onSnapshot(docRef, (snapshot) => {
+                if (snapshot.exists) {
+                    console.log('user doc created');
+                    const user = {
+                        id: uid,
+                        firstName: values.firstName,
+                        lastName: values.lastName,
+                    }
+                    dispatch(updateUserDetails(user));
+                    listener();
+                }
+            });
+        } catch (error) {
+            alert(error.message);
         }
-        dispatch(addUsers(currentUser));
         setModalRegisterOpen(false);
     }
-    const RegisterWithFirebase = (values) => {
-       
-        createUserWithEmailAndPassword(auth, values.email, values.password)
-            .then((userCredential) => {
-                // Signed in 
-                const user = userCredential.user;
-                continueToAddUserInStore(values);
-            })
-            .catch((error) => {
-                const errorCode = error.code;
-                const errorMessage = error.message;
-                alert(errorMessage);
-                // ..
-            });
-    }
+
     return (
         <>
             <Modal isOpen={modalRegisterOpen}>
@@ -53,7 +53,7 @@ const UserRegisterForm = (props) => {
                             password: '',
                             confirmPassword: ''
                         }}
-                        onSubmit={RegisterWithFirebase}
+                        onSubmit={registerUser}
                         validate={validateUserRegisterForm}
                     >
                         <Form>

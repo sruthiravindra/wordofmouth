@@ -21,12 +21,13 @@ exports.createUser = functions.auth.user().onCreate(async (user) => {
       const {email, uid} = user;
       const new_doc_ref = await admin.firestore().collection("userData").doc(uid).set({
          email: email,
-         createdAt: admin.firestore.FieldValue.serverTimestamp(),
+         profilePic: 'profile-pictures/profile-default.png',
          phone: '',
          address: '',
          firstName: '',
          lastName: '',
          gender: '',
+         rating: 0,
          contacts: [],
          worker: false,
          services: []

@@ -4,6 +4,8 @@ import { database } from '../../firebaseConfig';
 import { searchServicesByTitle } from '../services/servicesSlice';
 import { useDispatch } from 'react-redux';
 import { setCurrentUser } from '../user/userSlice';
+import { functions } from '../../firebaseConfig';
+import { httpsCallable } from 'firebase/functions';
 
 
 export const fetchUsers = createAsyncThunk(
@@ -19,32 +21,6 @@ export const fetchUsers = createAsyncThunk(
             return { id:doc.id,...doc.data() }
         });
         return data;
-    }
-)
-
-export const addUsers = createAsyncThunk(
-    'users/addUsers',
-    async (user, { dispatch }) => {
-        const collectionRef = collection(database, "userData");
-        let newUser = {
-            "firstName": user.firstName,
-            "lastName": user.lastName,
-            "email": user.email,
-            "profilePic": user.profilePic,
-            "worker": false,
-            "services":[],
-            "contacts":[],
-            "contactRequests": []
-        };
-        console.log(newUser);
-
-        try {
-            const querySnapshot = await addDoc(collectionRef, newUser);
-            dispatch(addUser({id:querySnapshot.id,...newUser}));
-            dispatch(setCurrentUser({id:querySnapshot.id,...newUser}));
-        } catch (e) {
-            return Promise.reject("Unable to create, status :" + e);
-        }
     }
 )
 
@@ -72,17 +48,11 @@ export const updateUserProfilePic = createAsyncThunk(
 export const updateUserDetails = createAsyncThunk(
     "users/updateUserDetails",
     async(data,{dispatch}) =>{
-
-        const userId = data.id;
-        const collectionRef = doc(database, "userData", userId );
         try{
-            await updateDoc(collectionRef, {
-                ...data
-            });
-            const docSnap = await getDoc(collectionRef);
-            const updatedUser = {id: userId,...docSnap.data()} ;
+            const updateUserCloud = httpsCallable(functions, 'updateUser');
+            const response = await updateUserCloud(data);
             dispatch(fetchUsers());
-            dispatch(setCurrentUser(updatedUser));
+            dispatch(setCurrentUser(response.data.user));
         }catch (e) {
             return Promise.reject("Unable to update, status :" + e);
         }
@@ -206,14 +176,6 @@ const usersSlice = createSlice({
             state.isLoading = false;
             state.errMsg = action.error ? action.error.message : 'Fetch failed';
         },
-        [addUsers.fulfilled]: (state, action) => {
-            state.isLoading = false;
-            state.errMsg = '';
-        },
-        [addUsers.rejected]: (state, action) => {
-            state.isLoading = false;
-            state.errMsg = action.error ? action.error.message : 'Add failed';
-        },
         [updateUserProfilePic.pending]: (state, action) => {
             state.isLoading = true;
             state.errMsg = '';
@@ -268,3 +230,30 @@ export const selectUsersByUserIdArray = (userIdArray) => (state) => {
     );
     return usersArray;
 };
+
+
+// export const addUsers = createAsyncThunk(
+//     'users/addUsers',
+//     async (user, { dispatch }) => {
+//         const collectionRef = collection(database, "userData");
+//         let newUser = {
+//             "firstName": user.firstName,
+//             "lastName": user.lastName,
+//             "email": user.email,
+//             "profilePic": user.profilePic,
+//             "worker": false,
+//             "services":[],
+//             "contacts":[],
+//             "contactRequests": []
+//         };
+//         console.log(newUser);
+
+//         try {
+//             const querySnapshot = await addDoc(collectionRef, newUser);
+//             dispatch(addUser({id:querySnapshot.id,...newUser}));
+//             dispatch(setCurrentUser({id:querySnapshot.id,...newUser}));
+//         } catch (e) {
+//             return Promise.reject("Unable to create, status :" + e);
+//         }
+//     }
+// )
