@@ -60,10 +60,23 @@ exports.deleteUser = functions.https.onCall(async (data) => {
       const { id } = data;
       if (!id) {throw new Error("Missing id")};
 
-      const doc_ref = admin.firestore().doc(`menus/${id}`);
+      const doc_ref = admin.firestore().doc(`userData/${id}`);
       await doc_ref.delete({exists: true});
       return ({success: true})
    } catch (error) {
       throw new functions.https.HttpsError(error.message);
    }
 });
+
+exports.autoDeleteUser = functions.auth.user().onDelete(async (user) => {
+   try {
+      const { uid } = user;
+      if (!uid) {throw new Error("Missing id")};
+
+      const doc_ref = admin.firestore().doc(`userData/${uid}`);
+      await doc_ref.delete({exists: true});
+      return ({success: true})
+   } catch (error) {
+      throw new functions.https.HttpsError(error.message);
+   }
+})

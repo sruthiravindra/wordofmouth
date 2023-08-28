@@ -7,3 +7,5 @@ createUser: onCreate function which creates a document in "userData" when a new 
 updateUser: onCall function which receives a user id and user fields to update, updates the user, and returns the udpated user
 
 deleteUser: onCall function which receives a user id, deletes the user, and returns {success: true}
+
+autoDeleteUser: onDelete function which deletes the associated document in "userData" when a user is deleted in authentication
