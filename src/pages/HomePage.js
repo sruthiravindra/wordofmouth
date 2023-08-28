@@ -1,6 +1,8 @@
-import { Container, Row, Col, Button } from 'reactstrap';
+import { Row, Col, Button } from 'reactstrap';
 import ktmAerialImg from '../app/assets/img/ktm-aerial.jpeg';
 import { useSpring, animated } from 'react-spring';
+import { functions } from '../firebaseConfig';
+import { httpsCallable } from 'firebase/functions';
 
 const HomePage = () => {
     const fadeProps = useSpring({
@@ -8,6 +10,17 @@ const HomePage = () => {
         to: { opacity: 1 },
         config: { duration: 1000 }
       })
+    
+    const getUserCloudFunction = httpsCallable(functions, 'getUser');
+
+    const getUser = async () => {
+        try {
+            const response = await getUserCloudFunction({id: "0Wqbd1d1h6bwfncGugko"});
+            console.log(response);
+        } catch (error) {
+            console.log(error);
+        }
+    }
 
 
     return (
@@ -24,6 +37,7 @@ const HomePage = () => {
                                     <h2 className='mb-3 light-title'>Find top-rated service professionals in your area</h2>
                                     <input type='text' className='py-1'></input>
                                     <Button className='custom-button'>Go</Button>
+                                    <Button className='custom-button' onClick={getUser}>Get User</Button>
                                 </animated.div>
                             </div>
                         </div>
