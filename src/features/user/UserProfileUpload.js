@@ -7,6 +7,8 @@ import { useEffect, useRef } from "react";
 import { getImageSRC } from '../../utils/getImageSRC';
 import { storage } from '../../firebaseConfig';
 import { ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCircleArrowUp } from '@fortawesome/free-solid-svg-icons';
 
 const UserProfileUpload = () => {
     const currentUser = useSelector(selectCurrentUser);
@@ -55,18 +57,25 @@ const UserProfileUpload = () => {
 
     return (
         <div>
-            <img 
+            {imageSRC && <img 
                 src={imageSRC}
                 alt='profile'
                 className='img-fluid'
-            />
-            <input
-                type="file"
-                onChange={(e) => {
-                    uploadedImage.current = e.target.files[0];
-                    handleImageUpload();
-                }}
-            />
+            />}
+            <label className='profile-image-input' for='image-upload'>
+                <FontAwesomeIcon icon={faCircleArrowUp} className='mx-1'/>
+                Upload File
+                <input
+                    type="file"
+                    id="image-upload"
+                    onChange={(e) => {
+                        uploadedImage.current = e.target.files[0];
+                        handleImageUpload();
+                    }}
+                    hidden
+                />
+            </label>
+
         </div>
     );
 }

@@ -142,6 +142,7 @@ const UserEditProfile = (props) => {
                                         onFormChange={e => formik.setFieldValue("services", e)} />
                                 </FormGroup>
                                 <Button className='mb-4'type="submit">Submit</Button>
+                                <Button className='mb-4 mx-2' onClick={props.toggleEdit}>Cancel</Button>
                             </Form>
                         )}
                     </Formik>

@@ -122,3 +122,15 @@ div .btn {
   font-size: small;
   margin-left: 0.3em;
 }
+
+.profile-image-input {
+  color: grey;
+  border: 1px solid grey;
+  text-align: center;
+  padding: 0.2em 0.5em;
+  margin: 0.7em 0.2em;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 0.2em;
+}
