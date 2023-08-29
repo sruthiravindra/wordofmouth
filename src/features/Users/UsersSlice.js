@@ -25,25 +25,21 @@ export const fetchUsers = createAsyncThunk(
 )
 
 export const updateUserProfilePic = createAsyncThunk(
-    'users/updateUserProfilePic',
-    async(data,{dispatch})=>{
-
-        const userId = data.id;
-        const collectionRef = doc(database, "userData", userId );
+    "users/updateUserProfilePic",
+    async(data, {dispatch}) => {
         try{
-            await updateDoc(collectionRef, {
-                profilePic: data.image
-            });
-            
-            const docSnap = await getDoc(collectionRef);
-            const updatedUser = {id: userId,...docSnap.data()} ;
-            dispatch(updateProfilePic({id:userId,profilePic:data.image}));
-            dispatch(setCurrentUser(updatedUser));
-        }catch (e) {
+            console.log('update user profile pic thunk called')
+            console.log(data.image)
+            const uploadProfilePic = httpsCallable(functions, 'uploadProfilePic');
+            const response = await uploadProfilePic(data);
+            console.log(response);
+            dispatch(setCurrentUser(response.data.user));
+        } catch (e) {
             return Promise.reject("Unable to update, status :" + e);
         }
     }
 )
+
 
 export const updateUserDetails = createAsyncThunk(
     "users/updateUserDetails",
@@ -51,7 +47,7 @@ export const updateUserDetails = createAsyncThunk(
         try{
             const updateUserCloud = httpsCallable(functions, 'updateUser');
             const response = await updateUserCloud(data);
-            dispatch(fetchUsers());
+            dispatch(fetchUsers);
             dispatch(setCurrentUser(response.data.user));
         }catch (e) {
             return Promise.reject("Unable to update, status :" + e);
@@ -254,6 +250,27 @@ export const selectUsersByUserIdArray = (userIdArray) => (state) => {
 //             dispatch(setCurrentUser({id:querySnapshot.id,...newUser}));
 //         } catch (e) {
 //             return Promise.reject("Unable to create, status :" + e);
+//         }
+//     }
+// )
+
+// export const updateUserProfilePic = createAsyncThunk(
+//     'users/updateUserProfilePic',
+//     async(data,{dispatch})=>{
+
+//         const userId = data.id;
+//         const collectionRef = doc(database, "userData", userId );
+//         try{
+//             await updateDoc(collectionRef, {
+//                 profilePic: data.image
+//             });
+            
+//             const docSnap = await getDoc(collectionRef);
+//             const updatedUser = {id: userId,...docSnap.data()} ;
+//             dispatch(updateProfilePic({id:userId,profilePic:data.image}));
+//             dispatch(setCurrentUser(updatedUser));
+//         }catch (e) {
+//             return Promise.reject("Unable to update, status :" + e);
 //         }
 //     }
 // )

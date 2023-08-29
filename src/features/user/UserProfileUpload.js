@@ -1,18 +1,18 @@
 import { useSelector } from 'react-redux';
-import { useRef, useState } from "react";
-import { selectCurrentUser, setCurrentUser } from "./userSlice";
+import { useState } from "react";
+import { selectCurrentUser } from "./userSlice";
+import { updateUserDetails } from "../users/usersSlice";
 import { useDispatch } from "react-redux";
-import { updateUserProfilePic, selectUserById } from "../users/usersSlice";
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { getImageSRC } from '../../utils/getImageSRC';
-import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem, Button } from 'reactstrap';
+import { storage } from '../../firebaseConfig';
+import { ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage';
 
-const UserProfileUpload = (props) => {
+const UserProfileUpload = () => {
     const currentUser = useSelector(selectCurrentUser);
     const dispatch = useDispatch();
     const [imageSRC, setImageSRC] = useState('');
-    const [dropdownOpen, setDropdownOpen] = useState(false);
-    const fileUploadRef = useRef(null);
+    const uploadedImage = useRef(undefined);
 
     useEffect(() => {
         async function getImage () {
@@ -22,57 +22,51 @@ const UserProfileUpload = (props) => {
         getImage();
     }, [currentUser.profilePic]);
 
-    const initiateImgUpload = () => {
-        fileUploadRef.current.click();
-    }
+    const handleImageUpload = async () => {
+        const storageRef = ref(storage, `profile-pictures/${currentUser.id}`)
+        const metaData = { contentType: uploadedImage.current.type };
+        console.log(metaData);
 
-    const handleImageUpload = (e) => {
-        const [file] = e.target.files;
-        //rename the file as the current user id
-        //call a cloud function which uploads the new pic, deletes the old one,
-        //and updates the userData profilePic field
+        const uploadTask = uploadBytesResumable(storageRef, uploadedImage.current, metaData);
+        uploadTask.on(
+        "state_changed",
+            (snapshot) => {
+                const progress =
+                (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+                console.log("Upload is done");
+            },
+            (error) => {
+                console.log(error.message);
+            },
+            async () => {
+                try{
+                    const downloadURL = await getDownloadURL(uploadTask.snapshot.ref)
+                    setImageSRC(downloadURL);
+                    dispatch(updateUserDetails({
+                        id: currentUser.id,
+                        profilePic: downloadURL
+                    }));
+                } catch (error) {
+                    console.log(error.message);
+                }
+            }
+        );
     };
 
     return (
         <div>
-            <Dropdown isOpen={dropdownOpen} toggle={() => setDropdownOpen(!dropdownOpen)}>
-                <DropdownToggle>
-                    <img 
-                        src={imageSRC}
-                        alt='profile'
-                        style={{width: '10em'}}
-                    />
-                </DropdownToggle>
-                <DropdownMenu>
-                    <DropdownItem>
-                        <label 
-                            onClick={initiateImgUpload}
-                        >
-                            Upload new profile picture
-                        </label>
-                        <input
-                            type="file"
-                            accept="image/*"
-                            id="upload-profile-img"
-                            name='upload-profile-img'
-                            onChange={handleImageUpload}
-                            style={{ display: 'none'}}
-                            ref={fileUploadRef}
-                        />
-                    </DropdownItem>
-                    <DropdownItem>
-                        Delete profile pic
-                    </DropdownItem>
-                </DropdownMenu>
-            </Dropdown>
-            
+            <img 
+                src={imageSRC}
+                alt='profile'
+                className='img-fluid'
+            />
             <input
                 type="file"
-                accept="image/*"
-                onChange={handleImageUpload}
-                style={{display: "none"}}
+                onChange={(e) => {
+                    uploadedImage.current = e.target.files[0];
+                    handleImageUpload();
+                }}
             />
-
         </div>
     );
 }

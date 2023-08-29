@@ -6,11 +6,10 @@ import CustomPhoneField from "../../utils/CustomPhoneField";
 import { selectCurrentUser } from "./userSlice";
 import SubHeader from "../../components/SubHeader";
 import UserProfileUpload from "./UserProfileUpload";
-import { updateUserProfilePic, updateUserDetails } from "../users/usersSlice";
+import { updateUserDetails } from "../users/usersSlice";
 import { useDispatch } from "react-redux";
 import Error from '../../components/Error';
 import Loading from '../../components/Loading';
-import { getImageSRC } from "../../utils/getImageSRC";
 
 import DropdownTreeSelect from 'react-dropdown-tree-select'
 import 'react-dropdown-tree-select/dist/styles.css'
@@ -52,7 +51,7 @@ const ServicesDropdownList = ({ fldName, onFormChange, formik, ...rest }) => {
     )
 }
 
-const UserEditProfile = () => {
+const UserEditProfile = (props) => {
     const currentUser = useSelector(selectCurrentUser);
     const dispatch = useDispatch();
     const ref = React.createRef();
@@ -75,13 +74,14 @@ const UserEditProfile = () => {
     }
     const handleSubmit = (values) => {
         dispatch(updateUserDetails({ id: currentUser.id, ...values }))
+        props.toggleEdit();
     }
     return (
         <Container>
             <SubHeader current='Profile' />
             <Row>
-                <Col className="d-flex justify-content-end">
-                    <UserProfileUpload saveImage={updateUserProfilePic} userId={currentUser.id} />
+                <Col xs='4' md='3'>
+                    <UserProfileUpload />
                 </Col>
                 <Col className="">
                     <Formik
@@ -141,7 +141,7 @@ const UserEditProfile = () => {
                                         defaultValue={currentUser.services}
                                         onFormChange={e => formik.setFieldValue("services", e)} />
                                 </FormGroup>
-                                <Button type="submit">Submit</Button>
+                                <Button className='mb-4'type="submit">Submit</Button>
                             </Form>
                         )}
                     </Formik>

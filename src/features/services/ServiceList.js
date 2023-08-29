@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 
 const ServiceList = ({ serviceIds }) => {
     const serviceTitles = useSelector(selectServiceTitleById(serviceIds));
+    if (!serviceTitles) return (<p>no services yet</p>);
 
     return (
         <Row>
