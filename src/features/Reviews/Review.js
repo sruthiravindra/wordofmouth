@@ -14,7 +14,7 @@ const Review = ({ review }) => {
                     <img 
                         src={author.profilePic}
                         alt='user profile picture'
-                        className='img-fluid'
+                        className='img-fluid profile-pic-small'
                     />
                 </Col>
                 <Col>

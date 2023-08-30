@@ -6,17 +6,16 @@ import { useDispatch, useSelector } from "react-redux";
 import { addReview } from "./reviewsSlice";
 import { validateReviewForm } from "../../utils/validateReviewForm";
 
-const ReviewForm = ({userId}) => {
+const ReviewForm = ({ userId }) => {
     const [modalOpen, setModalOpen] = useState(false);
-    const currentUser = useSelector(selectCurrentUser)
+    const currentUser = useSelector(selectCurrentUser);
     const dispatch = useDispatch();
 
     const handleSubmit = (values) => {
         console.log(values);
-        console.log(currentUser);
         const review = {
-            userId: parseInt(userId),
-            authorId: parseInt(currentUser.id),
+            userId: userId,
+            authorId: currentUser.id,
             title: values.title,
             rating: values.rating,
             reviewText: values.reviewText,
@@ -24,7 +23,7 @@ const ReviewForm = ({userId}) => {
         };
         console.log(review)
         dispatch(addReview(review));
-        setModalOpen(false);
+        setModalOpen(!modalOpen);
     };
 
     return(
@@ -93,6 +92,7 @@ const ReviewForm = ({userId}) => {
                                 />
                             </FormGroup>
                             <Button type='submit'>Submit</Button>
+                            <Button className='mx-1' onClick={() => setModalOpen(!modalOpen)}>Cancel</Button>
                         </Form>
                     </Formik>
                 </ModalBody>

@@ -14,6 +14,7 @@ import { useDispatch } from 'react-redux';
 import { useEffect } from 'react';
 import { fetchServices } from './features/services/servicesSlice';
 import { fetchUsers } from './features/users/usersSlice';
+import { fetchReviews } from './features/reviews/reviewsSlice';
 import { selectCurrentUser } from "./features/user/userSlice";
 import { useSelector } from 'react-redux';
 
@@ -23,6 +24,7 @@ function App() {
   useEffect(() => {
     dispatch(fetchServices());
     dispatch(fetchUsers());
+    dispatch(fetchReviews());
   }, [dispatch]);
   const currentUser = useSelector(selectCurrentUser);
   return (

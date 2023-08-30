@@ -79,8 +79,8 @@ div .btn {
   border: #d82c05 1px solid;
 }
 
-.red-link {
-  color: #d82c05;
+.dropdown-item a {
+  color: black;
   text-decoration: none;
 }
 
@@ -115,7 +115,7 @@ div .btn {
 
 .profile-pic-small {
   border: 1px solid rgb(199, 199, 199);
-  border-radius: 3em;
+  border-radius: 5em;
 }
 
 .location {

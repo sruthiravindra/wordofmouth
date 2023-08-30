@@ -2,7 +2,6 @@ import { createSlice, createAsyncThunk, current } from '@reduxjs/toolkit';
 import { collection, getDocs, getDoc, addDoc, doc, updateDoc } from 'firebase/firestore';
 import { database } from '../../firebaseConfig';
 import { searchServicesByTitle } from '../services/servicesSlice';
-import { useDispatch } from 'react-redux';
 import { setCurrentUser } from '../user/userSlice';
 import { functions } from '../../firebaseConfig';
 import { httpsCallable } from 'firebase/functions';

@@ -1,30 +1,86 @@
-import { REVIEWS } from '../../app/shared/REVIEWS';
 import { createSlice } from '@reduxjs/toolkit';
+import { createAsyncThunk } from '@reduxjs/toolkit';
+import { collection } from 'firebase/firestore';
+import { database } from '../../firebaseConfig';
+import { getDocs, addDoc, getDoc } from 'firebase/firestore';
 
 const initialState = {
-    reviewsArray: REVIEWS
+    reviewsArray: [],
+    isLoading: true,
+    errMsg: ''
 };
+
+export const fetchReviews = createAsyncThunk(
+    'reviews/fetchReviews',
+    async () => {
+        const collectionRef = collection(database, "reviewData");
+        const querySnapshot = await getDocs(collectionRef);
+        if (querySnapshot.empty || !querySnapshot.size) {
+            return Promise.reject("Unable to fetch, status :" + querySnapshot.status);
+        }
+
+        const data = querySnapshot.docs.map((doc) => {
+            return { id:doc.id,...doc.data() }
+        });
+        return data;
+    }
+)
+
+export const addReview = createAsyncThunk(
+    'reviews/addReview',
+    async (data, {dispatch}) => {
+        try {
+            const collectionRef = collection(database, "reviewData");
+            await addDoc(collectionRef, data);
+             dispatch(fetchReviews());
+        } catch (error) {
+            console.log(error.message);
+        }
+    }
+);
 
 const reviewsSlice = createSlice({
     name: 'reviews',
     initialState,
     reducers: {
         addReview: (state, action) => {
-            const newReview = {
-                id: state.reviewsArray.length + 1,
-                ...action.payload
-            };
-            state.reviewsArray.push(newReview);
+            state.reviewsArray.push(action.payload);
+        }
+    },
+    extraReducers: {
+        [fetchReviews.pending]: (state) => {
+            state.isLoading = true;
+        },
+        [fetchReviews.fulfilled]: (state, action) => {
+            state.isLoading = false;
+            state.errMsg = '';
+            state.reviewsArray = action.payload;
+        },
+        [fetchReviews.rejected]: (state, action) => {
+            state.isLoading = false;
+            state.errMsg = action.error ? action.error.message : 'Fetch failed';
+        },
+        [addReview.pending]: (state) => {
+            state.isLoading = true;
+        },
+        [addReview.fulfilled]: (state, action) => {
+            state.isLoading = false;
+            state.errMsg = '';
+            state.reviewsArray = action.payload;
+        },
+        [addReview.rejected]: (state, action) => {
+            state.isLoading = false;
+            state.errMsg = action.error ? action.error.message : 'Fetch failed';
         }
     }
 });
 
 export const reviewsReducer = reviewsSlice.reducer;
-export const { addReview } = reviewsSlice.actions;
+export const {addUser} = reviewsSlice.actions;
 
 export const selectReviewsByUserId = (userId) => (state) => {
     return state.reviews.reviewsArray.filter(
-        (review) => review.userId === parseInt(userId)
+        (review) => review.userId === userId
     );
 };
 

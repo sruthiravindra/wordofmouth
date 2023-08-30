@@ -60,7 +60,7 @@ const UserProfileUpload = () => {
             {imageSRC && <img 
                 src={imageSRC}
                 alt='profile'
-                className='img-fluid'
+                className='img-fluid profile-pic-small'
             />}
             <label className='profile-image-input' for='image-upload'>
                 <FontAwesomeIcon icon={faCircleArrowUp} className='mx-1'/>

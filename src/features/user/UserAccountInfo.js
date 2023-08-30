@@ -13,7 +13,7 @@ const UserAccountInfo = (props) => {
                     <img
                         src={currentUser.profilePic}
                         alt='profile'
-                        className='img-fluid'
+                        className='img-fluid profile-pic-small'
                     />
                 </Col>
                 <Col>
@@ -21,7 +21,7 @@ const UserAccountInfo = (props) => {
                     <p>Last Name: {currentUser.lastName}</p>
                     <p>Email: {currentUser.email}</p>
                     <p>Phone Number: {currentUser.phone}</p>
-                    <p>Services: </p>
+                    <p>Services: <ServiceList serviceIds={currentUser.services}/></p>
                 </Col>
             </Row>
             <Row className='d-flex justify-content-center m-5'>
