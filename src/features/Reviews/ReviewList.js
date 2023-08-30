@@ -18,12 +18,16 @@ const ReviewList = ({ userId }) => {
         setCurrentPage(idx);
     }
 
-    return (isLoading) ? (
+    return isLoading ? (
         <Loading />
     ) : errMsg ? (
         <div>
             ERROR
         </div>
+    ) : !reviews.length ? (
+        <Container className='text-center my-5'>
+            <p>No reviews yet!</p>
+        </Container>
     ) : (
         <Container>
             {
