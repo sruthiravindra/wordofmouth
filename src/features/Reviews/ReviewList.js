@@ -2,28 +2,20 @@ import { Container } from 'reactstrap';
 import { useSelector } from 'react-redux';
 import { selectReviewsByUserId } from './reviewsSlice';
 import Review from './Review';
+import Loading from '../../components/Loading';
 
 const ReviewList = ({ userId }) => {
-    const reviewsState = useSelector((state) => state.reviews);
     const reviews = useSelector(selectReviewsByUserId(userId));
-    
-    if (reviewsState.isLoading) {
-        return (
-            <div>
-                Loading...
-            </div>
-        )
-    } 
-    
-    if (reviewsState.errMsg) {
-        return (
-            <div>
-                ERROR
-            </div>
-        )
-    }
+    const isLoading = useSelector((state) => state.reviews.isLoading);
+    const errMsg =useSelector((state) => state.reviews.errMsg);
 
-    return (
+    return (isLoading) ? (
+        <Loading />
+    ) : errMsg ? (
+        <div>
+            ERROR
+        </div>
+    ) : (
         <Container>
             {
                 reviews.map((review) => {

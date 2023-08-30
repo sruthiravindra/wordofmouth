@@ -28,7 +28,13 @@ const ReviewForm = ({ userId }) => {
 
     return(
         <>
-            <Button onClick={() => setModalOpen(true)}>
+            <Button onClick={() => {
+                if (!currentUser) {
+                    alert('Please log in to leave a review');
+                    return
+                }
+                setModalOpen(true)
+            }}>
                 <i className='fa fa-pencil' />
                 Add Review
             </Button>

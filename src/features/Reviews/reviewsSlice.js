@@ -2,7 +2,7 @@ import { createSlice } from '@reduxjs/toolkit';
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { collection } from 'firebase/firestore';
 import { database } from '../../firebaseConfig';
-import { getDocs, addDoc, getDoc } from 'firebase/firestore';
+import { getDocs, addDoc } from 'firebase/firestore';
 
 const initialState = {
     reviewsArray: [],
@@ -32,7 +32,7 @@ export const addReview = createAsyncThunk(
         try {
             const collectionRef = collection(database, "reviewData");
             await addDoc(collectionRef, data);
-             dispatch(fetchReviews());
+            dispatch(postReview(data));
         } catch (error) {
             console.log(error.message);
         }
@@ -43,8 +43,8 @@ const reviewsSlice = createSlice({
     name: 'reviews',
     initialState,
     reducers: {
-        addReview: (state, action) => {
-            state.reviewsArray.push(action.payload);
+        postReview: (state, action) => {
+            state.reviewsArray.push(action.payload)
         }
     },
     extraReducers: {
@@ -66,7 +66,6 @@ const reviewsSlice = createSlice({
         [addReview.fulfilled]: (state, action) => {
             state.isLoading = false;
             state.errMsg = '';
-            state.reviewsArray = action.payload;
         },
         [addReview.rejected]: (state, action) => {
             state.isLoading = false;
@@ -76,7 +75,7 @@ const reviewsSlice = createSlice({
 });
 
 export const reviewsReducer = reviewsSlice.reducer;
-export const {addUser} = reviewsSlice.actions;
+export const { postReview } = reviewsSlice.actions;
 
 export const selectReviewsByUserId = (userId) => (state) => {
     return state.reviews.reviewsArray.filter(

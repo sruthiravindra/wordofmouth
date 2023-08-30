@@ -1,9 +1,11 @@
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCircleNotch } from "@fortawesome/free-solid-svg-icons";
 import { Col } from "reactstrap";
 
 const Loading = ()=>{
     return(
-        <Col>
-            <i className='fa fa-spinner fa-pulse fa-3x fa-fw text-primary'></i>
+        <Col className='loading-icon'>
+            <FontAwesomeIcon icon={faCircleNotch} size='lg' spin />
             <p>Loading...</p>
         </Col>
     );

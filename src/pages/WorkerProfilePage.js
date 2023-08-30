@@ -10,20 +10,17 @@ import ReviewForm from "../features/reviews/ReviewForm";
 import WorkerImageGallery from "../features/workers/WorkerImageGallery";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faLocationDot } from "@fortawesome/free-solid-svg-icons";
-import { selectReviewsByUserId } from "../features/reviews/reviewsSlice";
+import Loading from "../components/Loading";
 
 
 const WorkerProfilePage = () => {
     const { userId } = useParams();
     const users = useSelector((state) => state.users);
     const worker = useSelector(selectUserById(userId));
-    const reviews = useSelector(selectReviewsByUserId(userId));
 
     if (users.isLoading) {
         return (
-            <div>
-                Loading...
-            </div>
+            <Loading />
         )
     } 
     

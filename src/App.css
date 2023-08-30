@@ -134,3 +134,9 @@ div .btn {
   align-items: center;
   border-radius: 0.2em;
 }
+
+.loading-icon {
+  text-align: center;
+  margin: 2em; 
+  color: grey;
+}
