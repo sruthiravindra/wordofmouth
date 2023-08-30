@@ -4,6 +4,7 @@ import StarRating from '../reviews/StarRating';
 import ServiceList from '../services/ServiceList';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faLocationDot } from '@fortawesome/free-solid-svg-icons';
+import ReviewCarousel from '../reviews/ReviewCarousel';
 
 const WorkerCard = ({ worker }) => {
     const {firstName, lastName, profilePic, id, rating, services, address} = worker;
@@ -35,6 +36,7 @@ const WorkerCard = ({ worker }) => {
                 </Col>
             </Row>
             <Row>
+                <ReviewCarousel userId={id}/>
             </Row>
         </Card>
     )

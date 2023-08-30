@@ -140,3 +140,8 @@ div .btn {
   margin: 2em; 
   color: grey;
 }
+
+.review-preview.card {
+  font-size: small;
+  background-color: rgb(242, 242, 242);
+}

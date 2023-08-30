@@ -1,7 +1,7 @@
 import WorkerCard from "./WorkerCard";
 import { selectWorkers } from "../users/usersSlice";
 import { useSelector } from "react-redux";
-import { Container, Pagination, PaginationItem, PaginationLink } from "reactstrap";
+import { Pagination, PaginationItem, PaginationLink } from "reactstrap";
 import { useState } from "react";
 
 const WorkerList = () => {
@@ -16,7 +16,7 @@ const WorkerList = () => {
     }
 
     return(
-        <Container>
+        <>
             {
                 workers.slice(
                     currentPage * pageSize,
@@ -28,7 +28,7 @@ const WorkerList = () => {
                     )
                 })
             }
-            <div className='d-flex justify-content-center mt-5'>
+            <div className='d-flex justify-content-center my-4'>
                 <Pagination>
                     <PaginationItem disabled={currentPage <= 0}>
                         <PaginationLink first href='#'/>
@@ -66,7 +66,7 @@ const WorkerList = () => {
                     </PaginationItem>
                 </Pagination>
             </div>
-        </Container>
+        </>
     )
 };
 
