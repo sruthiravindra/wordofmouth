@@ -27,12 +27,12 @@ const UserMenu = () => {
     return(
         <>
             <Dropdown isOpen={dropdownOpen} toggle={toggle} style={{zIndex: 9999}}>
-                <DropdownToggle caret>
+                <DropdownToggle className='user-menu'>
                     {imageSRC &&
                         <img 
                             src={imageSRC}
                             alt={currentUser.username}
-                            style={{ width: '2rem', height: '2rem' }}
+                            style={{ width: '2.5rem', height: '2.5rem' }}
                         />
                     }
                     <p className='d-inline'>{currentUser.username}</p>

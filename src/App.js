@@ -1,7 +1,7 @@
 import React from 'react';
 import './App.css';
 import Footer from './components/Footer';
-import Header from './components/Header';
+import NavMenu from './features/nav/NavMenu';
 import { Route, Routes, Navigate } from 'react-router-dom';
 import AboutPage from './pages/AboutPage';
 import HomePage from './pages/HomePage';
@@ -29,7 +29,7 @@ function App() {
   const currentUser = useSelector(selectCurrentUser);
   return (
     <div className="App">
-      <Header/>
+      <NavMenu/>
       <Routes>
         {/* Public routes */}
         <Route path='/' element={<HomePage/>}></Route>

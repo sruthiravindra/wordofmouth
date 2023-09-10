@@ -3,7 +3,6 @@ import { useSelector } from 'react-redux';
 import { 
     Navbar, 
     Collapse,
-    NavbarToggler,
     Nav,
     Accordion,
     AccordionItem,
@@ -12,14 +11,19 @@ import {
     Dropdown,
     DropdownToggle,
     DropdownMenu,
-    DropdownItem
+    DropdownItem,
+    Col,
+    Button
 } from 'reactstrap';
 import { useState, useEffect } from 'react';
-import { NavLink } from 'react-router-dom';
+import { NavLink, Link } from 'react-router-dom';
+import logo from '../../app/assets/img/logo.svg'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faBars } from '@fortawesome/free-solid-svg-icons';
+import Login from '../../components/Login';
 
 const AccordionSubServices = ({ parentTitle} ) => {
     const subservices = useSelector(selectServicesByParent(parentTitle));
-    console.log(subservices);
     return (
         <>
             {
@@ -94,7 +98,6 @@ const NavMenu = () => {
 
     return (
         <Navbar 
-            dark 
             sticky='top' 
             expand='md' 
             className='mb-0' 
@@ -104,54 +107,67 @@ const NavMenu = () => {
                 }
             }}
         >
-        <NavbarToggler onClick={() => setMenuOpen(!menuOpen)} />
-        <Collapse isOpen={menuOpen} navbar>
-            <Nav className='ms-auto' navbar>
-                {
-                    isAccordion ? (
-                        <Accordion open={accordionOpen} toggle={toggleAccordion}>
-                            {
-                                parentServices.map((parentService, idx) => {
-                                    return (
-                                        <AccordionItem key={idx}>
-                                            <AccordionHeader targetId={idx}>{parentService.title}</AccordionHeader>
-                                            <AccordionBody accordionId={idx}>
-                                                <AccordionSubServices parentTitle={parentService.title}/>
-                                            </AccordionBody>
-                                        </AccordionItem>
-                                    )
-                                })
-                            }
-                        </Accordion>
-                    )
+            <Col xs='6' md='5' lg='4' className='logo'>
+                <Link to='/' className='unstyledLink'>
+                    <h1 className='mb-0 d-none d-sm-flex'>WORD OF MOUTH</h1>
+                    <img 
+                        src={logo}
+                        alt='logo'
+                        width='30px'
+                    />
+                </Link>
+            </Col>
+            <Button onClick={() => setMenuOpen(!menuOpen)} className='d-md-none me-2'>
+                <FontAwesomeIcon icon={faBars} />
+            </Button>
+           {isAccordion && (<Login />)}
+                <Collapse isOpen={menuOpen} navbar>
+                    <Nav className='mx-auto' navbar>
+                    {
+                        isAccordion ? (
+                            <Accordion open={accordionOpen} toggle={toggleAccordion}>
+                                {
+                                    parentServices.map((parentService, idx) => {
+                                        return (
+                                            <AccordionItem key={idx}>
+                                                <AccordionHeader targetId={idx}>{parentService.title}</AccordionHeader>
+                                                <AccordionBody accordionId={idx}>
+                                                    <AccordionSubServices parentTitle={parentService.title}/>
+                                                </AccordionBody>
+                                            </AccordionItem>
+                                        )
+                                    })
+                                }
+                            </Accordion>
+                        )
 
-                    : (
-                        <>
-                            {
-                                parentServices.map((parentService, idx) => {
-                                    return (
-                                        <Dropdown 
-                                            nav 
-                                            isOpen={openDropdownIndex === idx} toggle={() => toggleDropdown(idx)}
-                                            onMouseEnter={()=> handleMouseEnter(idx)}
-                                            onMouseLeave={handleMouseLeave}
-                                            key={idx}
-                                        >
-                                            <DropdownToggle nav>{parentService.title}</DropdownToggle>
-                                            <DropdownMenu>
-                                                <DropdownSubservices parentTitle={parentService.title} />
-                                            </DropdownMenu>
-                                        </Dropdown>
-                                    )
-                                })
-                            }
-                        </>
-                    )
-                }
-    
-            </Nav>
+                        : (
+                            <>
+                                {
+                                    parentServices.map((parentService, idx) => {
+                                        return (
+                                            <Dropdown 
+                                                nav 
+                                                isOpen={openDropdownIndex === idx} toggle={() => toggleDropdown(idx)}
+                                                onMouseEnter={()=> handleMouseEnter(idx)}
+                                                onMouseLeave={handleMouseLeave}
+                                                key={idx}
+                                            >
+                                                <DropdownToggle nav>{parentService.title}</DropdownToggle>
+                                                <DropdownMenu>
+                                                    <DropdownSubservices parentTitle={parentService.title} />
+                                                </DropdownMenu>
+                                            </Dropdown>
+                                        )
+                                    })
+                                }
+                            </>
+                        )
+                    }
+                </Nav>
             </Collapse>
-        </Navbar>
+            {isAccordion === false && (<Login />)}
+    </Navbar>
     )
 };
 

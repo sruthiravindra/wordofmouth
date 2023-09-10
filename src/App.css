@@ -35,12 +35,6 @@ h2 {
   margin-top: 2rem;
 }
 
-.navbar {
-  background-color: #d82c05;
-  color: black;
-  margin-bottom: 2rem;
-}
-
 .page-enter {
   opacity: 0;
   transform: translateX(-100%);
@@ -77,6 +71,12 @@ div .btn {
   color: #d82c05;
   background-color: rgba(255, 255, 255, 0.425);
   border: #d82c05 1px solid;
+}
+
+div .btn:hover {
+  background-color: rgba(204, 204, 204, 0.425);
+  border: #d82c05 1px solid;
+  color: #d82c05;
 }
 
 .dropdown-item a {
@@ -168,29 +168,81 @@ div .btn {
 /* ACCORDION NAV */
 
 button.accordion-button {
-  background-color: #d82c05;
-  color: white;
   box-shadow: none;
+  border: 1px solid rgb(199, 199, 199);
 }
 
 button.accordion-button:focus  {
   box-shadow: none;
+  border: 1px solid rgb(199, 199, 199);
 }
 
 button.accordion-button:not(.collapsed) {
-  background-color: #d82c05;
-  color: white;
   box-shadow: none;
+  color: rgb(196, 31, 9);
+  background-color: white;
+  border: 1px solid rgb(199, 199, 199);
 }
 
 div.accordion-body {
-  background-color: #d94423;
+  background-color: rgb(238, 238, 238);
 }
 
 div.accordion-item {
+  color: black;
   border: none;
 }
 
 div.accordion {
   margin-top: 1em;
+}
+
+/* DROPDOWN NAV */
+
+.navbar .navbar-nav a.nav-link {
+  color: black;
+}
+
+.navbar .navbar-nav a.nav-link:hover {
+  color: rgb(196, 31, 9);
+}
+
+.navbar div.dropdown-menu {
+  border-radius: 0em;
+}
+
+
+/* NAVBAR */
+
+div.logo  a {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: start;
+}
+
+div.logo h1 {
+  font-size: x-large;
+  display: inline;
+  padding-right: 0.5em;
+}
+
+.navbar {
+  color: black;
+  border-bottom: 1px solid black;
+  background-color: white;
+}
+
+.navbar button {
+  margin-left: auto;
+}
+
+.navbar button.user-menu {
+  padding: 0em;
+  border-radius: 5em;
+  border: 1px solid rgb(199, 199, 199);
+}
+
+.navbar button.user-menu img {
+  border-radius: 5em;
 }
