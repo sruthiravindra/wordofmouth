@@ -1,41 +1,31 @@
 import { Row, Col, Container, Input, Button } from "reactstrap";
 import { Link } from "react-router-dom";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faInstagram, faFacebook, faXTwitter, faYoutube } from "@fortawesome/free-brands-svg-icons";
 
 const Footer = () => {
     return (
         <footer className="site-footer mt-0">
             <Container>
                 <Row>
-                    <Col className='sm-4'>
-                    Follow Us! <a
-                            className='btn btn-social-icon btn-instagram'
-                            href='http://instagram.com/'
-                        >
-                            <i className='fa fa-instagram' />
-                        </a>{' '}
-                        <a
-                            className='btn btn-social-icon btn-facebook'
-                            href='http://www.facebook.com/'
-                        >
-                            <i className='fa fa-facebook' />
-                        </a>{' '}
-                        <a
-                            className='btn btn-social-icon btn-twitter'
-                            href='http://twitter.com/'
-                        >
-                            <i className='fa fa-twitter' />
-                        </a>{' '}
-                        <a
-                            className='btn btn-social-icon btn-google'
-                            href='http://youtube.com/'
-                        >
-                            <i className='fa fa-youtube' />
-                        </a>
+                    <Col className='sm-4 socials'>
+                        <Button href='https://instagram.com' target='_blank' >
+                            <FontAwesomeIcon icon={faInstagram} size='xl'/>
+                        </Button>
+                        <Button href='https://facebook.com' target='_blank' >
+                            <FontAwesomeIcon icon={faFacebook} size='xl'/>
+                        </Button>
+                        <Button href='https://twitter.com' target='_blank' >
+                            <FontAwesomeIcon icon={faXTwitter} size='lg'/>
+                        </Button>
+                        <Button href='https://youtube.com' target='_blank' >
+                            <FontAwesomeIcon icon={faYoutube} size='lg'/>
+                        </Button>
                     </Col>
                 </Row>
                 <Row>
                     <Col className='sm-6'>
-                        <ul className="list-unstyled mt-4">
+                        <ul className="footer-links">
                             <li>
                                 <Link to='/' className='red-link'>Home</Link>
                             </li>
@@ -52,15 +42,6 @@ const Footer = () => {
                                 Terms and Condition
                             </li>
                         </ul>
-                    </Col>
-                    <Col>
-                        <Row>
-                            <Col>
-                            <h5>Subscribe to our newsletter</h5>
-                            <input type='text' className='py-1'></input>
-                            <Button>Go</Button>
-                            </Col>
-                        </Row>
                     </Col>
                 </Row>
             </Container>

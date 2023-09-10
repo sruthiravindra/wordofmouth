@@ -14,25 +14,9 @@ h3,
   font-size: 1.25rem;
 }
 
-h2 {
-  color: #3046c5;
-}
-
 .card-img-overlay .card-title {
   color: white;
   background-color: rgba(0, 0, 0, 0.5);
-}
-
-.row-content {
-  padding: 50px 0;
-  border-bottom: 1px ridge;
-  min-height: 200px;
-}
-
-.site-footer {
-  background-image: linear-gradient(#cecece, white);
-  padding: 20px 0;
-  margin-top: 2rem;
 }
 
 .page-enter {
@@ -63,64 +47,28 @@ h2 {
   color: #000000;
 }
 
+.unstyledLink:hover {
+  color: rgb(196, 31, 9);
+}
+
 .light-title {
   color: white;
 }
 
 div .btn {
-  color: #d82c05;
+  color: rgb(196, 31, 9);
   background-color: rgba(255, 255, 255, 0.425);
-  border: #d82c05 1px solid;
+  border: rgb(196, 31, 9) 1px solid;
 }
 
 div .btn:hover {
   background-color: rgba(204, 204, 204, 0.425);
-  border: #d82c05 1px solid;
-  color: #d82c05;
-}
-
-.dropdown-item a {
-  color: black;
-  text-decoration: none;
-}
-
-.service-list {
-  list-style-type: none;
-}
-
-.banner {
-  background-color: rgb(233, 231, 231);
-  padding: 0.2em 1em;
-}
-
-.col.service-display p {
-  color: grey;
-  border: 1px solid grey;
-  border-radius: 0.6em;
-  display: inline;
-  margin: 0em 0.1em;
-  padding: 0.2em 0.5em;
+  border: rgb(196, 31, 9) 1px solid;
+  color: rgb(196, 31, 9);
 }
 
 .contacts-message {
   margin: 2em 1em;
-}
-
-.clicked-button {
-  text-align: center;
-  font-size: small;
-  color: rgb(22, 137, 203);
-  padding: 0.5em;
-}
-
-.profile-pic-small {
-  border: 1px solid rgb(199, 199, 199);
-  border-radius: 5em;
-}
-
-.location {
-  font-size: small;
-  margin-left: 0.3em;
 }
 
 .profile-image-input {
@@ -139,6 +87,104 @@ div .btn:hover {
   text-align: center;
   margin: 2em; 
   color: grey;
+}
+
+/* SERVICE LIST */
+
+.service-display {
+  list-style-type: none;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+.col.service-display p {
+  color: white;
+  background-color: rgb(189, 189, 189);
+  border-radius: 1em;
+  display: inline;
+  margin: 0.1em 0.2em;
+  padding: 0.2em 0.8em;
+}
+
+/* WORKER CARD */
+
+.profile-pic-small {
+  border: 1px solid rgb(199, 199, 199);
+  border-radius: 5em;
+}
+
+.location {
+  font-size: small;
+  margin-left: 0.3em;
+}
+
+.clicked-button {
+  text-align: center;
+  font-size: small;
+  color: rgb(22, 137, 203);
+  padding: 0.5em;
+}
+
+
+/* FOOTER */
+
+.site-footer {
+  background-color: black;
+  color: white;
+  padding: 2em 0;
+  margin-top: 3rem;
+}
+
+.site-footer a.btn {
+  color: black;
+  background-color: rgb(238, 238, 238);
+  border: none;
+  border-radius: 5em;
+  margin: 0.8em 0.3em;
+  padding: 0.5em 0.6em;
+}
+
+.site-footer div.row {
+  text-align: center;
+}
+
+.site-footer .footer-links {
+  list-style-type: none;
+  margin-top: 1em;
+}
+
+.site-footer .footer-links li {
+  display: inline;
+  margin: 0em 0.5em;
+}
+
+.site-footer .footer-links a {
+  color: white;
+  text-decoration: none;
+}
+
+.site-footer .subscribe {
+  margin-top: 1em;
+  font-size: small;
+}
+
+.site-footer .subscribe div {
+  display: flex;
+  justify-content: center;
+}
+
+.site-footer .subscribe input {
+  padding: 0.3em 0em;
+  border-radius: 0em;
+  border: none;
+}
+
+.site-footer .subscribe .btn {
+  color: white;
+  background-color: black;
+  border: 1px solid white;
+  border-radius: 0em;
 }
 
 /* REVIEW PREVIEW */

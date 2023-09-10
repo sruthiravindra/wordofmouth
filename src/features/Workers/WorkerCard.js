@@ -20,7 +20,7 @@ const WorkerCard = ({ worker }) => {
                         className='img-fluid profile-pic-small'/>
                     </div>
                 </Col>
-                <Col className=''>
+                <Col className='d-flex flex-column justify-content-center'>
                     <Link to={`${id}`} className='unstyledLink'>
                         <h5 className='d-inline'>{firstName} {lastName}</h5>
                         <StarRating rating={rating}/><p className='d-inline'>({rating})</p>
@@ -29,12 +29,12 @@ const WorkerCard = ({ worker }) => {
                         <FontAwesomeIcon icon={faLocationDot} className='d-inline me-1'/>
                         <p className='d-inline'>{address}</p>
                     </div>
-                    <ServiceList serviceIds={services}/>
                 </Col>
-                <Col className='' xs='3'>
+                <Col className='d-flex flex-column justify-content-center align-items-start me-5' xs='3'>
                    <Button>Request Contact</Button>
                 </Col>
             </Row>
+            <ServiceList serviceIds={services}/>
             <Row>
                 <ReviewCarousel userId={id}/>
             </Row>

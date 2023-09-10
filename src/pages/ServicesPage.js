@@ -27,8 +27,7 @@ const ServicesPage = () => {
     
     return (
         <Container>
-            <SubHeader current='Services'/>
-            <div className='d-flex my-3'>
+            <div className='d-flex my-4'>
                 <Input type='text' placeholder='search' />
                 <Button className='mx-1'>
                     <FontAwesomeIcon icon={faSearch} />
