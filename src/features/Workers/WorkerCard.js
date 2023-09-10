@@ -31,7 +31,7 @@ const WorkerCard = ({ worker }) => {
                     </div>
                     <ServiceList serviceIds={services}/>
                 </Col>
-                <Col className='d-flex justify-content-end pe-3' xs='3'>
+                <Col className='' xs='3'>
                    <Button>Request Contact</Button>
                 </Col>
             </Row>

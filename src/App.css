@@ -141,7 +141,56 @@ div .btn {
   color: grey;
 }
 
+/* REVIEW PREVIEW */
+
 .review-preview.card {
   font-size: small;
-  background-color: rgb(242, 242, 242);
+}
+
+.review-signature.row {
+  text-align: end;
+  justify-content: end;
+  margin-right: 1em;
+}
+
+.review-signature.row p {
+  display: inline;
+  margin: 0em 0.3em;
+  padding: 0em;
+}
+
+.review-title {
+  font-weight: bold;
+  font-size: medium;
+}
+
+
+/* ACCORDION NAV */
+
+button.accordion-button {
+  background-color: #d82c05;
+  color: white;
+  box-shadow: none;
+}
+
+button.accordion-button:focus  {
+  box-shadow: none;
+}
+
+button.accordion-button:not(.collapsed) {
+  background-color: #d82c05;
+  color: white;
+  box-shadow: none;
+}
+
+div.accordion-body {
+  background-color: #d94423;
+}
+
+div.accordion-item {
+  border: none;
+}
+
+div.accordion {
+  margin-top: 1em;
 }

@@ -1,31 +1,14 @@
-import {
-     Carousel, 
-     CarouselItem, 
-     CarouselControl, 
-     CarouselIndicators,
-     CarouselCaption
-} from "reactstrap";
+import { Carousel } from "react-responsive-carousel";
 import { useSelector } from "react-redux";
 import { selectReviewsByUserId } from "./reviewsSlice";
-import { useState } from "react";
 import Loading from "../../components/Loading";
 import ReviewPreview from "./ReviewPreview";
+import "react-responsive-carousel/lib/styles/carousel.min.css";
 
 const ReviewCarousel = ({ userId }) => {
     const reviews = useSelector(selectReviewsByUserId(userId));
     const isLoading = useSelector((state) => state.reviews.isLoading);
     const errMsg = useSelector((state) => state.reviews.errMsg);
-    const [activeIndex, setActiveIndex] = useState(0);
-    
-    const next = () => {
-        const nextIndex = activeIndex === reviews.length - 1 ? 0 : activeIndex + 1;
-        setActiveIndex(nextIndex);
-    }
-
-    const prev = () => {
-        const nextIndex = activeIndex === 0 ? reviews.length - 1 : activeIndex - 1;
-        setActiveIndex(nextIndex);
-    }
 
     return isLoading ? (
         <Loading />
@@ -34,17 +17,19 @@ const ReviewCarousel = ({ userId }) => {
     ) : !reviews.length ? (
         <></>
     ) : (
-        <div className='text-center'>
+        <div className='mt-3'>
             <Carousel
-                activeIndex={activeIndex}
-                next={next}
-                previous={prev}
+                showArrows
+                showThumbs={false}
+                showStatus={false}
+                showIndicators={false}
+                transitionTime={500}
             >
                 {
                     reviews.map((review, idx) => (
-                        <CarouselItem key={idx}>
+                        <div key={idx}>
                             <ReviewPreview review={review}/>
-                        </CarouselItem>
+                        </div>
                     ))
                 }
             </Carousel>
