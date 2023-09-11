@@ -62,7 +62,7 @@ const WorkerProfilePage = () => {
             <hr />
             <WorkerImageGallery />
             <hr />
-            <h6 className='text-center'> Reviews for {worker.firstName} {worker.lastName}</h6>
+            <h6 className='text-center' id='reviews'> Reviews for {worker.firstName} {worker.lastName}</h6>
             <hr />
             <ReviewList userId={userId}/>
             <div className='text-end my-4'>

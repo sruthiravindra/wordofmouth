@@ -8,7 +8,7 @@ const ServiceList = ({ serviceIds }) => {
 
     return (
         <Row>
-            <Col className='mx-2 my-3 service-display'>
+            <Col className='service-display'>
                 {
                     serviceTitles.map((service) => {
                         return (

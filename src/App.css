@@ -1,17 +1,5 @@
 body {
-  font-family: 'Open Sans', sans-serif;
-}
-
-h1,
-h2,
-h3,
-.card-body > .card-title {
   font-family: 'Helvetica', sans-serif;
-}
-
-.card-title {
-  font-weight: 500;
-  font-size: 1.25rem;
 }
 
 .card-img-overlay .card-title {
@@ -100,14 +88,41 @@ div .btn:hover {
 
 .col.service-display p {
   color: white;
-  background-color: rgb(189, 189, 189);
+  font-size: small;
+  background-color: rgb(184, 176, 176);
   border-radius: 1em;
   display: inline;
-  margin: 0.1em 0.2em;
+  margin: 0.1em 0.4em 0em 0em;
   padding: 0.2em 0.8em;
 }
 
 /* WORKER CARD */
+
+.card.worker-card {
+  margin-bottom: 1em;
+  border-radius: 0em;
+  background-color: rgb(246, 241, 241);
+}
+
+.worker-header {
+  background-color: rgb(196, 31, 9);
+  margin-bottom: 0.3em;
+  padding: 0.5em 0em;
+}
+
+.request-btn-col {
+  display: flex;
+  justify-content: end;
+  padding: 0em;
+}
+
+.request-btn-col .btn {
+  color: white;
+  background-color: rgb(214, 72, 54);
+  padding: 0.3em 0.5em;
+  margin: 0em;
+  font-size: small;
+}
 
 .profile-pic-small {
   border: 1px solid rgb(199, 199, 199);
@@ -115,8 +130,11 @@ div .btn:hover {
 }
 
 .location {
+  color: white;
+  opacity: 0.7;
   font-size: small;
-  margin-left: 0.3em;
+  display: flex;
+  align-items: center;
 }
 
 .clicked-button {
@@ -124,6 +142,11 @@ div .btn:hover {
   font-size: small;
   color: rgb(22, 137, 203);
   padding: 0.5em;
+}
+
+.card-title {
+  font-weight: 500;
+  font-size: 1.25rem;
 }
 
 
@@ -191,6 +214,9 @@ div .btn:hover {
 
 .review-preview.card {
   font-size: small;
+  border: none;
+  padding: 0.5em 1.5em;
+  border-radius: 0em;
 }
 
 .review-signature.row {
@@ -203,6 +229,7 @@ div .btn:hover {
   display: inline;
   margin: 0em 0.3em;
   padding: 0em;
+  font-style: italic;
 }
 
 .review-title {

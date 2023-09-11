@@ -56,7 +56,12 @@ const ReviewList = ({ userId }) => {
                     {
                         [...Array(pageCount)].map((page, idx) => (
                             <PaginationItem active={idx === currentPage} key={idx}>
-                                <PaginationLink onClick={e => changePage(e, idx)} href='#reviews'>
+                                <PaginationLink onClick={e => {
+                                    changePage(e, idx)
+                                    const reviewsElement = document.getElementById('reviews');
+                                    reviewsElement.tabIndex = -1; // Make the element focusable
+                                    reviewsElement.focus();
+                                }}>
                                     {idx + 1}
                                 </PaginationLink>
                             </PaginationItem>

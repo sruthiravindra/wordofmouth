@@ -8,7 +8,7 @@ const ReviewPreview = ({ review }) => {
     const author = useSelector(selectUserById(review.authorId));
 
     return (
-            <Card className='p-2 mx-1 review-preview'>
+            <Card className='review-preview'>
                 <Row>
                     <Col xs='12 text-start'>
                         <div className='mb-1'>
