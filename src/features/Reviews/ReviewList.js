@@ -16,6 +16,9 @@ const ReviewList = ({ userId }) => {
     const changePage = (e, idx) => {
         e.preventDefault();
         setCurrentPage(idx);
+        const reviewsElement = document.getElementById('reviews');
+        reviewsElement.tabIndex = -1;
+        reviewsElement.focus();
     }
 
     return isLoading ? (
@@ -56,12 +59,7 @@ const ReviewList = ({ userId }) => {
                     {
                         [...Array(pageCount)].map((page, idx) => (
                             <PaginationItem active={idx === currentPage} key={idx}>
-                                <PaginationLink onClick={e => {
-                                    changePage(e, idx)
-                                    const reviewsElement = document.getElementById('reviews');
-                                    reviewsElement.tabIndex = -1; // Make the element focusable
-                                    reviewsElement.focus();
-                                }}>
+                                <PaginationLink onClick={e => changePage(e, idx)}>
                                     {idx + 1}
                                 </PaginationLink>
                             </PaginationItem>

@@ -13,6 +13,9 @@ const WorkerList = () => {
     const changePage = (e, idx) => {
         e.preventDefault();
         setCurrentPage(idx);
+        const searchElement = document.getElementById('search-bar');
+        searchElement.tabIndex = -1;
+        searchElement.focus();
     }
 
     return(
@@ -37,7 +40,9 @@ const WorkerList = () => {
                         <PaginationLink 
                             previous 
                             href='#'
-                            onClick={e => changePage(e, currentPage - 1)}    
+                            onClick={e => {
+                                changePage(e, currentPage - 1);
+                            }}    
                         />
                     </PaginationItem>
                     {
