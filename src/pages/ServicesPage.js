@@ -27,7 +27,7 @@ const ServicesPage = () => {
     
     return (
         <Container>
-            <div className='d-flex my-4'>
+            <div className='d-flex my-4' id='search-bar'>
                 <Input type='text' placeholder='search' />
                 <Button className='mx-1'>
                     <FontAwesomeIcon icon={faSearch} />
