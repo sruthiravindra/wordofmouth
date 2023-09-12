@@ -1,4 +1,6 @@
-import { Container } from 'reactstrap';
+import { Container, Input, Button } from 'reactstrap';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faSearch } from '@fortawesome/free-solid-svg-icons';
 import { useDispatch, useSelector } from 'react-redux';
 import { useState, useEffect } from 'react';
 import { getFilteredUsersArray } from '../features/users/usersSlice';
@@ -25,7 +27,12 @@ const ServicesPage = () => {
     
     return (
         <Container>
-            <SubHeader current='Services'/>
+            <div className='d-flex my-4' id='search-bar'>
+                <Input type='text' placeholder='search' />
+                <Button className='mx-1'>
+                    <FontAwesomeIcon icon={faSearch} />
+                </Button>
+            </div>
             <WorkerList/>
         </Container>
     );

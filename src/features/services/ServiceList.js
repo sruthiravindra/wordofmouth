@@ -1,13 +1,14 @@
 import { selectServiceTitleById } from './servicesSlice';
 import { Row, Col } from 'reactstrap';
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 
 const ServiceList = ({ serviceIds }) => {
     const serviceTitles = useSelector(selectServiceTitleById(serviceIds));
+    if (!serviceTitles) return (<p>no services yet</p>);
 
     return (
         <Row>
-            <Col className='mx-2 my-3 service-display'>
+            <Col className='service-display'>
                 {
                     serviceTitles.map((service) => {
                         return (

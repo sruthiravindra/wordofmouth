@@ -1,7 +1,7 @@
 import React from 'react';
 import './App.css';
 import Footer from './components/Footer';
-import Header from './components/Header';
+import NavMenu from './features/nav/NavMenu';
 import { Route, Routes, Navigate } from 'react-router-dom';
 import AboutPage from './pages/AboutPage';
 import HomePage from './pages/HomePage';
@@ -14,6 +14,7 @@ import { useDispatch } from 'react-redux';
 import { useEffect } from 'react';
 import { fetchServices } from './features/services/servicesSlice';
 import { fetchUsers } from './features/users/usersSlice';
+import { fetchReviews } from './features/reviews/reviewsSlice';
 import { selectCurrentUser } from "./features/user/userSlice";
 import { useSelector } from 'react-redux';
 
@@ -23,11 +24,12 @@ function App() {
   useEffect(() => {
     dispatch(fetchServices());
     dispatch(fetchUsers());
+    dispatch(fetchReviews());
   }, [dispatch]);
   const currentUser = useSelector(selectCurrentUser);
   return (
     <div className="App">
-      <Header/>
+      <NavMenu/>
       <Routes>
         {/* Public routes */}
         <Route path='/' element={<HomePage/>}></Route>

@@ -1,8 +1,8 @@
 import { useSelector } from "react-redux";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { selectCurrentUser, setCurrentUser } from "./userSlice";
 import { Link } from "react-router-dom";
-import { Button, DropdownMenu, DropdownToggle, Dropdown, DropdownItem } from 'reactstrap';
+import { DropdownMenu, DropdownToggle, Dropdown, DropdownItem } from 'reactstrap';
 import { useDispatch } from "react-redux";
 import { getImageSRC } from "../../utils/getImageSRC";
 
@@ -15,32 +15,38 @@ const UserMenu = () => {
     const logout = () => {
         dispatch(setCurrentUser(null));
     }
+    const [imageSRC, setImageSRC] = useState('');
+
     useEffect(() => {
-        if (currentUser.profilePic) 
-        {
-            getImageSRC(`${currentUser.profilePic}`).then(
-                (value) => setImgSRC(value)
-            )
+        async function getImage () {
+            const imageDownload = await getImageSRC(currentUser.profilePic);
+            setImageSRC(imageDownload);
         }
-    }, []);
-    return (
+        getImage();
+    }, [currentUser.profilePic])
+
+    return(
         <>
-            <Dropdown isOpen={dropdownOpen} toggle={toggle} style={{ zIndex: 9999 }}>
-                <DropdownToggle caret>
-                    <img src={imgSRC}
-                        alt={currentUser.username}
-                        style={{ width: '2rem', height: '2rem' }} />
+            <Dropdown isOpen={dropdownOpen} toggle={toggle} style={{zIndex: 9999}}>
+                <DropdownToggle className='user-menu'>
+                    {imageSRC &&
+                        <img 
+                            src={imageSRC}
+                            alt={currentUser.username}
+                            style={{ width: '2.5rem', height: '2.5rem' }}
+                        />
+                    }
                     <p className='d-inline'>{currentUser.username}</p>
                 </DropdownToggle>
-                <DropdownMenu>
+                <DropdownMenu classname='user-menu'>
                     <DropdownItem>
                         <Link to='/account'>
-                            <a className='red-link'>My Account</a>
+                            My Account
                         </Link>
                     </DropdownItem>
                     <DropdownItem>
-                        <Link to='/contacts'>
-                            <a className='red-link'>My Contacts</a>
+                        <Link to='/contacts' className='red-link'>
+                            My Contacts
                         </Link>
                     </DropdownItem>
                     <DropdownItem>

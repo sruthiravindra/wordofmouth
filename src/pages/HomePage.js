@@ -1,4 +1,4 @@
-import { Container, Row, Col, Button } from 'reactstrap';
+import { Row, Col, Button } from 'reactstrap';
 import ktmAerialImg from '../app/assets/img/ktm-aerial.jpeg';
 import { useSpring, animated } from 'react-spring';
 
@@ -8,8 +8,7 @@ const HomePage = () => {
         to: { opacity: 1 },
         config: { duration: 1000 }
       })
-
-
+    
     return (
         <>
             <Row>
