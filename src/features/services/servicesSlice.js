@@ -17,9 +17,16 @@ export const fetchServices = createAsyncThunk(
         return data
     }
 )
+export const searchServicesByTitle = createAsyncThunk(
+    'services/searchServicesByTitle',
+    async(data,{dispatch, getState})=>{
+        dispatch(searchServicesByTitleRed(data));
+    }
+)
 
 const initialState = {
     servicesArray: [],
+    servicesByTitleArray: [],
     isLoading: true,
     errMsg: ''
 }
@@ -27,7 +34,25 @@ const initialState = {
 const servicesSlice = createSlice({
     name: 'services',
     initialState,
-    reducers: {},
+    reducers: {
+        searchServicesByTitleRed:(state,action)=>{
+            const searchText = action.payload;
+            let matched_services = state.servicesArray.filter((service)=>service.title.toLowerCase().indexOf(searchText.toLowerCase()) >=0)
+            .map((service)=>{
+                return(service.id)
+        
+            });
+            return (
+                {
+                    ...state,
+                    servicesByTitleArray: state.servicesArray.filter((service)=>{
+                        return ( matched_services.indexOf(service.id) != -1 ) || (matched_services.indexOf(service.parent) != -1)
+                    })
+                }
+
+            )
+        }
+    },
     extraReducers: {
         [fetchServices.pending]: (state) => {
             state.isLoading = true;
@@ -40,11 +65,16 @@ const servicesSlice = createSlice({
         [fetchServices.rejected]: (state, action) => {
             state.isLoading = false;
             state.errMsg = action.error ? action.error.message : 'Fetch failed';
+        },
+        [searchServicesByTitle.fulfilled]: (state, action) => {
+            state.isLoading = false;
+            state.errMsg = '';
         }
     }
 });
 
 export const servicesReducer = servicesSlice.reducer;
+export const { searchServicesByTitleRed } = servicesSlice.actions;
 export const selectAllServices = (state) => {
     return state.services.servicesArray
 }
@@ -83,14 +113,3 @@ export const selectServiceTitleById = (serviceIds) => (state) => {
         return state.services.servicesArray.find((service)=>service.id===id).title
     })
 };
-
-export const searchServicesByTitle = (searchText) =>{
-    let matched_services = SERVICES.filter((service)=>service.title.toLowerCase().indexOf(searchText.toLowerCase()) >=0)
-    .map((service)=>{
-        return(service.id)
-
-    });
-    return SERVICES.filter((service)=>{
-        return ( matched_services.indexOf(service.id) != -1 ) || (matched_services.indexOf(service.parent) != -1)
-    }) 
-}

@@ -116,6 +116,22 @@ export const addContact = createAsyncThunk(
             return Promise.reject("Unable to update, status:" + e)
         }
     }
+);
+
+export const fetchWorkers = createAsyncThunk(
+    "users/fetchWorkers",
+    async(data,{dispatch, getState})=>{
+        const {serviceString} = data;
+        try{
+            await dispatch(searchServicesByTitle(serviceString));
+            const services_filtered = getState().services.servicesByTitleArray;
+            const services = services_filtered.map((service) => service.id);
+            dispatch(getFilteredUsersArray(services)) 
+
+        }catch(e){
+            return Promise.reject("Unable to filter workers based on selected service, status:"+e);
+        }
+    }
 )
 
 const initialState = {
@@ -138,9 +154,7 @@ const usersSlice = createSlice({
             return(state);
         },
         getFilteredUsersArray: (state, action) => {
-            let keyword = action.payload;
-            const services_filtered = searchServicesByTitle(keyword);
-            const services = services_filtered.map((service) => service.id)
+            let services = action.payload;
             return (
                 {
                     ...state,

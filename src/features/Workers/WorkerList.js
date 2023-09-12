@@ -5,7 +5,9 @@ import { Pagination, PaginationItem, PaginationLink } from "reactstrap";
 import { useState } from "react";
 
 const WorkerList = () => {
-    const workers = useSelector(selectWorkers);
+    // const workers = useSelector(selectWorkers);
+    const workers = useSelector((state) => state.users.filteredUsersArray)
+
     const [currentPage, setCurrentPage] = useState(0);
     const pageSize = 10;
     const pageCount = Math.ceil(workers.length / pageSize);

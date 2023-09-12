@@ -30,7 +30,7 @@ const AccordionSubServices = ({ parentTitle} ) => {
                 subservices.map((subService, idx) => (
                     <NavLink
                         className="nav-link"
-                        to={subService.url}
+                        to={`${subService.url}/${subService.title}`}
                         key={idx}
                     >
                         {subService.title}
@@ -48,7 +48,7 @@ const DropdownSubservices = ({ parentTitle} ) => {
         <>
             {
                 subservices.map((subService, idx) => (
-                    <NavLink className='nav-link' to={subService.url} key={idx}>
+                    <NavLink className='nav-link' to={`${subService.url}/${subService.title}`} key={idx}>
                         <DropdownItem>{subService.title}</DropdownItem>
                     </NavLink>
                     )

@@ -31,7 +31,7 @@ const WorkerCard = ({ worker }) => {
                         </div>
                     </Col>
                     <Col className='d-flex flex-column justify-content-center'>
-                        <Link to={`${id}`} className='unstyledLink'>
+                        <Link to={`/worker/${id}`} className='unstyledLink'>
                             <h5 className='d-inline'>{firstName} {lastName}</h5>
                             <StarRating rating={rating}/><p className='d-inline'>({rating})</p>
                         </Link>
