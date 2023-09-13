@@ -7,6 +7,7 @@ import { useDispatch } from "react-redux";
 import { getImageSRC } from "../../utils/getImageSRC";
 
 const UserMenu = () => {
+    const [imgSRC, setImgSRC] = useState('');
     const currentUser = useSelector(selectCurrentUser);
     const [dropdownOpen, setDropdownOpen] = useState(false);
     const toggle = () => setDropdownOpen(!dropdownOpen);
@@ -53,7 +54,7 @@ const UserMenu = () => {
                     </DropdownItem>
                 </DropdownMenu>
             </Dropdown>
-        </> 
+        </>
     );
 };
 
