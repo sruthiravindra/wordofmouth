@@ -37,6 +37,7 @@
 
 **Add Review:** If a user is logged in, they can leave a review on a worker profile page. The review is added to the Firestore collection reviewData, and then Redux updates the state. The review list will display a loading icon while the new review is being uploaded, and then the new review is displayed in real time.
 
+**Distance from user displayed on worker card:** If a user is logged in, their address is geocoded to a set of longitude and latitude coordinates via Google Geocoding API. The current user's location is passed down to the worker cards. Here, the worker's address is also converted to coordinates, then the distance between the two locations is calculated and displayed in the worker card header. If a user is not logged in, the distance just displays as '...'
 
 
 # Future Features
@@ -52,8 +53,6 @@
 **Add Contact:** From the worker's contacts page, they can either approve or deny contact requests. If approved, in Firestore userData, the user's id is added to the worker's contacts array, and the worker's id is added to the user's contacts array. Then, the request data is removed from the Firestore contactRequestData collection. 
 
 **Contacts indicated in worker card:** If a user is logged in and the worker is in the user's contacts, the worker card will display a different color and the 'request contact' button is replaced with a 'leave a review' button. If a user is logged in and the user has requested the contact, the worker card will also display a different color, and the 'request contact' button is replaced with a message stating 'contact requested.' 
-
-**Distance from user displayed on worker card:** Instead of displaying the worker's address on the worker card, the worker's distance from the user's current location is displayed. 
 
 **Delete Account:** From the account page, the user has the option to delete their account. A modal will pop up to ask the user if they are absolutely sure, and they must provide a reason before deleting the account. 
 

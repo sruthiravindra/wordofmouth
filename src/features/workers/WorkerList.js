@@ -4,7 +4,7 @@ import { useSelector } from "react-redux";
 import { Pagination, PaginationItem, PaginationLink } from "reactstrap";
 import { useState } from "react";
 
-const WorkerList = () => {
+const WorkerList = ({ currentUserGeocode }) => {
     // const workers = useSelector(selectWorkers);
     const workers = useSelector((state) => state.users.filteredUsersArray)
 
@@ -29,7 +29,7 @@ const WorkerList = () => {
                 )
                 .map((worker) => {
                     return (
-                        <WorkerCard worker={worker} key={worker.id}/>
+                        <WorkerCard worker={worker} key={worker.id} currentUserGeocode={currentUserGeocode} />
                     )
                 })
             }
