@@ -47,7 +47,7 @@
 
 **Contacts Page:** From the dropdown menu in the header, the user can go to this page to view their contacts, as well as their pending requests. 
 
-**Request Contact:** When the user clicks the 'request contact' button from the worker card or profile page, the request data is added to the Firestore collection contactRequestData. This request will then appear on the contacts page, for both the user that requested and the worker whose info has been requested. 
+**Request Contact:** When the user clicks the 'request contact' button from the worker card or profile page, the request data is added to the Firestore collection contactRequestData. The user can optionally attach a message to their request. This request will then appear on the contacts page, for both the user that requested and the worker whose info has been requested. 
 
 **Add Contact:** From the worker's contacts page, they can either approve or deny contact requests. If approved, in Firestore userData, the user's id is added to the worker's contacts array, and the worker's id is added to the user's contacts array. Then, the request data is removed from the Firestore contactRequestData collection. 
 

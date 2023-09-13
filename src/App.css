@@ -92,7 +92,7 @@ div .btn:hover {
   background-color: rgb(184, 176, 176);
   border-radius: 1em;
   display: inline;
-  margin: 0.1em 0.4em 0em 0em;
+  margin: 0.2em 0.2em 0.2em 0em;
   padding: 0.2em 0.8em;
 }
 
@@ -106,7 +106,7 @@ div .btn:hover {
 
 .worker-header {
   background-color: rgb(196, 31, 9);
-  margin-bottom: 0.3em;
+  margin-bottom: 0.7em;
   padding: 0.5em 0em;
 }
 
