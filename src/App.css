@@ -77,6 +77,23 @@ div .btn:hover {
   color: grey;
 }
 
+/* ABOUT US */
+
+img.headshot {
+  border-radius: 10em;
+}
+
+.row.team-member {
+  display: flex;
+  align-items: center;
+  margin-bottom: 2em;
+}
+
+span.feature {
+  font-weight: bold;
+  color: rgb(196, 31, 9);
+}
+
 /* SERVICE LIST */
 
 .service-display {
@@ -94,6 +111,31 @@ div .btn:hover {
   display: inline;
   margin: 0.2em 0.2em 0.2em 0em;
   padding: 0.2em 0.8em;
+}
+
+/* WORKER PROFILE PAGE */
+
+div.profile-page-header {
+  background-color: rgb(196, 31, 9);
+  padding: 0.5em;
+  margin-bottom: 2em;
+}
+
+div.profile-page-header div.col {
+  display: flex;
+  align-items: center;
+}
+
+div.profile-page-header .btn {
+  margin-left: auto;
+  font-size: small;
+}
+
+div.profile-page-header p {
+  color: white;
+  font-size: small;
+  margin-bottom: 0em;
+  padding-left: 0.5em;
 }
 
 /* WORKER CARD */
@@ -126,7 +168,7 @@ div .btn:hover {
 
 .profile-pic-small {
   border: 1px solid rgb(199, 199, 199);
-  border-radius: 5em;
+  border-radius: 10em;
 }
 
 .location {
