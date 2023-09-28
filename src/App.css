@@ -77,6 +77,18 @@ div .btn:hover {
   color: grey;
 }
 
+/* HOME PAGE */
+
+.read-me-link p {
+  font-size: x-large;
+  padding-top: 1em;
+}
+
+.read-me-link {
+  text-decoration: none;
+  color: rgb(196, 31, 9);
+}
+
 /* ABOUT US */
 
 img.headshot {

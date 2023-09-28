@@ -36,6 +36,7 @@ const AboutPage = () => {
                 </Col>
             </Row>
             <h3 className='mb-4 text-center'>Read Me</h3>
+            <p className='text-center'>Feel free to log in as our test user, Aadarsh. His info is auto-populated in the login modal. You are also welcome to create your own account to further explore the available features.</p>
             <Row className=''>
                 <h4 className='my-4'>Active Features</h4>
                 <p><span className='feature'>User Login:</span> A user is able to login through a button in the header. Their information is handled through Firebase Authentication. After they successfully log in, the login button becomes their profile picture which is also a dropdown menu of user options (my account, my contacts, logout)</p>
@@ -76,6 +77,8 @@ const AboutPage = () => {
 
                 <p><span className='feature'>Contacts indicated in worker card:</span> If a user is logged in and the worker is in the user's contacts, the worker card will display a different color and the 'request contact' button is replaced with a 'leave a review' button. If a user is logged in and the user has requested the contact, the worker card will also display a different color, and the 'request contact' button is replaced with a message stating 'contact requested.'</p>
 
+                <p><span className='feature'>Success/Fail popups:</span> When profile data is updated, or a review is posted, a success or fail message pops up.</p>
+
                 <p><span className='feature'>Delete Account:</span> From the account page, the user has the option to delete their account. A modal will pop up to ask the user if they are absolutely sure, and they must provide a reason before deleting the account.</p>
 
                 <p><span className='feature'>Email/text sent on account creation:</span></p>
@@ -89,6 +92,9 @@ const AboutPage = () => {
                 <p><span className='feature'>Email/text sent on new contact:</span></p>
 
                 <p><span className='feature'>Contact Us functionality:</span></p>
+
+                <p><span className='feature'></span></p>
+
             </Row>
         </Container>
     )
