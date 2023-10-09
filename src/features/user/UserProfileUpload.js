@@ -57,8 +57,8 @@ const UserProfileUpload = () => {
 
     return (
         <div>
-            {imageSRC && <img 
-                src={imageSRC}
+            {currentUser.profile_pic && <img 
+                src={currentUser.profile_pic}
                 alt='profile'
                 className='img-fluid profile-pic-small'
             />}

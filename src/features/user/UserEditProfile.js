@@ -86,8 +86,8 @@ const UserEditProfile = (props) => {
                 <Col className="">
                     <Formik
                         initialValues={{
-                            firstName: currentUser.firstName,
-                            lastName: currentUser.lastName,
+                            first_name: currentUser.first_name,
+                            last_name: currentUser.last_name,
                             email: currentUser.email,
                             phone: currentUser.phone,
                             services: currentUser.services
@@ -98,16 +98,16 @@ const UserEditProfile = (props) => {
                         {(formik) => (
                             <Form>
                                 <FormGroup className="col-md-10">
-                                    <Label htmlFor="firstName">First Name</Label>
-                                    <Field id="firstName" name="firstName" placeholder="Enter First Name" className="form-control" />
-                                    <ErrorMessage name="firstName">
+                                    <Label htmlFor="first_name">First Name</Label>
+                                    <Field id="first_name" name="first_name" placeholder="Enter First Name" className="form-control" />
+                                    <ErrorMessage name="first_name">
                                         {(msg) => <p className="text-danger">{msg}</p>}
                                     </ErrorMessage>
                                 </FormGroup>
                                 <FormGroup className="col-md-10">
-                                    <Label htmlFor="lastName">Last Name</Label>
-                                    <Field id="lastName" name="lastName" placeholder="Enter Last Name" className="form-control" />
-                                    <ErrorMessage name="lastName">
+                                    <Label htmlFor="last_name">Last Name</Label>
+                                    <Field id="last_name" name="last_name" placeholder="Enter Last Name" className="form-control" />
+                                    <ErrorMessage name="last_name">
                                         {(msg) => <p className="text-danger">{msg}</p>}
                                     </ErrorMessage>
                                 </FormGroup>
