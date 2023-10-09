@@ -11,14 +11,14 @@ const UserAccountInfo = (props) => {
             <Row className='mt-4'>
                 <Col xs='4' md='3'>
                     <img
-                        src={currentUser.profilePic}
+                        src={currentUser.profile_pic}
                         alt='profile'
                         className='img-fluid profile-pic-small'
                     />
                 </Col>
                 <Col>
-                    <p>First Name: {currentUser.firstName}</p>
-                    <p>Last Name: {currentUser.lastName}</p>
+                    <p>First Name: {currentUser.first_name}</p>
+                    <p>Last Name: {currentUser.last_name}</p>
                     <p>Email: {currentUser.email}</p>
                     <p>Phone Number: {currentUser.phone}</p>
                     <p>Services: <ServiceList serviceIds={currentUser.services}/></p>
