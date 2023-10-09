@@ -1,25 +1,18 @@
 import { createSlice, createAsyncThunk, current } from '@reduxjs/toolkit';
-import { collection, getDocs, getDoc, addDoc, doc, updateDoc } from 'firebase/firestore';
+import { getDoc, doc, updateDoc } from 'firebase/firestore';
 import { database } from '../../firebaseConfig';
 import { searchServicesByTitle } from '../services/servicesSlice';
 import { setCurrentUser } from '../user/userSlice';
 import { functions } from '../../firebaseConfig';
 import { httpsCallable } from 'firebase/functions';
-
+import { axiosGet, axiosPost } from '../../utils/axiosConfig';
 
 export const fetchUsers = createAsyncThunk(
     'users/fetchUsers',
     async () => {
-        const collectionRef = collection(database, "userData");
-        const querySnapshot = await getDocs(collectionRef);
-        if (querySnapshot.empty || !querySnapshot.size) {
-            return Promise.reject("Unable to fetch, status :" + querySnapshot.status);
-        }
-
-        const data = await querySnapshot.docs.map((doc) => {
-            return { id:doc.id,...doc.data() }
-        });
-        return data;
+        const response = await axiosGet('/users');
+        console.log(`Redux response: ${response}`);
+        return response;
     }
 )
 

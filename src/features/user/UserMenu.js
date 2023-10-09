@@ -27,7 +27,7 @@ const UserMenu = () => {
                     }
                     <p className='d-inline'>{currentUser.first_name}</p>
                 </DropdownToggle>
-                <DropdownMenu classname='user-menu'>
+                <DropdownMenu className='user-menu'>
                     <DropdownItem>
                         <Link to='/account'>
                             My Account

@@ -77,6 +77,35 @@ div .btn:hover {
   color: grey;
 }
 
+/* HOME PAGE */
+
+.read-me-link p {
+  font-size: x-large;
+  padding-top: 1em;
+}
+
+.read-me-link {
+  text-decoration: none;
+  color: rgb(196, 31, 9);
+}
+
+/* ABOUT US */
+
+img.headshot {
+  border-radius: 10em;
+}
+
+.row.team-member {
+  display: flex;
+  align-items: center;
+  margin-bottom: 2em;
+}
+
+span.feature {
+  font-weight: bold;
+  color: rgb(196, 31, 9);
+}
+
 /* SERVICE LIST */
 
 .service-display {
@@ -92,8 +121,33 @@ div .btn:hover {
   background-color: rgb(184, 176, 176);
   border-radius: 1em;
   display: inline;
-  margin: 0.1em 0.4em 0em 0em;
+  margin: 0.2em 0.2em 0.2em 0em;
   padding: 0.2em 0.8em;
+}
+
+/* WORKER PROFILE PAGE */
+
+div.profile-page-header {
+  background-color: rgb(196, 31, 9);
+  padding: 0.5em;
+  margin-bottom: 2em;
+}
+
+div.profile-page-header div.col {
+  display: flex;
+  align-items: center;
+}
+
+div.profile-page-header .btn {
+  margin-left: auto;
+  font-size: small;
+}
+
+div.profile-page-header p {
+  color: white;
+  font-size: small;
+  margin-bottom: 0em;
+  padding-left: 0.5em;
 }
 
 /* WORKER CARD */
@@ -106,7 +160,7 @@ div .btn:hover {
 
 .worker-header {
   background-color: rgb(196, 31, 9);
-  margin-bottom: 0.3em;
+  margin-bottom: 0.7em;
   padding: 0.5em 0em;
 }
 
@@ -126,7 +180,7 @@ div .btn:hover {
 
 .profile-pic-small {
   border: 1px solid rgb(199, 199, 199);
-  border-radius: 5em;
+  border-radius: 10em;
 }
 
 .location {

@@ -3,16 +3,19 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
 import { useDispatch, useSelector } from 'react-redux';
 import { useState, useEffect } from 'react';
-import { getFilteredUsersArray, fetchWorkers } from '../features/users/usersSlice';
+import { fetchWorkers } from '../features/users/usersSlice';
 import WorkerList from '../features/workers/WorkerList';
 import { useParams } from "react-router-dom";
-import SubHeader from '../components/SubHeader';
+import { selectCurrentUser } from '../features/user/userSlice';
+import { useLocation } from 'react-router-dom';
+import GetGeocode from '../utils/GetGeocode';
 
 const ServicesPage = () => {
     const dispatch = useDispatch();
     const { service } = useParams();
-    const filteredWorkers = useSelector((state) => state.users.filteredUsersArray)
     const [filterString, setFilterString] = useState(service);
+    const currentUser = useSelector(selectCurrentUser);
+    const [userGeocode, setUserGeocode] = useState(null);
 
     useEffect(() => {
         setFilterString(service);
@@ -22,6 +25,20 @@ const ServicesPage = () => {
         getFilteredServices();
     }, [filterString]);
 
+    useEffect( () => {
+        if (currentUser) {
+            GetGeocode(currentUser.address)
+            .then((coordinates) => {
+                setUserGeocode(coordinates);
+                console.log(userGeocode.latitude, userGeocode.longitude);
+            })
+            .catch((error) => {
+                console.error(error);
+            })
+        } else {
+            setUserGeocode(null);
+        }
+    }, [currentUser])
 
     const getFilteredServices = () => {
         const data = {
@@ -38,7 +55,7 @@ const ServicesPage = () => {
                     <FontAwesomeIcon icon={faSearch} />
                 </Button>
             </div>
-            <WorkerList />
+            <WorkerList currentUserGeocode={userGeocode} />
         </Container>
     );
 };
