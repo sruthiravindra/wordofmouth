@@ -1,42 +1,31 @@
 import { useSelector } from "react-redux";
 import { useState, useEffect, useRef } from "react";
-import { selectCurrentUser, setCurrentUser } from "./userSlice";
+import { selectCurrentUser, userLogout  } from "./userSlice";
 import { Link } from "react-router-dom";
 import { DropdownMenu, DropdownToggle, Dropdown, DropdownItem } from 'reactstrap';
 import { useDispatch } from "react-redux";
-import { getImageSRC } from "../../utils/getImageSRC";
 
 const UserMenu = () => {
-    const [imgSRC, setImgSRC] = useState('');
     const currentUser = useSelector(selectCurrentUser);
     const [dropdownOpen, setDropdownOpen] = useState(false);
     const toggle = () => setDropdownOpen(!dropdownOpen);
     const dispatch = useDispatch();
     const logout = () => {
-        dispatch(setCurrentUser(null));
+        dispatch(userLogout())
     }
-    const [imageSRC, setImageSRC] = useState('');
-
-    useEffect(() => {
-        async function getImage () {
-            const imageDownload = await getImageSRC(currentUser.profilePic);
-            setImageSRC(imageDownload);
-        }
-        getImage();
-    }, [currentUser.profilePic])
 
     return(
         <>
             <Dropdown isOpen={dropdownOpen} toggle={toggle} style={{zIndex: 9999}}>
                 <DropdownToggle className='user-menu'>
-                    {imageSRC &&
+                    {currentUser.profile_pic &&
                         <img 
-                            src={imageSRC}
-                            alt={currentUser.username}
+                            src={currentUser.profile_pic}
+                            alt={currentUser.first_name}
                             style={{ width: '2.5rem', height: '2.5rem' }}
                         />
                     }
-                    <p className='d-inline'>{currentUser.username}</p>
+                    <p className='d-inline'>{currentUser.first_name}</p>
                 </DropdownToggle>
                 <DropdownMenu classname='user-menu'>
                     <DropdownItem>
