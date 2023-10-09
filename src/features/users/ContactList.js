@@ -1,5 +1,5 @@
 import ContactCard from './ContactCard';
-import { selectUsersByUserIdArray } from "../users/usersSlice";
+import { selectUsersByUserIdArray } from "./usersSlice";
 import { useSelector } from "react-redux";
 import { Container } from "reactstrap";
 
