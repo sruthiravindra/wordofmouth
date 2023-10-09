@@ -22,15 +22,15 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBars } from '@fortawesome/free-solid-svg-icons';
 import Login from '../../components/Login';
 
-const AccordionSubServices = ({ parentTitle} ) => {
-    const subservices = useSelector(selectServicesByParent(parentTitle));
+const AccordionSubServices = ({ parentId} ) => {
+    const subservices = useSelector(selectServicesByParent(parentId));
     return (
         <>
             {
                 subservices.map((subService, idx) => (
                     <NavLink
                         className="nav-link"
-                        to={`${subService.url}/${subService.title}`}
+                        to={`/services/${subService.title}`}
                         key={idx}
                     >
                         {subService.title}
@@ -41,14 +41,13 @@ const AccordionSubServices = ({ parentTitle} ) => {
     )
 }
 
-const DropdownSubservices = ({ parentTitle} ) => {
-    const subservices = useSelector(selectServicesByParent(parentTitle));
-
+const DropdownSubservices = ({ parentId} ) => {
+    const subservices = useSelector(selectServicesByParent(parentId));
     return (
         <>
             {
                 subservices.map((subService, idx) => (
-                    <NavLink className='nav-link' to={`${subService.url}/${subService.title}`} key={idx}>
+                    <NavLink className='nav-link' to={`/services/${subService.title}`} key={idx}>
                         <DropdownItem>{subService.title}</DropdownItem>
                     </NavLink>
                     )
@@ -132,7 +131,7 @@ const NavMenu = () => {
                                             <AccordionItem key={idx}>
                                                 <AccordionHeader targetId={idx}>{parentService.title}</AccordionHeader>
                                                 <AccordionBody accordionId={idx}>
-                                                    <AccordionSubServices parentTitle={parentService.title}/>
+                                                    <AccordionSubServices parentTitle={parentService._id}/>
                                                 </AccordionBody>
                                             </AccordionItem>
                                         )
@@ -155,7 +154,7 @@ const NavMenu = () => {
                                             >
                                                 <DropdownToggle nav>{parentService.title}</DropdownToggle>
                                                 <DropdownMenu>
-                                                    <DropdownSubservices parentTitle={parentService.title} />
+                                                    <DropdownSubservices parentId={parentService._id} />
                                                 </DropdownMenu>
                                             </Dropdown>
                                         )

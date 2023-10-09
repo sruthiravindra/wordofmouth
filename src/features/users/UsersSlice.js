@@ -5,7 +5,9 @@ import { searchServicesByTitle } from '../services/servicesSlice';
 import { setCurrentUser } from '../user/userSlice';
 import { functions } from '../../firebaseConfig';
 import { httpsCallable } from 'firebase/functions';
-import { axiosGet, axiosPost } from '../../utils/axiosConfig';
+import { axiosGet, axiosPost, axiosPut } from '../../utils/axiosConfig';
+import { baseUrl } from '../../app/shared/baseUrl';
+
 
 export const fetchUsers = createAsyncThunk(
     'users/fetchUsers',
@@ -32,20 +34,34 @@ export const updateUserProfilePic = createAsyncThunk(
     }
 )
 
+export const updateUserDetails = createAsyncThunk('users/updateUserDetails', 
+    async (data, {dispatch}) => {
 
-export const updateUserDetails = createAsyncThunk(
-    "users/updateUserDetails",
-    async(data,{dispatch}) =>{
-        try{
-            const updateUserCloud = httpsCallable(functions, 'updateUser');
-            const response = await updateUserCloud(data);
-            dispatch(fetchUsers);
-            dispatch(setCurrentUser(response.data.user));
-        }catch (e) {
-            return Promise.reject("Unable to update, status :" + e);
+    const bearer = 'Bearer ' + localStorage.getItem('token');
+    const response = await fetch(
+        baseUrl + 'profiles/' + data.currentUserId,
+        {
+            method: 'PUT',
+            headers: {
+                Authorization: bearer,
+                'Content-Type': 'application/json'
+            },
+            credentials: 'same-origin',
+            body: JSON.stringify(data.profile)
         }
+    );
+
+    if (!response.ok) {
+        return Promise.reject(
+            'Error updating profile' +
+                response.status
+        );
     }
-)
+    const returnval = await response.json();
+    await dispatch(setCurrentUser(returnval));
+
+    return returnval;
+});
 
 export const requestContact = createAsyncThunk(
     "users/requestContact",

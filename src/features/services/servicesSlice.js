@@ -1,20 +1,16 @@
 import { SERVICES } from '../../app/shared/SERVICES';
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import { collection, getDocs } from 'firebase/firestore';
-import { database } from '../../firebaseConfig';
+import { baseUrl } from '../../app/shared/baseUrl';
 
 export const fetchServices = createAsyncThunk(
     'services/fetchServices',
     async () => {
-        const collectionRef = collection(database, "serviceData");
-        const querySnapshot = await getDocs(collectionRef)
-        if (querySnapshot.empty || !querySnapshot.size) {
-            return Promise.reject('Unable to fetch, status: ' + querySnapshot.status);
+        const response = await fetch(baseUrl+'services');
+        if(!response.ok){
+            return Promise.reject('Unable to fetch, status: ' + response.status);
         }
-        const data = querySnapshot.docs.map((doc) => {
-                return { id:doc.id,...doc.data()};
-        })
-        return data
+        const data = await response.json();
+        return data;
     }
 )
 export const searchServicesByTitle = createAsyncThunk(
@@ -79,14 +75,12 @@ export const selectAllServices = (state) => {
     return state.services.servicesArray
 }
 export const selectParentServices = (state) => {
-    return state.services.servicesArray.filter(
-        (service) => service.parent === "self"
-    )
+    return state.services.servicesArray;
 };
 export const selectServicesByParent = (parent) => (state) => {
     return state.services.servicesArray.filter(
-        (service) => service.parent === parent
-    )
+        (service) => service._id === parent
+    )[0].sub_service;
 }
 
 
@@ -110,6 +104,6 @@ export const selectNavById = (id) => {
 
 export const selectServiceTitleById = (serviceIds) => (state) => {
     return serviceIds.map((id) => {
-        return state.services.servicesArray.find((service)=>service.id===id).title
+        return state.services.servicesArray.find((service)=>service._id===id).title
     })
 };

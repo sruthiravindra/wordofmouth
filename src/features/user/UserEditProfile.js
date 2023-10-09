@@ -1,6 +1,7 @@
 import React from "react";
 import { ErrorMessage, Field, Form, Formik } from "formik";
 import { useSelector } from 'react-redux';
+import { useRef } from "react";
 import { Container, Row, Col, FormGroup, Label, Button } from "reactstrap";
 import CustomPhoneField from "../../utils/CustomPhoneField";
 import { selectCurrentUser } from "./userSlice";
@@ -15,44 +16,10 @@ import DropdownTreeSelect from 'react-dropdown-tree-select'
 import 'react-dropdown-tree-select/dist/styles.css'
 import { selectAllServices } from "../services/servicesSlice";
 
-const ServicesDropdownList = ({ fldName, onFormChange, formik, ...rest }) => {
-    const allServices = useSelector(selectAllServices);
-
-    // convert array to hierarchical structure
-    const optionslist = Array.from(
-        allServices.reduce((acc, o) => {
-
-            // check if current item is parent if yes then set current id and name else find the parent item and set it id and name
-            const { id: value, title: label } = (o.parent === 'self') ? o : allServices.find(op => op.title === o.parent)
-
-            if (!acc.has(value)) acc.set(value, { value, label }) // if the current item's parent doesn't exist, create it in the Map
-
-            const parent = acc.get(value) // get the current parent
-            parent.children ??= [] // init children if it doesn't exist
-
-            if (o.id !== value) parent.children.push({"value": o.id, "label": o.title, "parent": o.parent}) // add the item to the children
-
-            return acc
-        }, new Map()).values()
-    ).filter(o => !o.hasOwnProperty('parent'))
-
-    const onChange = (currentNode, selectedNodes) => {
-        //onFormChange(selectedNodes);
-        console.log('onChange::', currentNode, selectedNodes)
-    }
-    const onAction = (node, action) => {
-        console.log('onAction::', action, node)
-    }
-    const onNodeToggle = currentNode => {
-        console.log('onNodeToggle::', currentNode)
-    }
-    return (
-        <DropdownTreeSelect name={fldName} data={optionslist} onChange={onChange} onAction={onAction} onNodeToggle={onNodeToggle} />
-    )
-}
 
 const UserEditProfile = (props) => {
     const currentUser = useSelector(selectCurrentUser);
+    const selectedValue = useRef(currentUser.services.map(subservice=> {return { "value": subservice._id, "label": subservice.title } }));
     const dispatch = useDispatch();
     const ref = React.createRef();
     const isLoading = useSelector((state) => state.user.currentUser.isLoading);
@@ -72,8 +39,32 @@ const UserEditProfile = (props) => {
             </Row>
         );
     }
+
+    const ServicesDropdownList = ({ fldName, onFormChange, formik, ...rest }) => {
+        const allServices = useSelector(selectAllServices);
+    
+            // convert array to hierarchical structure as per the requirement of the dropdown component
+            const optionslist = Array.from(
+                allServices.reduce((acc, o) => {
+                    
+                    const checked_state = selectedValue.current.filter(selectedservice => selectedservice.value === o._id).length === 0 ? false : true;
+                    acc.set(o._id, {"value": o._id, "label": o.title,  "checked": checked_state, "children": o.sub_service.map(subservice=> {return { "value": subservice._id, "label": subservice.title } })})
+    
+                    return acc
+                }, new Map()).values()
+            )
+        const onChange = (currentNode, selectedNodes) => {
+            selectedValue.current = selectedNodes;
+            console.log('onChange::', currentNode, selectedNodes, "selectedValue", selectedValue)
+        }
+        return (
+            <DropdownTreeSelect name={fldName} data={optionslist}  onChange={onChange} />
+        )
+    }
+
     const handleSubmit = (values) => {
-        dispatch(updateUserDetails({ id: currentUser.id, ...values }))
+        values.services = selectedValue.current.map(service=> service.value);
+        dispatch(updateUserDetails({ currentUserId: currentUser._id, profile:{ ...values} }))
         props.toggleEdit();
     }
     return (

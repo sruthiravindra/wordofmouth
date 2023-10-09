@@ -3,6 +3,7 @@ import SubHeader from "../components/SubHeader";
 import banner1 from '../app/assets/img/aboutus_banner_1.jpg';
 import TeamsList from '../features/teams/TeamsList';
 import effieHeadshot from '../app/assets/img/effie-headshot.png'
+import sruthiHeadshot from '../app/assets/img/sruthi-headshot.jpg'
 
 const AboutPage = () => {
     return (
@@ -26,9 +27,9 @@ const AboutPage = () => {
             <Row className='team-member'>
                 <Col xs='3' md='2'>
                     <img 
-                        src=''
+                        src={sruthiHeadshot}
                         alt='sruthi'
-                        className='img-fluid'
+                        className='img-fluid headshot'
                     />
                 </Col>
                 <Col>

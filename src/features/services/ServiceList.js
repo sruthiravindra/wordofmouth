@@ -3,16 +3,15 @@ import { Row, Col } from 'reactstrap';
 import { useSelector } from "react-redux";
 
 const ServiceList = ({ serviceIds }) => {
-    const serviceTitles = useSelector(selectServiceTitleById(serviceIds));
-    if (!serviceTitles) return (<p>no services yet</p>);
 
+    if(serviceIds.length === 0)return (<p>no services yet</p>);
     return (
         <Row>
             <Col className='service-display'>
                 {
-                    serviceTitles.map((service) => {
+                    serviceIds.map((service) => {
                         return (
-                            <p>{service}</p>
+                            <p>{service.title}</p>
                         );
                     })
                 }

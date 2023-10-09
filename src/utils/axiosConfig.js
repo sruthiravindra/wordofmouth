@@ -1,11 +1,10 @@
 import axios from 'axios';
-
-const baseURL = "https://us-central1-wordofmouth-alpha.cloudfunctions.net/api"
+import { baseUrl } from '../app/shared/baseUrl';
 const token = ""
 
 const get = async (path) => {
     try {
-        const request_url = baseURL + path;
+        const request_url = baseUrl + path;
         const request_header = {
             headers: {
                 // "Authorization": "Bearer " + token,
@@ -23,7 +22,7 @@ const get = async (path) => {
 
 const post = async (path, data) => {
     try {
-        const request_url = baseURL + path;
+        const request_url = baseUrl + path;
         const request_header = {
             headers: {
                 // "Authorization": "Bearer " + token,
@@ -37,5 +36,22 @@ const post = async (path, data) => {
     }
 }
 
+const put = async (path, data) => {
+    try {
+        const request_url = baseUrl + path;
+        const request_header = {
+            headers: {
+                // "Authorization": "Bearer " + token,
+                "Content-Type": "application/json"
+            }
+        }
+        const response = await axios.put(request_url, JSON.stringify(data), request_header);
+        return response.data;
+    } catch (err) {
+        console.error(err);
+    }
+}
+
 export const axiosGet = get;
 export const axiosPost = post;
+export const axiosPut = put;
