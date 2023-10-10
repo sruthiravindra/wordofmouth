@@ -42,7 +42,6 @@ const UserEditProfile = (props) => {
 
     const ServicesDropdownList = ({ fldName, onFormChange, formik, ...rest }) => {
         const allServices = useSelector(selectAllServices);
-
         // convert array to hierarchical structure as per the requirement of the dropdown component
         const optionslist = Array.from(
             allServices.reduce((acc, o) => {
@@ -52,8 +51,8 @@ const UserEditProfile = (props) => {
                     "value": o._id, "label": o.title, "checked": checked_state,
                     "children": o.sub_service.map(subservice => {
                         //console.log(subservice.title, selectedValue.current.filter(selectedservice => selectedservice === subservice._id).length === 0 ? false : true)
-                        checked_state = checked_state ? checked_state : (selectedValue.current.filter(selectedservice => selectedservice === subservice._id).length === 0 ? false : true);
-                        return { "value": subservice._id, "label": subservice.title, "checked": checked_state }
+                        const sub_checked_state = checked_state ? checked_state : (selectedValue.current.filter(selectedservice => selectedservice === subservice._id).length === 0 ? false : true);
+                        return { "value": subservice._id, "label": subservice.title, "checked": sub_checked_state }
                     })
                 })
 
@@ -61,7 +60,7 @@ const UserEditProfile = (props) => {
             }, new Map()).values()
         )
         const onChange = (currentNode, selectedNodes) => {
-            selectedValue.current = selectedNodes;
+            selectedValue.current = selectedNodes.map(nodes => nodes.value);
             console.log('onChange::', currentNode, selectedNodes, "selectedValue", selectedValue)
         }
         return (
@@ -70,7 +69,7 @@ const UserEditProfile = (props) => {
     }
 
     const handleSubmit = (values) => {
-        values.services = selectedValue.current.map(service => service.value);
+        values.services = selectedValue.current;
         dispatch(updateUserDetails({ currentUserId: currentUser._id, profile: { ...values } }))
         props.toggleEdit();
     }
@@ -131,7 +130,7 @@ const UserEditProfile = (props) => {
                                 </FormGroup>
 
                                 <FormGroup>
-                                    <Label htmlFor="services" >Services you can provide</Label>
+                                    <Label >Services you can provide</Label>
                                     <ServicesDropdownList
                                         ref={ref}
                                         fldName="services"

@@ -59,7 +59,7 @@ const UserLoginForm = (props) => {
                 <ModalBody>
                     <Formik
                         initialValues={{
-                            email: 'adevi',
+                            email: 'joshi.sujata@basyal.com',
                             password: 'e4990e01'
                         }}
                         onSubmit={LoginUser}
@@ -67,7 +67,7 @@ const UserLoginForm = (props) => {
                     >
                         <Form>
                             <FormGroup>
-                                <Label htmlFor="email">Email</Label>
+                                <Label htmlFor="email">Email / Phone Number</Label>
                                 <Field id="email" name="email" placeholder="email" className="form-control" />
                                 <ErrorMessage name='email'>
                                     {(msg) => <p className="text-danger">{msg}</p>}

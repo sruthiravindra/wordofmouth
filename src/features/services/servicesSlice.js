@@ -103,15 +103,17 @@ export const selectNavById = (id) => {
 };
 
 export const selectServiceTitleById = (serviceIds) => (state) => {
+
+    // since the services are in a hierarchical structure and a worker can choose from either parent or subservice
+    // we need to check both levels and pick the service titles
     let result = state.services.servicesArray.reduce((acc,value)=>{
         let item = [];
 
         // case: its in the parent 
         if(serviceIds.indexOf(value._id)>=0)item.push(value.title);
-        else{
+        else{ // checking if sub service selected
             value.sub_service.forEach(element => {
                 if(serviceIds.indexOf(element._id)>=0){
-                    console.log("here");
                     item.push(element.title);
                 }
             });
