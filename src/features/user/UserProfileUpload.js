@@ -1,7 +1,7 @@
 import { useSelector } from 'react-redux';
 import { useState } from "react";
 import { selectCurrentUser } from "./userSlice";
-import { updateUserDetails } from "../users/usersSlice";
+import { updateUserProfilePic } from "../users/usersSlice";
 import { useDispatch } from "react-redux";
 import { useEffect, useRef } from "react";
 import { getImageSRC } from '../../utils/getImageSRC';
@@ -13,21 +13,21 @@ import { faCircleArrowUp } from '@fortawesome/free-solid-svg-icons';
 const UserProfileUpload = () => {
     const currentUser = useSelector(selectCurrentUser);
     const dispatch = useDispatch();
-    const [imageSRC, setImageSRC] = useState('');
+    // const [imageSRC, setImageSRC] = useState('');
     const uploadedImage = useRef(undefined);
 
-    useEffect(() => {
-        async function getImage () {
-            const imageDownload = await getImageSRC(currentUser.profilePic);
-            setImageSRC(imageDownload);
-        }
-        getImage();
-    }, [currentUser.profilePic]);
+    // useEffect(() => {
+    //     async function getImage () {
+    //         const imageDownload = await getImageSRC(currentUser.profilePic);
+    //         setImageSRC(imageDownload);
+    //     }
+    //     getImage();
+    // }, [currentUser.profilePic]);
 
     const handleImageUpload = async () => {
-        const storageRef = ref(storage, `profile-pictures/${currentUser.id}`)
+        const storageRef = ref(storage, `profile-pictures/${currentUser._id}`)
         const metaData = { contentType: uploadedImage.current.type };
-        console.log(metaData);
+        console.log(`profile-pictures/${currentUser._id}`);
 
         const uploadTask = uploadBytesResumable(storageRef, uploadedImage.current, metaData);
         uploadTask.on(
@@ -43,10 +43,11 @@ const UserProfileUpload = () => {
             async () => {
                 try{
                     const downloadURL = await getDownloadURL(uploadTask.snapshot.ref)
-                    setImageSRC(downloadURL);
-                    dispatch(updateUserDetails({
-                        id: currentUser.id,
-                        profilePic: downloadURL
+                    console.log(downloadURL);
+                    // setImageSRC(downloadURL);
+                    dispatch(updateUserProfilePic({
+                        currentUserId: currentUser._id,
+                        profile_pic: downloadURL
                     }));
                 } catch (error) {
                     console.log(error.message);
