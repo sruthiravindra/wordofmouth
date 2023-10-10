@@ -19,7 +19,7 @@ import { selectAllServices } from "../services/servicesSlice";
 
 const UserEditProfile = (props) => {
     const currentUser = useSelector(selectCurrentUser);
-    const selectedValue = useRef(currentUser.services.map(subservice=> {return { "value": subservice._id, "label": subservice.title } }));
+    const selectedValue = useRef(currentUser.services);
     const dispatch = useDispatch();
     const ref = React.createRef();
     const isLoading = useSelector((state) => state.user.currentUser.isLoading);
@@ -42,29 +42,36 @@ const UserEditProfile = (props) => {
 
     const ServicesDropdownList = ({ fldName, onFormChange, formik, ...rest }) => {
         const allServices = useSelector(selectAllServices);
-    
-            // convert array to hierarchical structure as per the requirement of the dropdown component
-            const optionslist = Array.from(
-                allServices.reduce((acc, o) => {
-                    
-                    const checked_state = selectedValue.current.filter(selectedservice => selectedservice.value === o._id).length === 0 ? false : true;
-                    acc.set(o._id, {"value": o._id, "label": o.title,  "checked": checked_state, "children": o.sub_service.map(subservice=> {return { "value": subservice._id, "label": subservice.title } })})
-    
-                    return acc
-                }, new Map()).values()
-            )
+
+        // convert array to hierarchical structure as per the requirement of the dropdown component
+        const optionslist = Array.from(
+            allServices.reduce((acc, o) => {
+
+                let checked_state = selectedValue.current.filter(selectedservice => selectedservice === o._id).length === 0 ? false : true;
+                acc.set(o._id, {
+                    "value": o._id, "label": o.title, "checked": checked_state,
+                    "children": o.sub_service.map(subservice => {
+                        //console.log(subservice.title, selectedValue.current.filter(selectedservice => selectedservice === subservice._id).length === 0 ? false : true)
+                        checked_state = checked_state ? checked_state : (selectedValue.current.filter(selectedservice => selectedservice === subservice._id).length === 0 ? false : true);
+                        return { "value": subservice._id, "label": subservice.title, "checked": checked_state }
+                    })
+                })
+
+                return acc
+            }, new Map()).values()
+        )
         const onChange = (currentNode, selectedNodes) => {
             selectedValue.current = selectedNodes;
             console.log('onChange::', currentNode, selectedNodes, "selectedValue", selectedValue)
         }
         return (
-            <DropdownTreeSelect name={fldName} data={optionslist}  onChange={onChange} />
+            <DropdownTreeSelect name={fldName} data={optionslist} onChange={onChange} />
         )
     }
 
     const handleSubmit = (values) => {
-        values.services = selectedValue.current.map(service=> service.value);
-        dispatch(updateUserDetails({ currentUserId: currentUser._id, profile:{ ...values} }))
+        values.services = selectedValue.current.map(service => service.value);
+        dispatch(updateUserDetails({ currentUserId: currentUser._id, profile: { ...values } }))
         props.toggleEdit();
     }
     return (
@@ -132,7 +139,7 @@ const UserEditProfile = (props) => {
                                         defaultValue={currentUser.services}
                                         onFormChange={e => formik.setFieldValue("services", e)} />
                                 </FormGroup>
-                                <Button className='mb-4'type="submit">Submit</Button>
+                                <Button className='mb-4' type="submit">Submit</Button>
                                 <Button className='mb-4 mx-2' onClick={props.toggleEdit}>Cancel</Button>
                             </Form>
                         )}

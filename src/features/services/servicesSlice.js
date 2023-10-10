@@ -103,7 +103,24 @@ export const selectNavById = (id) => {
 };
 
 export const selectServiceTitleById = (serviceIds) => (state) => {
-    return serviceIds.map((id) => {
-        return state.services.servicesArray.find((service)=>service._id===id).title
-    })
+    let result = state.services.servicesArray.reduce((acc,value)=>{
+        let item = [];
+
+        // case: its in the parent 
+        if(serviceIds.indexOf(value._id)>=0)item.push(value.title);
+        else{
+            value.sub_service.forEach(element => {
+                if(serviceIds.indexOf(element._id)>=0){
+                    console.log("here");
+                    item.push(element.title);
+                }
+            });
+        }
+        //push the item in acc(accumulator) if it is not null
+        if (item && item.length > 0) {
+            acc.push(item);
+        }
+        return acc;
+    },[]);
+    return result.flat();
 };
