@@ -18,25 +18,55 @@ export const fetchUsers = createAsyncThunk(
     }
 )
 
+// export const updateUserProfilePic = createAsyncThunk(
+//     "users/updateUserProfilePic",
+//     async(data, {dispatch}) => {
+//         try{
+//             console.log('update user profile pic thunk called')
+//             console.log(data.image)
+//             const uploadProfilePic = httpsCallable(functions, 'uploadProfilePic');
+//             const response = await uploadProfilePic(data);
+//             console.log(response);
+//             dispatch(setCurrentUser(response.data.user));
+//         } catch (e) {
+//             return Promise.reject("Unable to update, status :" + e);
+//         }
+//     }
+// )
+
 export const updateUserProfilePic = createAsyncThunk(
-    "users/updateUserProfilePic",
-    async(data, {dispatch}) => {
-        try{
-            console.log('update user profile pic thunk called')
-            console.log(data.image)
-            const uploadProfilePic = httpsCallable(functions, 'uploadProfilePic');
-            const response = await uploadProfilePic(data);
-            console.log(response);
-            dispatch(setCurrentUser(response.data.user));
-        } catch (e) {
-            return Promise.reject("Unable to update, status :" + e);
+    'users/updateUserProfilePic',
+    async(data,{dispatch})=>{
+        console.log(data);
+        const bearer = 'Bearer ' + localStorage.getItem('token');
+        const response = await fetch(
+            baseUrl + 'profiles/' + data.currentUserId+'/updateProfilePic',
+            {
+                method: 'PUT',
+                headers: {
+                    Authorization: bearer,
+                    'Content-Type': 'application/json'
+                },
+                credentials: 'same-origin',
+                body: JSON.stringify({"profile_pic": data.profile_pic})
+            }
+        );
+
+        if (!response.ok) {
+            return Promise.reject(
+                'Error updating profile pic' +
+                    response.status
+            );
         }
+        const returnval = await response.json();
+        dispatch(setCurrentUser(returnval));    
     }
 )
 
 export const updateUserDetails = createAsyncThunk('users/updateUserDetails', 
     async (data, {dispatch}) => {
 
+        console.log(data.profile)
     const bearer = 'Bearer ' + localStorage.getItem('token');
     const response = await fetch(
         baseUrl + 'profiles/' + data.currentUserId,
@@ -58,7 +88,7 @@ export const updateUserDetails = createAsyncThunk('users/updateUserDetails',
         );
     }
     const returnval = await response.json();
-    await dispatch(setCurrentUser(returnval));
+    dispatch(setCurrentUser(returnval));
 
     return returnval;
 });
