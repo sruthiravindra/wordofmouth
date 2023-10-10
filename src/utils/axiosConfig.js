@@ -2,7 +2,7 @@ import axios from 'axios';
 import { baseUrl } from '../app/shared/baseUrl';
 const token = ""
 
-const get = async (path) => {
+const get = async (path, data) => {
     try {
         const request_url = baseUrl + path;
         const request_header = {
@@ -12,8 +12,7 @@ const get = async (path) => {
                 "Access-Control-Allow-Origin": "*"
             }
         }
-        const response = await axios.get(request_url, request_header);
-        console.log(`axios get response: ${response}`)
+        const response = await axios.get(request_url, JSON.stringify(data), request_header);
         return response.data;
     } catch (err) {
         console.error(err);

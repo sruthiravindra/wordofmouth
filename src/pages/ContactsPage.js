@@ -25,8 +25,9 @@ const ContactsPage = () => {
             </Nav>
             <TabContent activeTab={activeTab}>
                 <TabPane tabId='1'>
-                    {
-                        (currentUser.contacts.length === 0) ? (
+                    <p>Contacts will go here</p>
+                    {/* {
+                        currentUser.contacts ? (
                             <div className='contacts-message'>
                                 <h6>You don't have any contacts yet</h6>
                                 <p><a href='/services'>Start your search here</a></p>
@@ -35,11 +36,12 @@ const ContactsPage = () => {
                             <ContactList userIdArray={currentUser.contacts} />
                         )
                         
-                    }
+                    } */}
                 </TabPane>
                 <TabPane tabId='2'>
-                    {
-                        (currentUser.contactRequests.length === 0) ? (
+                    <p>contact requests will go here?</p>
+                    {/* {
+                        currentUser.contactRequests ? (
                             <div className='contacts-message'>
                                 <h6>You don't have any requests yet</h6>
                                 <p><a href='/services'>Start your search here</a></p>
@@ -47,7 +49,7 @@ const ContactsPage = () => {
                         ) : (
                             <ContactRequestList userIdArray={currentUser.contactRequests} />
                         )
-                    }
+                    } */}
                 </TabPane>
             </TabContent>
         </>
