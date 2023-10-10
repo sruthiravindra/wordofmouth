@@ -107,3 +107,22 @@ export const selectServiceTitleById = (serviceIds) => (state) => {
         return state.services.servicesArray.find((service)=>service._id===id).title
     })
 };
+
+export const selectServiceIdByTitle = (serviceTitle) => (state) => {
+    let foundService = null;
+    for (const service of state.services.servicesArray) {
+        if (service.title === serviceTitle) {
+            foundService = service;
+            break;
+        }
+        foundService = service.sub_service.map(sub_service => sub_service.title === serviceTitle );
+        if (foundService) {
+            break;
+        }
+    }
+    if (foundService) {
+        return foundService._id
+    } else {
+        return 'Unable to find service'
+    }
+}

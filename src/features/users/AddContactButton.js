@@ -1,7 +1,7 @@
 import { Button } from "reactstrap";
 import { useDispatch } from "react-redux";
 import { useState } from "react";
-import { addContact } from "./usersSlice";
+// import { addContact } from "./usersSlice";
 import { useSelector } from "react-redux";
 import { selectCurrentUser } from "../user/userSlice";
 
@@ -19,7 +19,7 @@ const AddContactButton = ({ contactId }) => {
                         "contactId": contactId,
                         "currentUserId": currentUser.id,
                     };
-                    dispatch(addContact(data));
+                    // dispatch(addContact(data));
                     setButtonClicked(true);
                 }}>
                 Add contact
