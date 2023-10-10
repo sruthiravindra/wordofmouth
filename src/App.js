@@ -23,7 +23,6 @@ function App() {
 
   useEffect(() => {
     dispatch(fetchServices());
-    dispatch(fetchUsers());
     dispatch(fetchReviews());
   }, [dispatch]);
   const currentUser = useSelector(selectCurrentUser);

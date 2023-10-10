@@ -1,12 +1,12 @@
 import WorkerCard from "./WorkerCard";
-import { selectWorkers } from "../users/usersSlice";
+import Loading from "../../components/Loading";
 import { useSelector } from "react-redux";
 import { Pagination, PaginationItem, PaginationLink } from "reactstrap";
 import { useState } from "react";
 
 const WorkerList = ({ currentUserGeocode }) => {
-    // const workers = useSelector(selectWorkers);
-    const workers = useSelector((state) => state.users.filteredUsersArray)
+    const workers = useSelector((state) => state.users.workerSearchArray)
+    const isLoading = useSelector((state) => state.users.isLoading)
 
     const [currentPage, setCurrentPage] = useState(0);
     const pageSize = 10;
@@ -20,7 +20,9 @@ const WorkerList = ({ currentUserGeocode }) => {
         searchElement.focus();
     }
 
-    return(
+    return isLoading ? (
+        <Loading />
+    ): (
         <>
             {
                 workers.slice(
