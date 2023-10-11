@@ -11,10 +11,11 @@ const initialState = {
 
 export const userSignup = createAsyncThunk(
     'user/signup',
-    async({username,password},{dispatch})=>{
+    async({username,password,firstName, lastName},{dispatch})=>{
+        console.log({ username, password, first_name: firstName, last_name: lastName })
         const response = await fetch(baseUrl+'users/signup',{
             method:'POST',
-            body:JSON.stringify({ username, password }),
+            body:JSON.stringify({ username, password, first_name: firstName, last_name: lastName }),
             headers: {
                 'Content-Type': 'application/json'
             }

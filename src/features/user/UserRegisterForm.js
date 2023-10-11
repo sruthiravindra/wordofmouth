@@ -1,7 +1,8 @@
 import { Formik, Field, Form, ErrorMessage } from "formik";
-import { FormGroup, Button, Label, ModalHeader, ModalBody, Modal } from "reactstrap";
+import { FormGroup, Button, Label, ModalHeader, ModalBody, Modal, Row, Col } from "reactstrap";
 import { validateUserRegisterForm } from "../../utils/validateUserRegisterForm";
 import { updateUserDetails } from "../users/usersSlice";
+import {userSignup} from "../user/userSlice";
 import { useDispatch } from "react-redux";
 import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
 import { database } from "../../firebaseConfig";
@@ -15,23 +16,37 @@ const UserRegisterForm = (props) => {
 
     const registerUser = async (values) => {
         try {
-            const userCredential = await createUserWithEmailAndPassword(auth, values.email, values.password);
-            const uid = userCredential.user.uid
-            const docRef = doc(database, `userData/${uid}`);
-
-            //wait for the doc to be added by the cloud function, then add the rest of the data captured in the register form
-            const listener = onSnapshot(docRef, (snapshot) => {
-                if (snapshot.exists) {
-                    console.log('user doc created');
-                    const user = {
-                        id: uid,
-                        firstName: values.firstName,
-                        lastName: values.lastName,
-                    }
-                    dispatch(updateUserDetails(user));
-                    listener();
+            dispatch(userSignup({
+                firstName: values.firstName,
+                lastName: values.lastName,
+                username: values.username,
+                password: values.password
+            }))
+            .then(response=>{
+                if(response.error){
+                    console.log(response.error);
+                    alert("Registration Failed!")
+                }else{
+                    setModalRegisterOpen(false);
                 }
-            });
+            })
+        //     const userCredential = await createUserWithEmailAndPassword(auth, values.email, values.password);
+        //     const uid = userCredential.user.uid
+        //     const docRef = doc(database, `userData/${uid}`);
+
+        //     //wait for the doc to be added by the cloud function, then add the rest of the data captured in the register form
+        //     const listener = onSnapshot(docRef, (snapshot) => {
+        //         if (snapshot.exists) {
+        //             console.log('user doc created');
+        //             const user = {
+        //                 id: uid,
+        //                 firstName: values.firstName,
+        //                 lastName: values.lastName,
+        //             }
+        //             dispatch(updateUserDetails(user));
+        //             listener();
+        //         }
+        //     });
         } catch (error) {
             alert(error.message);
         }
@@ -49,7 +64,7 @@ const UserRegisterForm = (props) => {
                         initialValues={{
                             firstName: '',
                             lastName: '',
-                            email: '',
+                            username: '',
                             password: '',
                             confirmPassword: ''
                         }}
@@ -57,36 +72,39 @@ const UserRegisterForm = (props) => {
                         validate={validateUserRegisterForm}
                     >
                         <Form>
+                            <Row>
+                                <Col md={"6"}>
+                                    <FormGroup>
+                                        <Field id="firstName" name="firstName" placeholder="First Name" className="form-control" />
+                                        <ErrorMessage name='firstName'>
+                                            {(msg) => <p className="text-danger">{msg}</p>}
+                                        </ErrorMessage>
+                                    </FormGroup>
+                                </Col>
+                                <Col md={"6"}>
+                                    <FormGroup>
+                                        <Field id="lastName" name="lastName" placeholder="Last Name" className="form-control" />
+                                        <ErrorMessage name='lastName'>
+                                            {(msg) => <p className="text-danger">{msg}</p>}
+                                        </ErrorMessage>
+                                    </FormGroup>
+                                </Col>
+                            </Row>
                             <FormGroup>
-                                <Label htmlFor="firstName">First Name</Label>
-                                <Field id="firstName" name="firstName" placeholder="Enter First Name" className="form-control" />
-                                <ErrorMessage name='firstName'>
+                                <Field id="username" name="username" placeholder="Email / Phone Number" className="form-control" />
+                                <ErrorMessage name='username'>
                                     {(msg) => <p className="text-danger">{msg}</p>}
                                 </ErrorMessage>
                             </FormGroup>
+
+
                             <FormGroup>
-                                <Label htmlFor="lastName">Last Name</Label>
-                                <Field id="lastName" name="lastName" placeholder="Enter Last Name" className="form-control" />
-                                <ErrorMessage name='lastName'>
-                                    {(msg) => <p className="text-danger">{msg}</p>}
-                                </ErrorMessage>
-                            </FormGroup>
-                            <FormGroup>
-                                <Label htmlFor="email">Email</Label>
-                                <Field id="email" name="email" placeholder="Enter Email" className="form-control" />
-                                <ErrorMessage name='email'>
-                                    {(msg) => <p className="text-danger">{msg}</p>}
-                                </ErrorMessage>
-                            </FormGroup>
-                            <FormGroup>
-                                <Label htmlFor="password">Password</Label>
                                 <Field id="password" name="password" placeholder="Enter Password" className="form-control" type="password" />
                                 <ErrorMessage name='password'>
                                     {(msg) => <p className="text-danger">{msg}</p>}
                                 </ErrorMessage>
                             </FormGroup>
                             <FormGroup>
-                                <Label htmlFor="confirmPassword">Confirm Password</Label>
                                 <Field id="confirmPassword" name="confirmPassword" placeholder="Enter Confirm Password" className="form-control" type="password" />
                                 <ErrorMessage name='confirmPassword'>
                                     {(msg) => <p className="text-danger">{msg}</p>}

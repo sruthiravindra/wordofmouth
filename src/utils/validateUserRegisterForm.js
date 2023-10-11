@@ -17,10 +17,18 @@ export const validateUserRegisterForm = (values) => {
         errors.lastName='cannot be more than 15 characters'
     }
 
-    if(!values.email){
-        errors.email = 'Required';
-    }else if(!values.email.includes('@')){
-        errors.email = 'Email should contain @';
+    if(!values.username){ // check if field is empty
+        errors.username = 'Required';
+    }else if(!values.username.includes('@')){ // check if not an email id then check if a valid phone number
+        const regex = /^([+]?[\s0-9]+)?(\d{3}|[(]?[0-9]+[)])?([-]?[\s]?[0-9])+$/i;
+        if((!values.username || regex.test(values.username) === false)){
+            errors.username = 'Enter a valid email id or phone number';
+        }
+    }else{ // check if its valid email id
+        const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if(!regex.test(values.username)){
+            errors.username = 'Enter a valid email id or phone number';
+        }
     }
 
     if(!values.password){
