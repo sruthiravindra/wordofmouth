@@ -31,7 +31,7 @@ const WorkerList = ({ currentUserGeocode }) => {
                 )
                 .map((worker) => {
                     return (
-                        <WorkerCard worker={worker} key={worker.id} currentUserGeocode={currentUserGeocode} />
+                        <WorkerCard worker={worker} key={worker._id} currentUserGeocode={currentUserGeocode} />
                     )
                 })
             }

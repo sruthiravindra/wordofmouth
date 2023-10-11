@@ -11,7 +11,7 @@ import getDistance from '../../utils/getDistance';
 import { current } from '@reduxjs/toolkit';
 
 const WorkerCard = ({ worker, currentUserGeocode }) => {
-    const {firstName, lastName, profilePic, id, rating, services, address} = worker;
+    const {first_name, last_name, profile_pic, _id: id, rating, services, address} = worker;
     const [distanceAway, setDistanceAway] = useState('...');
 
     useEffect(() => {
@@ -49,14 +49,14 @@ const WorkerCard = ({ worker, currentUserGeocode }) => {
                     <Col xs='3' sm='2' lg='1'>
                         <div class='flex-shrink-0'>
                             <img 
-                            src={profilePic} 
+                            src={profile_pic} 
                             alt='profile picture'
                             className='img-fluid profile-pic-small'/>
                         </div>
                     </Col>
                     <Col className='d-flex flex-column justify-content-center'>
                         <Link to={`/worker/${id}`} className='unstyledLink'>
-                            <h5 className='d-inline'>{firstName} {lastName}</h5>
+                            <h5 className='d-inline'>{first_name} {last_name}</h5>
                             <StarRating rating={rating}/><p className='d-inline'>({rating})</p>
                         </Link>
                         <div className='mt-2'>
