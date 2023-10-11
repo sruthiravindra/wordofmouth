@@ -1,6 +1,4 @@
 import { createSlice, createAsyncThunk, current } from '@reduxjs/toolkit';
-import { getDoc, doc, updateDoc } from 'firebase/firestore';
-import { database } from '../../firebaseConfig';
 import { searchServicesByTitle } from '../services/servicesSlice';
 import { setCurrentUser } from '../user/userSlice';
 import { functions } from '../../firebaseConfig';
@@ -8,6 +6,7 @@ import { httpsCallable } from 'firebase/functions';
 import { axiosGet, axiosPost, axiosPut } from '../../utils/axiosConfig';
 import { baseUrl } from '../../app/shared/baseUrl';
 
+// ============================ async actions =================================
 
 export const fetchUsers = createAsyncThunk(
     'users/fetchUsers',
@@ -18,18 +17,33 @@ export const fetchUsers = createAsyncThunk(
 )
 
 export const fetchWorkersByServiceId = createAsyncThunk(
-    "users/fetchWorkers",
-    async(serviceId, {dispatch})=>{
+    "users/fetchWorkersByServiceId",
+    async(serviceId) => {
         try{
             const response = await axiosGet(`workers/${serviceId}`);
             console.log("profiles", response.profiles);
             return response.profiles;
-        }catch(e){
-            return Promise.reject("Unable to fetch workers");
+        } catch(err) {
+            return Promise.reject("Unable to fetch workers by service id", err);
         }
     }
 )
 
+export const fetchWorkersByKeyword = createAsyncThunk(
+    "users/fetchWorkersByKeyword",
+    async(keyword) => {
+        if (!keyword) { return [] }
+        try {
+            const serviceIds = await axiosGet(`services/search/${keyword}`);
+            console.log(`service ids retreived with keyword ${keyword}`, serviceIds.serviceIds);
+            const response = await axiosPost(`workers/search/${keyword}`, serviceIds.serviceIds);
+            console.log('profiles retrieved', response.profiles);
+            return response.profiles;
+        } catch (err) {
+            return Promise.reject("Unable to fetch workers by keyword", err);
+        }
+    }
+)
 
 export const updateUserProfilePic = createAsyncThunk(
     "users/updateUserProfilePic",
@@ -76,6 +90,8 @@ export const updateUserDetails = createAsyncThunk('users/updateUserDetails',
     return returnval;
 });
 
+// ============================ slice definition =================================
+
 const initialState = {
     usersArray: [],
     workerSearchArray: [],
@@ -95,24 +111,6 @@ const usersSlice = createSlice({
             state.usersArray.find((user)=>user.id===action.payload.id).profilePic = action.payload.profilePic;
             return(state);
         },
-        // getFilteredUsersArray: (state, action) => {
-        //     let services = action.payload;
-        //     return (
-        //         {
-        //             ...state,
-        //             filteredUsersArray: state.usersArray.map((user) => {
-        //                 return (
-        //                     {
-        //                         ...user,
-        //                         isMatch: user.services.some(item => services.includes(item))
-        //                     }
-        //                 )
-        //             }).filter((user) => user.isMatch === true)
-        //         }
-
-        //     )
-        // },
-        updateRating: (state, action) => {}
     },
     extraReducers: {
         [fetchUsers.pending]: (state) => {
@@ -127,7 +125,6 @@ const usersSlice = createSlice({
             state.isLoading = false;
             state.errMsg = action.error ? action.error.message : 'Fetch failed';
         },
-
         [fetchWorkersByServiceId.pending]: (state) => {
             state.isLoading = true;
         },
@@ -140,7 +137,18 @@ const usersSlice = createSlice({
             state.isLoading = false;
             state.errMsg = action.error ? action.error.message : 'Fetch failed';
         },
-        
+        [fetchWorkersByKeyword.pending]: (state) => {
+            state.isLoading = true;
+        },
+        [fetchWorkersByKeyword.fulfilled]: (state, action) => {
+            state.isLoading = false;
+            state.errMsg = '';
+            state.workerSearchArray = action.payload;
+        },
+        [fetchWorkersByKeyword.rejected]: (state, action) => {
+            state.isLoading = false;
+            state.errMsg = action.error ? action.error.message : 'Fetch failed';
+        },
         [updateUserProfilePic.pending]: (state, action) => {
             state.isLoading = true;
             state.errMsg = '';
@@ -157,7 +165,9 @@ const usersSlice = createSlice({
 });
 
 export const usersReducers = usersSlice.reducer;
-export const { addUser, updateProfilePic, updateRating, setWorkerSearchArray } = usersSlice.actions;
+export const { addUser, updateProfilePic, updateRating } = usersSlice.actions;
+
+// ============================ selectors =================================
 
 export const selectAllUsers = (state) => {
     return state.users.usersArray;
@@ -181,6 +191,10 @@ export const selectUsersByUserIdArray = (userIdArray) => (state) => {
     return usersArray;
 };
 
+//OLD FIREBASE CODE
+
+// import { getDoc, doc, updateDoc } from 'firebase/firestore';
+// import { database } from '../../firebaseConfig';
 
 // export const addUsers = createAsyncThunk(
 //     'users/addUsers',
