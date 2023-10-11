@@ -42,7 +42,7 @@ const servicesSlice = createSlice({
                 {
                     ...state,
                     servicesByTitleArray: state.servicesArray.filter((service)=>{
-                        return ( matched_services.indexOf(service.id) != -1 ) || (matched_services.indexOf(service.parent) != -1)
+                        return ( matched_services.indexOf(service.id) !== -1 ) || (matched_services.indexOf(service.parent) !== -1)
                     })
                 }
 
@@ -71,6 +71,9 @@ const servicesSlice = createSlice({
 
 export const servicesReducer = servicesSlice.reducer;
 export const { searchServicesByTitleRed } = servicesSlice.actions;
+
+// selectors 
+
 export const selectAllServices = (state) => {
     return state.services.servicesArray
 }
@@ -82,26 +85,6 @@ export const selectServicesByParent = (parent) => (state) => {
         (service) => service._id === parent
     )[0].sub_service;
 }
-
-
-//local data selectors 
-
-export const selectAllNav = () => {
-    return SERVICES;
-};
-
-export const selectParentNav = () => {
-    return SERVICES.filter((nav) => nav.parent === nav.id);
-};
-
-export const selectSubmenu = (id) => {
-    return SERVICES.filter((nav) => nav.parent === parseInt(id) && nav.parent !== nav.id);
-};
-
-export const selectNavById = (id) => {
-    return SERVICES.find((navItem) => navItem.id === parseInt(id));
-};
-
 export const selectServiceTitleById = (serviceIds) => (state) => {
 
     // since the services are in a hierarchical structure and a worker can choose from either parent or subservice
@@ -134,7 +117,7 @@ export const selectServiceIdByTitle = (serviceTitle) => (state) => {
             foundService = service;
             break;
         }
-        foundService = service.sub_service.map(sub_service => sub_service.title === serviceTitle );
+        foundService = service.sub_service.find(sub_service => sub_service.title === serviceTitle );
         if (foundService) {
             break;
         }

@@ -1,41 +1,91 @@
+//library imports
 import { Container, Input, Button } from 'reactstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
 import { useDispatch, useSelector } from 'react-redux';
 import { useState, useEffect } from 'react';
 import { useParams } from "react-router-dom";
-import { fetchWorkersByServiceId } from '../features/users/usersSlice';
+//local imports
+import { fetchWorkersByServiceId, fetchWorkersByKeyword } from '../features/users/usersSlice';
 import { selectServiceIdByTitle } from '../features/services/servicesSlice';
 import WorkerList from '../features/workers/WorkerList';
 import Loading from '../components/Loading';
-// import { useLocation } from 'react-router-dom';
-// import GetGeocode from '../utils/GetGeocode';
-// import { selectCurrentUser } from '../features/user/userSlice';
 
 
 const ServicesPage = () => {
     const dispatch = useDispatch();
-    const { service } = useParams();
-    const serviceId = useSelector(selectServiceIdByTitle('salon'));
     const isLoading = useSelector((state) => state.services.isLoading);
+    const errMsg = useSelector((state) => state.users.errMsg);
+    const { keyword } = useParams();
+    const [filterString, setFilterString] = useState(keyword);
+    const [actionInProgress, setActionInProgress] = useState(false);
+    const [typingTimeout, setTypingTimeout] = useState(null);
+    const serviceId = useSelector(selectServiceIdByTitle(filterString));
 
-    const [filterString, setFilterString] = useState(service);
-    const [userGeocode, setUserGeocode] = useState(null);
-
+    //set the base value of the search bar to the param value
     useEffect(() => {
-        if (!isLoading) {
-            console.log(serviceId)
-            dispatch(fetchWorkersByServiceId(serviceId));
-        }
-    }, [isLoading, serviceId])
+        setFilterString(keyword);
+    }, [keyword]);
 
-    // useEffect(() => {
-    //     setFilterString(service);
-    // }, [service]);
+    //fetch workers when the component is first loaded based on param value
+    useEffect(() => {
+        if (!isLoading && !actionInProgress) {
+            if (serviceId !== 'Unable to find service') {
+                //this variable lets us enforce only one action at a time
+                setActionInProgress(true);
+                dispatch(fetchWorkersByServiceId(serviceId))
+                    .finally(() => setActionInProgress(false));
+            //to support misc values from search bar on home page
+            } else {
+                setActionInProgress(true);
+                dispatch(fetchWorkersByKeyword(keyword))
+                    .finally(() => setActionInProgress(false));
+            }
+        } 
+    }, [isLoading, keyword])
 
-    // useEffect(() => {
-    //     getFilteredServices();
-    // }, [filterString]);
+    return isLoading ? ( <Loading /> ) : errMsg ? ( <p>{errMsg}</p> ) : (
+        <Container>
+            <div className='d-flex my-4' id='search-bar'>
+                <Input 
+                    type='text' 
+                    placeholder='search' 
+                    value={filterString}
+                    //cotinue to fetch workers as user types
+                    onChange={e => {
+                        setFilterString(e.target.value)
+                        if (typingTimeout) {
+                            clearTimeout(typingTimeout)
+                        }
+                        const newTypingTimeout = setTimeout(() => {
+                            // The user has finished typing; execute your action here
+                            if (!isLoading && !actionInProgress) {
+                                setActionInProgress(true);
+                                console.log(`workers fetched by keyword ${e.target.value}`);
+                                dispatch(fetchWorkersByKeyword(e.target.value))
+                                  .finally(() => setActionInProgress(false));
+                            }
+                          }, 500);
+                          setTypingTimeout(newTypingTimeout);
+                    }} 
+                />
+                <Button className='mx-1'>
+                    <FontAwesomeIcon icon={faSearch} />
+                </Button>
+            </div>
+            <WorkerList currentUserGeocode={null} />
+        </Container>
+    );
+};
+
+export default ServicesPage;
+
+//OLD CODE
+
+// import { useLocation } from 'react-router-dom';
+// import GetGeocode from '../utils/GetGeocode';
+
+// const [userGeocode, setUserGeocode] = useState(null);
 
     // useEffect( () => {
     //     if (currentUser) {
@@ -58,20 +108,3 @@ const ServicesPage = () => {
     //     };
     //     dispatch(fetchWorkers(data))
     // }
-
-    return isLoading ? (
-        <Loading />
-    ) : (
-        <Container>
-            <div className='d-flex my-4' id='search-bar'>
-                <Input type='text' placeholder='search' onChange={e => setFilterString(e.target.value)} value={filterString}/>
-                <Button className='mx-1'>
-                    <FontAwesomeIcon icon={faSearch} />
-                </Button>
-            </div>
-            <WorkerList currentUserGeocode={userGeocode} />
-        </Container>
-    );
-};
-
-export default ServicesPage;

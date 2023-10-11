@@ -35,7 +35,7 @@ function App() {
         <Route path='about' element={<AboutPage/>}></Route>
         <Route path='contactus' element={<ContactUsPage/>}></Route>
         <Route path='services' element={<ServicesPage/>}></Route>
-        <Route path='services/:service' element={<ServicesPage/>}></Route>
+        <Route path='services/:keyword' element={<ServicesPage/>}></Route>
         <Route path='worker/:userId' element={<WorkerProfilePage/>}></Route>
         <Route path='contacts' element={<ContactsPage/>}></Route>
         <Route path='account' element={(currentUser == null || currentUser == undefined) ? <HomePage/> : <AccountPage/>}></Route>
