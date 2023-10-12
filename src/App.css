@@ -338,6 +338,14 @@ div.accordion {
   border-radius: 0em;
 }
 
+.navbar a.parent-nav-link {
+  text-decoration: none;
+  color: black;
+}
+
+.navbar a.parent-nav-link:hover {
+  color: rgb(196, 31, 9);
+}
 
 /* NAVBAR */
 
