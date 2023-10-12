@@ -4,6 +4,7 @@ import { userReducer } from '../features/user/userSlice';
 import { reviewsReducer } from '../features/reviews/reviewsSlice';
 import { usersReducers } from '../features/users/usersSlice';
 import { servicesReducer } from '../features/services/servicesSlice';
+import { requestsReducers } from '../features/requests/requestsSlice';
 
 export const store = configureStore({
   reducer: {
@@ -11,6 +12,7 @@ export const store = configureStore({
     user: userReducer,
     reviews: reviewsReducer,
     users: usersReducers,
-    services: servicesReducer
+    services: servicesReducer,
+    requests: requestsReducers
   },
 });
