@@ -87,6 +87,11 @@ export const selectServicesByParent = (parent) => (state) => {
 }
 export const selectServiceTitleById = (serviceIds) => (state) => {
 
+    // no services set for the user
+    if(!serviceIds){
+        const response = new Array();
+        return response;
+    }
     // since the services are in a hierarchical structure and a worker can choose from either parent or subservice
     // we need to check both levels and pick the service titles
     let result = state.services.servicesArray.reduce((acc,value)=>{

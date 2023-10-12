@@ -14,12 +14,11 @@ const ReviewForm = ({ userId }) => {
     const handleSubmit = (values) => {
         console.log(values);
         const review = {
-            userId: userId,
-            authorId: currentUser.id,
-            title: values.title,
+            reviewed_user_id: userId,
+            author_id: currentUser._id,
+            review_title: values.title,
             rating: values.rating,
-            reviewText: values.reviewText,
-            date: new Date(Date.now()).toISOString()
+            review_text: values.reviewText
         };
         console.log(review)
         dispatch(addReview(review));

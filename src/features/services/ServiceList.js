@@ -4,7 +4,7 @@ import { useSelector } from "react-redux";
 
 const ServiceList = ({ serviceIds }) => {
     const services = useSelector(selectServiceTitleById(serviceIds));
-    if(serviceIds.length === 0)return (<p>no services yet</p>);
+    if(!serviceIds || serviceIds.length === 0)return (<p>no services yet</p>);
     return (
         <Row>
             <Col className='service-display'>

@@ -1,12 +1,20 @@
 import { Container, Pagination, PaginationItem, PaginationLink } from 'reactstrap';
-import { useState } from 'react';
-import { useSelector } from 'react-redux';
-import { selectReviewsByUserId } from './reviewsSlice';
+import { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { selectReviewsByUserId, fetchReviews } from './reviewsSlice';
 import Review from './Review';
 import Loading from '../../components/Loading';
 
 const ReviewList = ({ userId }) => {
-    const reviews = useSelector(selectReviewsByUserId(userId));
+    // const reviews = useSelector(selectReviewsByUserId(userId));
+    const dispatch = useDispatch();
+    useEffect(()=>{
+        const filterdata = {filter_reviewed_user_id:userId};
+        console.log(filterdata);
+        dispatch(fetchReviews(filterdata));
+    },[])
+
+    const reviews = useSelector((state)=> state.reviews.reviewsArray);
     const isLoading = useSelector((state) => state.reviews.isLoading);
     const errMsg =useSelector((state) => state.reviews.errMsg);
     const pageSize = 4;

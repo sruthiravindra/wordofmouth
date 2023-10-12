@@ -16,6 +16,14 @@ export const fetchUsers = createAsyncThunk(
     }
 )
 
+export const fetchUser = createAsyncThunk(
+    'users/fetchUser',
+    async (userId) => {
+        const response = await axiosGet(`profiles/${userId}`);
+        console.log(response,"response");
+        return response;
+    }
+)
 export const fetchWorkersByServiceId = createAsyncThunk(
     "users/fetchWorkersByServiceId",
     async(serviceId) => {

@@ -1,8 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { collection } from 'firebase/firestore';
-import { database } from '../../firebaseConfig';
-import { getDocs, addDoc } from 'firebase/firestore';
+import { baseUrl } from '../../app/shared/baseUrl';
+
 
 const initialState = {
     reviewsArray: [],
@@ -12,30 +11,45 @@ const initialState = {
 
 export const fetchReviews = createAsyncThunk(
     'reviews/fetchReviews',
-    async () => {
-        const collectionRef = collection(database, "reviewData");
-        const querySnapshot = await getDocs(collectionRef);
-        if (querySnapshot.empty || !querySnapshot.size) {
-            return Promise.reject("Unable to fetch, status :" + querySnapshot.status);
-        }
-
-        const data = querySnapshot.docs.map((doc) => {
-            return { id:doc.id,...doc.data() }
+    async(filterdata)=>{
+        const response = await fetch(baseUrl + 'reviews/fetchReviews',{
+            body: JSON.stringify(filterdata),
+            method: 'POST',
+            headers:{
+                'Content-Type': 'application/json'
+            }
         });
+
+        if(!response.ok){
+            return Promise.reject(response.status);
+        }
+        const data = await response.json();
         return data;
     }
 )
 
 export const addReview = createAsyncThunk(
     'reviews/addReview',
-    async (data, {dispatch}) => {
-        try {
-            const collectionRef = collection(database, "reviewData");
-            await addDoc(collectionRef, data);
-            dispatch(postReview(data));
-        } catch (error) {
-            console.log(error.message);
+    async (postdata, { dispatch }) => {
+
+        const bearer = 'Bearer ' + localStorage.getItem('token');
+
+        const response = await fetch(baseUrl + 'reviews', {
+            body: JSON.stringify(postdata),
+            method: 'POST',
+            headers:{
+                Authorization: bearer,
+                'Content-Type':'application/json'
+            },
+            credentials: 'same-origin'
+        });
+
+        if(!response.ok){
+            return Promise.reject(response.status);
         }
+
+        const data = await response.json();
+        return data;
     }
 );
 
@@ -66,6 +80,7 @@ const reviewsSlice = createSlice({
         [addReview.fulfilled]: (state, action) => {
             state.isLoading = false;
             state.errMsg = '';
+            state.reviewsArray.push(action.payload)
         },
         [addReview.rejected]: (state, action) => {
             state.isLoading = false;
