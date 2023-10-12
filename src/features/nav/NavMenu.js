@@ -22,7 +22,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBars } from '@fortawesome/free-solid-svg-icons';
 import Login from '../../components/Login';
 
-const AccordionSubServices = ({ parentId} ) => {
+const AccordionSubServices = ({ parentId } ) => {
     const subservices = useSelector(selectServicesByParent(parentId));
     return (
         <>
@@ -41,7 +41,7 @@ const AccordionSubServices = ({ parentId} ) => {
     )
 }
 
-const DropdownSubservices = ({ parentId} ) => {
+const DropdownSubservices = ({ parentId } ) => {
     const subservices = useSelector(selectServicesByParent(parentId));
     return (
         <>
@@ -119,52 +119,57 @@ const NavMenu = () => {
             <Button onClick={() => setMenuOpen(!menuOpen)} className='d-md-none me-2'>
                 <FontAwesomeIcon icon={faBars} />
             </Button>
+            {/* login is rendered outside the collapse if accordion */}
            {isAccordion && (<Login />)}
-                <Collapse isOpen={menuOpen} navbar>
-                    <Nav className='mx-auto' navbar>
-                    {
-                        isAccordion ? (
-                            <Accordion open={accordionOpen} toggle={toggleAccordion}>
-                                {
-                                    parentServices.map((parentService, idx) => {
-                                        return (
-                                            <AccordionItem key={idx}>
-                                                <AccordionHeader targetId={idx}>{parentService.title}</AccordionHeader>
-                                                <AccordionBody accordionId={idx}>
-                                                    <AccordionSubServices parentTitle={parentService._id}/>
-                                                </AccordionBody>
-                                            </AccordionItem>
-                                        )
-                                    })
-                                }
-                            </Accordion>
-                        )
+            <Collapse isOpen={menuOpen} navbar>
+                <Nav className='mx-auto' navbar>
+                {
+                    isAccordion ? (
+                        <Accordion open={accordionOpen} toggle={toggleAccordion}>
+                            {
+                                parentServices.map((parentService, idx) => {
+                                    return (
+                                        <AccordionItem key={idx}>
+                                            <AccordionHeader targetId={idx}>{parentService.title}</AccordionHeader>
+                                            <AccordionBody accordionId={idx}>
+                                                <AccordionSubServices parentId={parentService._id}/>
+                                            </AccordionBody>
+                                        </AccordionItem>
+                                    )
+                                })
+                            }
+                        </Accordion>
+                    )
 
-                        : (
-                            <>
-                                {
-                                    parentServices.map((parentService, idx) => {
-                                        return (
-                                            <Dropdown 
-                                                nav 
-                                                isOpen={openDropdownIndex === idx} toggle={() => toggleDropdown(idx)}
-                                                onMouseEnter={()=> handleMouseEnter(idx)}
-                                                onMouseLeave={handleMouseLeave}
-                                                key={idx}
-                                            >
-                                                <DropdownToggle nav>{parentService.title}</DropdownToggle>
-                                                <DropdownMenu>
-                                                    <DropdownSubservices parentId={parentService._id} />
-                                                </DropdownMenu>
-                                            </Dropdown>
-                                        )
-                                    })
-                                }
-                            </>
-                        )
-                    }
-                </Nav>
-            </Collapse>
+                    : (
+                        <>
+                            {
+                                parentServices.map((parentService, idx) => {
+                                    return (
+                                        <Dropdown 
+                                            nav 
+                                            isOpen={openDropdownIndex === idx} toggle={() => toggleDropdown(idx)}
+                                            onMouseEnter={()=> handleMouseEnter(idx)}
+                                            onMouseLeave={handleMouseLeave}
+                                            key={idx}
+                                        >
+                                            <DropdownToggle nav>
+                                                <NavLink className='parent-nav-link' to={`/services/${parentService.title}`}>
+                                                {parentService.title}
+                                                </NavLink>
+                                            </DropdownToggle>
+                                            <DropdownMenu>
+                                                <DropdownSubservices parentId={parentService._id} />
+                                            </DropdownMenu>
+                                        </Dropdown>
+                                    )
+                                })
+                            }
+                        </>
+                    )
+                }
+            </Nav>
+        </Collapse>
             {isAccordion === false && (<Login />)}
     </Navbar>
     )
