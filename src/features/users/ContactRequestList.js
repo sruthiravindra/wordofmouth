@@ -1,16 +1,27 @@
+import { useSelector, useDispatch } from "react-redux";
+import { useEffect } from "react";
+import { fetchRequests } from "../requests/requestsSlice";
+import Loading from '../../components/Loading';
 import ContactRequestCard from './ContactRequestCard';
-import { selectUsersByUserIdArray } from "./usersSlice";
-import { useSelector } from "react-redux";
 
-const ContactList = ({ userIdArray }) => {
-    const contacts = useSelector(selectUsersByUserIdArray(userIdArray));
 
-    return(
+const ContactRequestList = () => {
+    const isLoading = useSelector((state) => state.requests.isLoading);
+    const errMsg = useSelector((state) => state.requests.errMsg);
+    const dispatch = useDispatch();
+    const contactRequests = useSelector((state) => state.requests.requestsArray);
+
+    useEffect(() => {
+        dispatch(fetchRequests());
+    }, [])
+
+    return isLoading ? (<Loading />) : errMsg ? (<p>{errMsg}</p>) 
+    : contactRequests.length === 0 ? (<p>No requests to display</p>) : (
         <>
             {
-                contacts.map((contact) => {
+                contactRequests.map((contact) => {
                     return (
-                        <ContactRequestCard contact={contact} key={contact.id}/>
+                        <ContactRequestCard contact={contact} key={contact._id}/>
                     )
                 })
             }
@@ -18,4 +29,4 @@ const ContactList = ({ userIdArray }) => {
     )
 };
 
-export default ContactList;
+export default ContactRequestList;

@@ -59,8 +59,8 @@ const UserLoginForm = (props) => {
                 <ModalBody>
                     <Formik
                         initialValues={{
-                            email: '',
-                            password: ''
+                            email: 'joshi.sujata@basyal.com',
+                            password: 'e4990e01'
                         }}
                         onSubmit={LoginUser}
                         validate={validateUserLoginForm}

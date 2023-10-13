@@ -1,31 +1,28 @@
 import { Nav, NavItem, NavLink, TabContent, TabPane } from 'reactstrap'
-import { selectCurrentUser } from '../features/user/userSlice';
-import { useSelector } from 'react-redux';
 import { useState } from 'react';
 import ContactList from '../features/users/ContactList';
 import ContactRequestList from '../features/users/ContactRequestList';
 
 const ContactsPage = () => {
-    const currentUser = useSelector(selectCurrentUser);
     const [activeTab, setActiveTab] = useState('1');
 
     return (
         <>
             <Nav tabs>
                 <NavItem>
-                    <NavLink className={activeTab == '1' ? 'active' : ''} onClick={() => setActiveTab('1')}>
+                    <NavLink className={activeTab === '1' ? 'active' : ''} onClick={() => setActiveTab('1')}>
                         Contacts
                     </NavLink>
                 </NavItem>
                 <NavItem>
-                    <NavLink className={activeTab == '2' ? 'active' : ''} onClick={() => setActiveTab('2')}>
+                    <NavLink className={activeTab === '2' ? 'active' : ''} onClick={() => setActiveTab('2')}>
                         Requests
                     </NavLink>
                 </NavItem>
             </Nav>
             <TabContent activeTab={activeTab}>
                 <TabPane tabId='1'>
-                    <p>Contacts will go here</p>
+                    <ContactList />
                     {/* {
                         currentUser.contacts ? (
                             <div className='contacts-message'>
@@ -39,7 +36,7 @@ const ContactsPage = () => {
                     } */}
                 </TabPane>
                 <TabPane tabId='2'>
-                    <p>contact requests will go here?</p>
+                    <ContactRequestList />
                     {/* {
                         currentUser.contactRequests ? (
                             <div className='contacts-message'>

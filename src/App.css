@@ -347,6 +347,13 @@ div.accordion {
   color: rgb(196, 31, 9);
 }
 
+/* USER MENU */
+
+button.dropdown-item a.nav-link {
+  color: black;
+  padding: 0;
+}
+
 /* NAVBAR */
 
 div.logo  a {
@@ -380,4 +387,20 @@ div.logo h1 {
 
 .navbar button.user-menu img {
   border-radius: 5em;
+}
+
+/* CONTACT CARD */
+
+div.contact-card-info {
+  display: flex;
+  align-items: center;
+}
+
+img.contact-img {
+  border-radius: 10em;
+}
+
+div.contact-card {
+  padding: 0.5em;
+  margin-bottom: 2em;
 }

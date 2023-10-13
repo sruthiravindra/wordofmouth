@@ -1,9 +1,8 @@
-import { createSlice, createAsyncThunk, current } from '@reduxjs/toolkit';
-import { searchServicesByTitle } from '../services/servicesSlice';
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { setCurrentUser } from '../user/userSlice';
 import { functions } from '../../firebaseConfig';
 import { httpsCallable } from 'firebase/functions';
-import { axiosGet, axiosPost, axiosPut } from '../../utils/axiosConfig';
+import { axiosGet, axiosPost } from '../../utils/axiosConfig';
 import { baseUrl } from '../../app/shared/baseUrl';
 
 // ============================ async actions =================================
@@ -20,7 +19,6 @@ export const fetchUser = createAsyncThunk(
     'users/fetchUser',
     async (userId) => {
         const response = await axiosGet(`profiles/${userId}`);
-        console.log(response,"response");
         return response;
     }
 )
@@ -29,7 +27,6 @@ export const fetchWorkersByServiceId = createAsyncThunk(
     async(serviceId) => {
         try{
             const response = await axiosGet(`workers/${serviceId}`);
-            console.log("profiles", response.profiles);
             return response.profiles;
         } catch(err) {
             return Promise.reject("Unable to fetch workers by service id", err);

@@ -9,9 +9,9 @@ const ServiceList = ({ serviceIds }) => {
         <Row>
             <Col className='service-display'>
                 {
-                    services.map((service, indx) => {
+                    services.map((service, idx) => {
                         return (
-                            <p>{service}</p>
+                            <p key={idx}>{service}</p>
                         );
                     })
                 }

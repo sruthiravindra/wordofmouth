@@ -130,8 +130,8 @@ const NavMenu = () => {
                                 parentServices.map((parentService, idx) => {
                                     return (
                                         <AccordionItem key={idx}>
-                                            <AccordionHeader targetId={idx}>{parentService.title}</AccordionHeader>
-                                            <AccordionBody accordionId={idx}>
+                                            <AccordionHeader targetId={idx.toString()}>{parentService.title}</AccordionHeader>
+                                            <AccordionBody accordionId={idx.toString()}>
                                                 <AccordionSubServices parentId={parentService._id}/>
                                             </AccordionBody>
                                         </AccordionItem>

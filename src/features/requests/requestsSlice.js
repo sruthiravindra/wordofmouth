@@ -1,32 +1,24 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { axiosGet, axiosPost } from '../../utils/axiosConfig';
 
-export const fetchSentRequests = createAsyncThunk(
-    'requests/fetchSentRequests',
-    async (currentProfileId) => {
+export const fetchRequests = createAsyncThunk(
+    'requests/fetchRequests',
+    async () => {
         try {
-
+            const response = await axiosGet('requests');
+            return response;
         } catch (err) {
             return Promise.reject("Unable to fetch sent requests", err);
         }
     }   
 )
 
-export const fetchReceivedRequests = createAsyncThunk(
-    'requests/fetchReceivedRequests',
-    async (currentProfileId) => {
-        try {
-
-        } catch (err) {
-            return Promise.reject("Unable to fetch received requests", err);
-        }
-    }   
-)
-
 export const createRequest = createAsyncThunk(
-    async (currentProfileId, requestedProfileId) => {
+    'requests/createRequest',
+    async (request) => {
         try {
-
+            const response = await axiosPost('requests', request)
+            return response;
         } catch (err) {
             return Promise.reject("Unable to send request", err);
         }
@@ -45,9 +37,8 @@ export const updateRequest = createAsyncThunk(
 )
 
 const initialState = {
-    sentRequestsArray: [],
-    receivedRequestsArray: [],
-    isLoading: true,
+    requestsArray: [],
+    isLoading: false,
     errMsg: '',
 }
 
@@ -56,27 +47,15 @@ const requestsSlice = createSlice({
     initialState,
     reducers: {},
     extraReducers: {
-        [fetchSentRequests.pending]: (state) => {
+        [fetchRequests.pending]: (state) => {
             state.isLoading = true;
         },
-        [fetchSentRequests.fulfilled]: (state, action) => {
+        [fetchRequests.fulfilled]: (state, action) => {
             state.isLoading = false;
             state.errMsg = '';
-            state.sentRequestsArray = action.payload;
+            state.requestsArray = action.payload;
         },
-        [fetchSentRequests.rejected]: (state, action) => {
-            state.isLoading = false;
-            state.errMsg = action.error ? action.error.message : 'Fetch failed';
-        },
-        [fetchReceivedRequests.pending]: (state) => {
-            state.isLoading = true;
-        },
-        [fetchReceivedRequests.fulfilled]: (state, action) => {
-            state.isLoading = false;
-            state.errMsg = '';
-            state.receivedRequestsArray = action.payload;
-        },
-        [fetchReceivedRequests.rejected]: (state, action) => {
+        [fetchRequests.rejected]: (state, action) => {
             state.isLoading = false;
             state.errMsg = action.error ? action.error.message : 'Fetch failed';
         },
