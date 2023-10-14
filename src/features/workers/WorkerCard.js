@@ -2,7 +2,7 @@
 import { Card, Button, Col, Row, Container } from 'reactstrap';
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faLocationDot } from '@fortawesome/free-solid-svg-icons';
+import { faLocationDot, faPhone, faEnvelope } from '@fortawesome/free-solid-svg-icons';
 import { useDispatch, useSelector } from 'react-redux';
 //local imports
 import StarRating from '../reviews/StarRating';
@@ -12,8 +12,10 @@ import { createRequest } from '../requests/requestsSlice';
 import { selectCurrentUser } from '../user/userSlice';
 
 const WorkerCard = ({ worker }) => {
-    const {first_name, last_name, profile_pic, _id: id, rating, services, address} = worker;
+    const {first_name, last_name, profile_pic, _id: id, rating, services, email, phone, address} = worker;
     const currentUser = useSelector(selectCurrentUser);
+    const inContacts = null;
+    if (currentUser) { inContacts = currentUser.contacts.find(contact => contact._id === id) }
     const dispatch = useDispatch();
 
     const requestContact = () => {
@@ -28,8 +30,23 @@ const WorkerCard = ({ worker }) => {
         }
     }
 
+    const RequestContactButton = () => {
+        return inContacts ?
+        (<>
+            {phone && (
+                <Button>
+                    <FontAwesomeIcon icon={faPhone} />
+                </Button>)}
+            {email && (
+                <Button>
+                    <FontAwesomeIcon icon={faEnvelope} />
+                </Button>)}
+        </>)
+        : (<Button onClick={requestContact}>Request Contact</Button>)
+    }
+
     return (
-        <Card className='worker-card p-0'>
+        <Card className={ inContacts ? 'worker-card-in-contacts' : 'worker-card'}>
             <Container fluid>
                 <Row className='worker-header'>
                     <Col className='location' xs='8'>
@@ -37,7 +54,7 @@ const WorkerCard = ({ worker }) => {
                         <p className='d-inline mb-0'>{`... km away`}</p>
                     </Col>
                     <Col className='request-btn-col'>
-                        <Button onClick={requestContact}>Request Contact</Button>
+                        <RequestContactButton />
                     </Col>
                 </Row>
                 <Row>

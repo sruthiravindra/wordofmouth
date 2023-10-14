@@ -203,6 +203,35 @@ div.profile-page-header p {
   font-size: 1.25rem;
 }
 
+p.in-your-contacts {
+  color: white;
+  opacity: 0.7;
+  font-style: italic;
+  margin-bottom: 0;
+}
+
+/* WORKER CARD (IN CONTACTS) */
+
+.card.worker-card-in-contacts {
+  margin-bottom: 1em;
+  border-radius: 0em;
+  background-color: rgb(241, 246, 246);
+}
+
+.card.worker-card-in-contacts .worker-header {
+  background-color: rgb(52, 118, 129);
+  margin-bottom: 0.7em;
+  padding: 0.5em 0em;
+}
+
+.card.worker-card-in-contacts button {
+  background-color: rgb(111, 160, 168);
+  border: none;
+}
+
+.card.worker-card-in-contacts button:hover {
+  color: rgb(34, 95, 106);
+}
 
 /* FOOTER */
 
