@@ -119,7 +119,8 @@ const usersSlice = createSlice({
             state.errMsg = '';
             state.isLoading = false;
             state.currentUser = null;
-            localStorage.setItem('currentUserProfile', "")
+            localStorage.removeItem('currentUserProfile', "");
+            localStorage.removeItem('token');
         },
         [userLogout.rejected]: (state) => {
             state.isLoading = false;
