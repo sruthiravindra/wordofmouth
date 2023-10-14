@@ -51,18 +51,31 @@ export const fetchWorkersByKeyword = createAsyncThunk(
 )
 
 export const updateUserProfilePic = createAsyncThunk(
-    "users/updateUserProfilePic",
-    async(data, {dispatch}) => {
-        try{
-            console.log('update user profile pic thunk called')
-            console.log(data.image)
-            const uploadProfilePic = httpsCallable(functions, 'uploadProfilePic');
-            const response = await uploadProfilePic(data);
-            console.log(response);
-            dispatch(setCurrentUser(response.data.user));
-        } catch (e) {
-            return Promise.reject("Unable to update, status :" + e);
+    'users/updateUserProfilePic',
+    async(data,{dispatch})=>{
+
+        const bearer = 'Bearer ' + localStorage.getItem('token');
+        const response = await fetch(
+            baseUrl + 'profiles/' + data.currentUserId+'/updateProfilePic',
+            {
+                method: 'PUT',
+                headers: {
+                    Authorization: bearer,
+                    'Content-Type': 'application/json'
+                },
+                credentials: 'same-origin',
+                body: JSON.stringify({"profile_pic": data.profile_pic})
+            }
+        );
+
+        if (!response.ok) {
+            return Promise.reject(
+                'Error updating profile pic' +
+                    response.status
+            );
         }
+        const returnval = await response.json();
+        dispatch(setCurrentUser(returnval));    
     }
 )
 

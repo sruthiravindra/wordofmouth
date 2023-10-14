@@ -16,6 +16,8 @@ import { fetchServices } from './features/services/servicesSlice';
 import { fetchReviews } from './features/reviews/reviewsSlice';
 import { selectCurrentUser, setCurrentUser } from "./features/user/userSlice";
 import { useSelector } from 'react-redux';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function App() {
   const dispatch = useDispatch();
@@ -29,19 +31,20 @@ function App() {
   const currentUser = useSelector(selectCurrentUser);
   return (
     <div className="App">
-      <NavMenu/>
+      <ToastContainer theme="dark" autoClose={3000} />
+      <NavMenu />
       <Routes>
         {/* Public routes */}
-        <Route path='/' element={<HomePage/>}></Route>
-        <Route path='about' element={<AboutPage/>}></Route>
-        <Route path='contactus' element={<ContactUsPage/>}></Route>
-        <Route path='services' element={<ServicesPage/>}></Route>
-        <Route path='services/:keyword' element={<ServicesPage/>}></Route>
-        <Route path='worker/:userId' element={<WorkerProfilePage/>}></Route>
-        <Route path='contacts' element={ currentUser === null || currentUser === undefined ? <HomePage/> : <ContactsPage/>}></Route>
-        <Route path='account' element={(currentUser === null || currentUser === undefined) ? <HomePage/> : <AccountPage/>}></Route>
+        <Route path='/' element={<HomePage />}></Route>
+        <Route path='about' element={<AboutPage />}></Route>
+        <Route path='contactus' element={<ContactUsPage />}></Route>
+        <Route path='services' element={<ServicesPage />}></Route>
+        <Route path='services/:keyword' element={<ServicesPage />}></Route>
+        <Route path='worker/:userId' element={<WorkerProfilePage />}></Route>
+        <Route path='contacts' element={currentUser === null || currentUser === undefined ? <HomePage /> : <ContactsPage />}></Route>
+        <Route path='account' element={(currentUser === null || currentUser === undefined) ? <HomePage /> : <AccountPage />}></Route>
       </Routes>
-      <Footer/>
+      <Footer />
     </div>
 
   );

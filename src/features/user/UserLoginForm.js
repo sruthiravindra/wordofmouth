@@ -8,7 +8,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { selectCurrentUser } from "../user/userSlice";
 import UserMenu from "./UserMenu";
 import { userLogin } from './userSlice';
-
+import { toast } from "react-toastify";
 
 // import { selectAllUsers, selectUserByEmailPassword } from "../users/usersSlice";
 // import { getAuth } from "firebase/auth";
@@ -30,9 +30,10 @@ const UserLoginForm = (props) => {
         )
             .then(response => {
                 if (response.error) {
-                    alert("Login Failed!!!")
+                    toast("Login Failed!!! :: " + response.error.message);
                 } else {
                     setModalLoginOpen(false);
+                    toast("Login Successful!!!");
 
                 }
 

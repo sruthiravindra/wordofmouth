@@ -4,6 +4,7 @@ import { selectCurrentUser, userLogout  } from "./userSlice";
 import { NavLink } from "react-router-dom";
 import { DropdownMenu, DropdownToggle, Dropdown, DropdownItem } from 'reactstrap';
 import { useDispatch } from "react-redux";
+import { toast } from "react-toastify";
 
 const UserMenu = () => {
     const currentUser = useSelector(selectCurrentUser);
@@ -12,6 +13,7 @@ const UserMenu = () => {
     const dispatch = useDispatch();
     const logout = () => {
         dispatch(userLogout())
+                    toast("Logout Successfull!!! ");
     }
 
     return(
