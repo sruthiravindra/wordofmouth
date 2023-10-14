@@ -23,8 +23,8 @@ function App() {
   useEffect(() => {
     dispatch(fetchServices());
     dispatch(fetchReviews());
-    // const currentUserProfile = JSON.parse(localStorage.getItem('currentUserProfile'));
-    // dispatch(setCurrentUser({ profile: currentUserProfile }))
+    const currentUserProfile = JSON.parse(localStorage.getItem('currentUserProfile'));
+    dispatch(setCurrentUser({ profile: currentUserProfile }))
   }, [dispatch]);
   const currentUser = useSelector(selectCurrentUser);
   return (
