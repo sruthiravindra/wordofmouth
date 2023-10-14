@@ -203,6 +203,35 @@ div.profile-page-header p {
   font-size: 1.25rem;
 }
 
+p.in-your-contacts {
+  color: white;
+  opacity: 0.7;
+  font-style: italic;
+  margin-bottom: 0;
+}
+
+/* WORKER CARD (IN CONTACTS) */
+
+.card.worker-card-in-contacts {
+  margin-bottom: 1em;
+  border-radius: 0em;
+  background-color: rgb(241, 246, 246);
+}
+
+.card.worker-card-in-contacts .worker-header {
+  background-color: rgb(52, 118, 129);
+  margin-bottom: 0.7em;
+  padding: 0.5em 0em;
+}
+
+.card.worker-card-in-contacts button {
+  background-color: rgb(111, 160, 168);
+  border: none;
+}
+
+.card.worker-card-in-contacts button:hover {
+  color: rgb(34, 95, 106);
+}
 
 /* FOOTER */
 
@@ -347,6 +376,13 @@ div.accordion {
   color: rgb(196, 31, 9);
 }
 
+/* USER MENU */
+
+button.dropdown-item a.nav-link {
+  color: black;
+  padding: 0;
+}
+
 /* NAVBAR */
 
 div.logo  a {
@@ -380,4 +416,84 @@ div.logo h1 {
 
 .navbar button.user-menu img {
   border-radius: 5em;
+}
+
+/* CONTACT CARD */
+
+div.contact-card {
+  padding: 0.5em;
+  margin: 0.5em;
+  background-color: rgb(246, 241, 241);
+}
+
+img.contact-img {
+  border-radius: 10em;
+  border: 1px solid rgb(199, 199, 199);
+}
+
+div.contact-card-info {
+  display: flex;
+  align-items: center;
+}
+
+div.contact-info-btns {
+  display: flex;
+  flex-grow: 1;
+  justify-content: end;
+}
+
+div.contact-info-btns button {
+  display: flex;
+  align-items: center;
+  margin-left: 0.5em;
+  padding: 0.25em 0.5em;
+  background-color: white;
+}
+
+div.contact-info-btns svg {
+  margin: 0em 0.35em;
+}
+
+/* CONTACT REQUEST CARD */
+
+div.contact-request {
+  padding: 0.25em;
+  margin: 0.5em;
+  background-color: rgb(247, 239, 214);
+}
+
+div.contact-request.sent {
+  background-color: rgb(243, 243, 243);
+}
+
+div.contact-request-info {
+  display: flex;
+  align-items: center;
+}
+
+button.request-reply-btn {
+  margin-right: 0.5em;
+  color: green;
+  border: 1px solid green;
+}
+
+button.request-reply-btn:hover {
+  color: green;
+  border: 1px solid green;
+  background-color: rgb(225, 235, 225);
+}
+
+button.request-reply-btn.decline {
+  color: grey;
+  border: 1px solid grey;
+}
+
+button.request-reply-btn.decline:hover {
+  background-color: rgb(239, 239, 239);
+}
+
+div.contact-request-btns {
+  display: flex;
+  align-items: center;
+  justify-content: end;
 }

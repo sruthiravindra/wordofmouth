@@ -3,7 +3,7 @@ import { baseUrl } from '../../app/shared/baseUrl';
 
 const initialState = {
     currentUser:null,
-    isLoading: false,
+    isLoading: true,
     isAuthenticated: localStorage.getItem('token') ? true : false,
     token: localStorage.getItem('token'),
     errMsg:''
@@ -86,6 +86,7 @@ const usersSlice = createSlice({
             //     currentUser: action.payload 
             // }
             state.currentUser = action.payload.profile;
+            state.isLoading = false;
         },
         clearCurrentUser: (state) => {
             state.isAuthenticated = false;
@@ -103,9 +104,11 @@ const usersSlice = createSlice({
         [userLogin.fulfilled]: (state, action) => {
             state.isLoading = false;
             localStorage.setItem('token', action.payload.token);
+            localStorage.setItem('currentUserProfile', JSON.stringify(action.payload.profile));
             console.log(
                 `Login successful for user with _id: ${action.payload.id}`
             );
+            console.log('setting profile in local storage', action.payload.profile)
         },
         [userLogin.rejected]: (state, action) => {
             state.isLoading = false;
@@ -116,6 +119,7 @@ const usersSlice = createSlice({
             state.errMsg = '';
             state.isLoading = false;
             state.currentUser = null;
+            localStorage.setItem('currentUserProfile', "")
         },
         [userLogout.rejected]: (state) => {
             state.isLoading = false;

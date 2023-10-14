@@ -6,11 +6,11 @@ const StarRating = (props) => {
         <div className='d-inline mx-2'>
             {
                 // updated by sruthi: start :: changed the star rating to display based on rating value
-                rate_weightage.map((weight)=>{
+                rate_weightage.map((weight, idx)=>{
                     return (
-                    (props.rating>=weight) ? <i className='fa fa-star'></i> :
-                    (((weight-props.rating)<1) ? <i className='fa fa-star-half-o'></i> :
-                    <i className='fa fa-star-o'></i> )
+                        (props.rating>=weight) ? <i className='fa fa-star' key={idx}></i> 
+                        : (((weight-props.rating)<1) ? <i className='fa fa-star-half-o' key={idx}></i> 
+                        : <i className='fa fa-star-o' key={idx}></i> )
                     );
                 })
                 // updated by sruthi: end :: changed the star rating to display based on rating value
