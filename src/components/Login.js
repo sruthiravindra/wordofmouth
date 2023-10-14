@@ -26,7 +26,7 @@ const Login = () => {
                         onFormSwitch={toggleForm} 
                         setModalLoginOpen={setModalLoginOpen} 
                         modalLoginOpen={modalLoginOpen} 
-                    />
+                                            />
                     <UserRegisterForm 
                         onFormSwitch={toggleForm} 
                         setModalRegisterOpen={setModalRegisterOpen} 

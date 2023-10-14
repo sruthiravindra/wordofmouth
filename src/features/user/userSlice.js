@@ -86,6 +86,12 @@ const usersSlice = createSlice({
             //     currentUser: action.payload 
             // }
             state.currentUser = action.payload.profile;
+        },
+        clearCurrentUser: (state) => {
+            state.isAuthenticated = false;
+            state.currentUser = [];
+            state.isLoading = false;
+            localStorage.removeItem('token');
         }
     },
         extraReducers:{
@@ -120,8 +126,9 @@ const usersSlice = createSlice({
 });
 
 export const userReducer = usersSlice.reducer;
-export const {setCurrentUser} = usersSlice.actions;
+export const {setCurrentUser, clearCurrentUser} = usersSlice.actions;
 export const isAuthenticated = () => {
+    console.log(localStorage.getItem('token') , 'token');
     return localStorage.getItem('token') ? true : false;
 };
 export const selectCurrentUser = (state) => state.user.currentUser;

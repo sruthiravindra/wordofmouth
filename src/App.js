@@ -24,7 +24,7 @@ function App() {
   useEffect(() => {
     dispatch(fetchServices());
     dispatch(fetchReviews());
-  }, [dispatch]);
+      }, [dispatch]);
   const currentUser = useSelector(selectCurrentUser);
   return (
     <div className="App">

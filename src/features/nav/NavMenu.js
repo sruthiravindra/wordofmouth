@@ -63,7 +63,7 @@ const NavMenu = () => {
     const [isAccordion, setIsAccordian] = useState(false);
     const [accordionOpen, setAccordionOpen] = useState(false);
     const [openDropdownIndex, setOpenDropdownIndex] = useState(null);
-    const toggleDropdown = (idx) => {
+        const toggleDropdown = (idx) => {
         if (openDropdownIndex === idx) {
             setOpenDropdownIndex(null);
         } else {

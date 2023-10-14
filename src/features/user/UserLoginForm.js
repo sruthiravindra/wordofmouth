@@ -19,9 +19,9 @@ const UserLoginForm = (props) => {
     const setModalLoginOpen = props.setModalLoginOpen;
     const loginError = useSelector((state) => state.user.errMsg);
     const currentUser = useSelector(selectCurrentUser);
-    const dispatch = useDispatch();
+        const dispatch = useDispatch();
 
-    const LoginUser = async (values) => {
+        const LoginUser = async (values) => {
         dispatch(
             userLogin({
                 username: values.email,
