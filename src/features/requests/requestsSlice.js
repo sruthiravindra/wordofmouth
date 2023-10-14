@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import { axiosGet, axiosPost } from '../../utils/axiosConfig';
+import { axiosGet, axiosPost, axiosPut } from '../../utils/axiosConfig';
 
 export const fetchRequests = createAsyncThunk(
     'requests/fetchRequests',
@@ -18,6 +18,7 @@ export const createRequest = createAsyncThunk(
     async (request) => {
         try {
             const response = await axiosPost('requests', request)
+            console.log('response', response);
             return response;
         } catch (err) {
             return Promise.reject("Unable to send request", err);
@@ -27,9 +28,14 @@ export const createRequest = createAsyncThunk(
 
 export const updateRequest = createAsyncThunk(
     'requests/updateRequest',
-    async (status) => {
+    async (data, {dispatch}) => {
         try {
-
+            const { request_id, status } = data;
+            console.log('data', data)
+            const response = await axiosPut(`requests/${request_id}`, { status: status })
+            console.log('response', response);
+            //add the from_id to the current user's contacts array
+            return response
         } catch (err) {
             return Promise.reject("Unable to update request", err);
         }
@@ -65,7 +71,7 @@ const requestsSlice = createSlice({
         [createRequest.fulfilled]: (state, action) => {
             state.isLoading = false;
             state.errMsg = '';
-            state.sentRequestsArray.push(action.payload);
+            state.requestsArray.push(action.payload);
         },
         [createRequest.rejected]: (state, action) => {
             state.isLoading = false;
@@ -77,14 +83,10 @@ const requestsSlice = createSlice({
         [updateRequest.fulfilled]: (state, action) => {
             state.isLoading = false;
             state.errMsg = '';
-            const updatedRequests = state.receivedRequestsArray.map(request => {
-                if (request._id === action.payload._id) {
-                    return action.payload;
-                } else {
-                    return request;
-                }
-            });
-            state.receivedRequestsArray = updatedRequests;
+            const updatedRequests = state.requestsArray.filter(request =>
+                request._id !== action.payload.request._id    
+            );
+            state.requestsArray = updatedRequests;
         },
         [updateRequest.rejected]: (state, action) => {
             state.isLoading = false;

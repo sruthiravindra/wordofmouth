@@ -1,6 +1,5 @@
-import { useSelector, useDispatch } from "react-redux";
-import { useEffect } from "react";
-import { fetchRequests } from "../requests/requestsSlice";
+import { useSelector } from "react-redux";
+import { selectCurrentUser } from "../user/userSlice";
 import Loading from '../../components/Loading';
 import ContactRequestCard from './ContactRequestCard';
 
@@ -8,21 +7,19 @@ import ContactRequestCard from './ContactRequestCard';
 const ContactRequestList = () => {
     const isLoading = useSelector((state) => state.requests.isLoading);
     const errMsg = useSelector((state) => state.requests.errMsg);
-    const dispatch = useDispatch();
     const contactRequests = useSelector((state) => state.requests.requestsArray);
-
-    useEffect(() => {
-        dispatch(fetchRequests());
-    }, [])
+    const currentUser = useSelector(selectCurrentUser);
 
     return isLoading ? (<Loading />) : errMsg ? (<p>{errMsg}</p>) 
-    : contactRequests.length === 0 ? (<p>No requests to display</p>) : (
+    : contactRequests === undefined || contactRequests.length === 0 ? (<p>No requests to display</p>) : (
         <>
             {
-                contactRequests.map((contact) => {
-                    return (
-                        <ContactRequestCard contact={contact} key={contact._id}/>
-                    )
+                contactRequests.map((request, idx) => {
+                    return request.to_id === currentUser._id 
+                    ? (<ContactRequestCard request={request} key={idx}/>) 
+                    : (<p>{`Request sent to
+                            ${request.to_users[0].first_name} ${request.to_users[0].last_name}
+                    `}</p>)
                 })
             }
         </>

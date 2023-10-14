@@ -15,7 +15,7 @@ import { useEffect } from 'react';
 import { fetchServices } from './features/services/servicesSlice';
 import { fetchUsers } from './features/users/usersSlice';
 import { fetchReviews } from './features/reviews/reviewsSlice';
-import { selectCurrentUser } from "./features/user/userSlice";
+import { selectCurrentUser, setCurrentUser } from "./features/user/userSlice";
 import { useSelector } from 'react-redux';
 
 function App() {
@@ -23,7 +23,8 @@ function App() {
 
   useEffect(() => {
     dispatch(fetchServices());
-    dispatch(fetchReviews());
+    const currentUserProfile = JSON.parse(localStorage.getItem('currentUserProfile'));
+    dispatch(setCurrentUser({ profile: currentUserProfile }))
   }, [dispatch]);
   const currentUser = useSelector(selectCurrentUser);
   return (
