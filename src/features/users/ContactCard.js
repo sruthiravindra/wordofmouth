@@ -1,5 +1,7 @@
 import { Card, Button, Col, Row } from 'reactstrap';
 import { Link } from 'react-router-dom';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPhone, faEnvelope } from '@fortawesome/free-solid-svg-icons';
 import StarRating from '../reviews/StarRating';
 import ServiceList from '../services/ServiceList';
 
@@ -16,22 +18,29 @@ const ContactCard = ({ contact }) => {
                         alt={`${first_name} ${last_name}`}
                         className='img-fluid contact-img'/>
                     </Col>
-                    <Col xs='10' className='contact-card-info'>
-                        <Row className=''>
-                            <Col className='sm-8'>
-                                <Link to={`/services/${_id}`} className='unstyledLink'>
+                    <Col className='contact-card-info'>
+                            <div>
+                                <Link to={`/services/worker/${_id}`} className='unstyledLink'>
                                     <h5 className='d-inline'>{first_name} {last_name}</h5>
                                     <StarRating rating={rating}/><p className='d-inline'>({rating})</p>
                                 </Link>
                                 <ServiceList serviceIds={services}/>
-                            </Col>
-                            <Col className='sm-4 d-flex justify-content-end'>
-                                <div className='text-end'>
-                                    <Button className='d-block mb-1'>{phone}</Button>
-                                    <Button className='d-block'>{email}</Button>
-                                </div>
-                            </Col>
-                        </Row>
+                            </div>
+                            <div className='contact-info-btns'>
+                                <Button>Leave a review</Button>
+                                {
+                                    phone && (<Button>
+                                        <FontAwesomeIcon icon={faPhone} />
+                                            {`${phone}`}
+                                    </Button>)
+                                }
+                                {
+                                    email && (<Button>
+                                        <FontAwesomeIcon icon={faEnvelope} />
+                                        {`${email}`}
+                                    </Button>)
+                                }
+                            </div>
                     </Col>
                 </Row>
             </Card>

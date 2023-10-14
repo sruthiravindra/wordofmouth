@@ -8,8 +8,8 @@ import ContactList from '../features/users/ContactList';
 import ContactRequestList from '../features/users/ContactRequestList';
 
 const ContactsPage = () => {
-    const isLoading = useSelector((state) => state.user.isLoading)
-    const errMsg = useSelector((state) => state.user.errMsg);
+    const isLoading = useSelector((state) => state.requests.isLoading)
+    const errMsg = useSelector((state) => state.requests.errMsg);
     const [activeTab, setActiveTab] = useState('1');
     const dispatch = useDispatch();
 

@@ -2,6 +2,7 @@ import { useSelector } from "react-redux";
 import { selectCurrentUser } from "../user/userSlice";
 import Loading from '../../components/Loading';
 import ContactRequestCard from './ContactRequestCard';
+import ContactRequestSentCard from "./ContactRequestSentCard";
 
 
 const ContactRequestList = () => {
@@ -16,10 +17,8 @@ const ContactRequestList = () => {
             {
                 contactRequests.map((request, idx) => {
                     return request.to_id === currentUser._id 
-                    ? (<ContactRequestCard request={request} key={idx}/>) 
-                    : (<p>{`Request sent to
-                            ${request.to_users[0].first_name} ${request.to_users[0].last_name}
-                    `}</p>)
+                    ? (<ContactRequestCard request={request} key={idx} />) 
+                    : (<ContactRequestSentCard request={request} key={idx} />)
                 })
             }
         </>
