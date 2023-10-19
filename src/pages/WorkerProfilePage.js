@@ -11,53 +11,49 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faLocationDot } from "@fortawesome/free-solid-svg-icons";
 import Loading from "../components/Loading";
 import { useState, useEffect } from "react";
-import { selectCurrentUser } from "../features/user/userSlice";
-import GetGeocode from "../utils/GetGeocode";
-import getDistance from "../utils/getDistance";
+// import { selectCurrentUser } from "../features/user/userSlice";
+// import GetGeocode from "../utils/GetGeocode";
+// import getDistance from "../utils/getDistance";
 import { useDispatch } from "react-redux";
 
 
 const WorkerProfilePage = () => {
     const { userId } = useParams();
-    // const users = useSelector((state) => state.users);
-    // const worker = useSelector(selectUserById(userId));
     const dispatch = useDispatch();
     const [distanceAway, setDistanceAway] = useState('...');
-    const currentUser = useSelector(selectCurrentUser);
-    // not sure what state variable to use for worker. Since its not advisable to
-    // load all users only to get detail of one worker, Else like current user, we can set another state called selectedUser.
+    // const currentUser = useSelector(selectCurrentUser);
     const [worker, setWorker] = useState(''); 
-    let isLoading = false;
+    // effie: holding the isLoading variable in local state so it can be initialized to true and the page won't load infinitely
+    let [isLoading, setIsLoading] = useState(true);
     let errMsg = '';
 
     useEffect(()=>{
-        isLoading = true;
         dispatch(fetchUser(userId))
         .then(response=>{
             setWorker(response.payload.profile);
-            isLoading = false;
+            setIsLoading(false);
         })
     },[])
 
 
-    useEffect(() => {
-        if (currentUser && currentUser.address && worker.address) {
-            GetGeocode(worker.address)
-                .then((coordinates) => {
-                    if (coordinates) {
-                        const { latitude:lat2, longitude:lng2 } = coordinates;
-                        const { latitude:lat1, longitude:lng1 } = currentUser.address;
-                        const distance = getDistance(lat1, lng1, lat2, lng2);
-                        setDistanceAway(Math.floor(distance));
-                    }
-                })
-                .catch((error) => {
-                    console.error(error);
-                })
-        } else {
-            setDistanceAway('...');
-        }
-    }, [currentUser])
+    // useEffect(() => {
+    //     if (currentUser && currentUser.address && worker.address) {
+    //         GetGeocode(worker.address)
+    //             .then((coordinates) => {
+    //                 if (coordinates) {
+    //                     const { latitude:lat2, longitude:lng2 } = coordinates;
+    //                     const { latitude:lat1, longitude:lng1 } = currentUser.address;
+    //                     const distance = getDistance(lat1, lng1, lat2, lng2);
+    //                     setDistanceAway(Math.floor(distance));
+    //                 }
+    //             })
+    //             .catch((error) => {
+    //                 console.error(error);
+    //             })
+    //     } else {
+    //         setDistanceAway('...');
+    //     }
+    // }, [currentUser])
 
     if (isLoading) {
         return (
@@ -72,7 +68,6 @@ const WorkerProfilePage = () => {
             </div>
         )
     }
-
 
     return (
         <Container fluid className='p-3'>

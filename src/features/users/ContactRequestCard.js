@@ -38,7 +38,7 @@ const ContactRequestCard = ({ request }) => {
                     <Col className='contact-request-info'>
                         <Row className='mt-1'>
                             <Col className='sm-8'>
-                                <NavLink to={`/services/worker/${user_id}`} className='unstyledLink'>
+                                <NavLink to={`/worker/${user_id}`} className='unstyledLink'>
                                     <h5 className='d-inline'>{first_name} {last_name}</h5>
                                     <StarRating rating={rating}/><p className='d-inline'>({rating})</p>
                                 </NavLink>

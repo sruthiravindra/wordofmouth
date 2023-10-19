@@ -71,7 +71,6 @@ const requestsSlice = createSlice({
         [createRequest.fulfilled]: (state, action) => {
             state.isLoading = false;
             state.errMsg = '';
-            state.requestsArray.push(action.payload);
         },
         [createRequest.rejected]: (state, action) => {
             state.isLoading = false;

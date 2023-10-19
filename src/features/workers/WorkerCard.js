@@ -14,7 +14,7 @@ import { selectCurrentUser } from '../user/userSlice';
 const WorkerCard = ({ worker }) => {
     const {first_name, last_name, profile_pic, _id: id, rating, services, email, phone, address} = worker;
     const currentUser = useSelector(selectCurrentUser);
-    const inContacts = null;
+    let inContacts = null;
     if (currentUser) { inContacts = currentUser.contacts.find(contact => contact._id === id) }
     const dispatch = useDispatch();
 

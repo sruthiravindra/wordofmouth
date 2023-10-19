@@ -40,9 +40,7 @@ export const fetchWorkersByKeyword = createAsyncThunk(
         if (!keyword) { return [] }
         try {
             const serviceIds = await axiosGet(`services/search/${keyword}`);
-            console.log(`service ids retreived with keyword ${keyword}`, serviceIds.serviceIds);
             const response = await axiosPost(`workers/search/${keyword}`, serviceIds.serviceIds);
-            console.log('profiles retrieved', response.profiles);
             return response.profiles;
         } catch (err) {
             return Promise.reject("Unable to fetch workers by keyword", err);

@@ -73,7 +73,6 @@ div .btn:hover {
 
 .loading-icon {
   text-align: center;
-  margin: 2em; 
   color: grey;
 }
 
@@ -215,22 +214,23 @@ p.in-your-contacts {
 .card.worker-card-in-contacts {
   margin-bottom: 1em;
   border-radius: 0em;
-  background-color: rgb(241, 246, 246);
+  background-color: rgb(241, 246, 242);
 }
 
 .card.worker-card-in-contacts .worker-header {
-  background-color: rgb(52, 118, 129);
+  background-color: rgb(121, 200, 122);
   margin-bottom: 0.7em;
   padding: 0.5em 0em;
 }
 
 .card.worker-card-in-contacts button {
-  background-color: rgb(111, 160, 168);
   border: none;
+  background-color: rgb(84, 170, 85);
 }
 
 .card.worker-card-in-contacts button:hover {
-  color: rgb(34, 95, 106);
+  color: rgb(241, 246, 242);
+  background-color: rgb(57, 142, 59);
 }
 
 /* FOOTER */
