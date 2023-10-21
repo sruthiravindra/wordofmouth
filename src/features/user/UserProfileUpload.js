@@ -1,10 +1,8 @@
 import { useSelector } from 'react-redux';
-import { useState } from "react";
 import { selectCurrentUser } from "./userSlice";
-import { updateUserProfilePic } from "../users/usersSlice";
+import { updateUserProfile } from "../user/userSlice";
 import { useDispatch } from "react-redux";
-import { useEffect, useRef } from "react";
-import { getImageSRC } from '../../utils/getImageSRC';
+import { useRef } from "react";
 import { storage } from '../../firebaseConfig';
 import { ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -14,13 +12,11 @@ import { toast } from "react-toastify";
 const UserProfileUpload = () => {
     const currentUser = useSelector(selectCurrentUser);
     const dispatch = useDispatch();
-    // const [imageSRC, setImageSRC] = useState('');
     const uploadedImage = useRef(undefined);
 
     const handleImageUpload = async () => {
         const storageRef = ref(storage, `profile-pictures/${currentUser._id}`)
         const metaData = { contentType: uploadedImage.current.type };
-        console.log(`profile-pictures/${currentUser._id}`);
 
         const uploadTask = uploadBytesResumable(storageRef, uploadedImage.current, metaData);
         uploadTask.on(
@@ -39,11 +35,9 @@ const UserProfileUpload = () => {
             async () => {
                 try {
                     const downloadURL = await getDownloadURL(uploadTask.snapshot.ref)
-                    console.log(downloadURL);
-                    // setImageSRC(downloadURL);
-                    dispatch(updateUserProfilePic({
+                    dispatch(updateUserProfile({
                         currentUserId: currentUser._id,
-                        profile_pic: downloadURL
+                        profile: {profile_pic: downloadURL}
                     }));
                     toast("Uploaded Successfully");
 
@@ -63,7 +57,7 @@ const UserProfileUpload = () => {
                 alt='profile'
                 className='img-fluid profile-pic-small'
             />}
-            <label className='profile-image-input' for='image-upload'>
+            <label className='profile-image-input' htmlFor='image-upload'>
                 <FontAwesomeIcon icon={faCircleArrowUp} className='mx-1' />
                 Upload File
                 <input

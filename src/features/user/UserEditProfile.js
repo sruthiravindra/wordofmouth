@@ -7,7 +7,7 @@ import CustomPhoneField from "../../utils/CustomPhoneField";
 import { selectCurrentUser } from "./userSlice";
 import SubHeader from "../../components/SubHeader";
 import UserProfileUpload from "./UserProfileUpload";
-import { updateUserDetails } from "../users/usersSlice";
+import { updateUserProfile } from "../user/userSlice";
 import { useDispatch } from "react-redux";
 import Error from '../../components/Error';
 import Loading from '../../components/Loading';
@@ -61,7 +61,7 @@ const UserEditProfile = (props) => {
         )
         const onChange = (currentNode, selectedNodes) => {
             selectedValue.current = selectedNodes.map(nodes => nodes.value);
-            console.log('onChange::', currentNode, selectedNodes, "selectedValue", selectedValue)
+            // console.log('onChange::', currentNode, selectedNodes, "selectedValue", selectedValue)
         }
         return (
             <DropdownTreeSelect name={fldName} data={optionslist} onChange={onChange} />
@@ -70,7 +70,7 @@ const UserEditProfile = (props) => {
 
     const handleSubmit = (values) => {
         values.services = selectedValue.current;
-        dispatch(updateUserDetails({ currentUserId: currentUser._id, profile: { ...values } }))
+        dispatch(updateUserProfile({ currentUserId: currentUser._id, profile: { ...values } }))
         props.toggleEdit();
     }
     return (

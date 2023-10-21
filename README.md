@@ -83,11 +83,11 @@ In the [WorkerCard.js](/src/features/workers/WorkerCard.js) component, the worke
 
 # TO DO
 
-- move updateUserDetails and updateUserProfilePic from usersSlice.js to userSlice.js
+<!-- - move updateUserDetails from usersSlice.js to userSlice.js -->
 - clean up usage of 'profile' vs 'user'
 - display loading icon while user profile is updating
 - convert all HTTP requests to use axios
-- eliminate the updateUserProfilePic thunk? It essentially just updates the profile_pic field which can be accomplished with updateUserDetails
+<!-- - eliminate the updateUserProfilePic thunk? It essentially just updates the profile_pic field which can be accomplished with updateUserDetails -->
 - instead of storing the profile in local storage, dispatch userLogin when the application is first loaded. In userLogin, check to see if there's a token in local storage. If so, send a request to a new endpoint on the server 'users/restore' which will fetch the user's profile with the token. 
 - add functionality to the 'leave a review' button in ContactCard.js
 - prevent a user from requesting a contact if a request has already been sent
@@ -98,6 +98,14 @@ In the [WorkerCard.js](/src/features/workers/WorkerCard.js) component, the worke
 - rename ServicesPage.js to WorkerSearchPage.js ?
 - instead of fetching all reviews when the app loads, fetch reviews in a useEffect from within WorkerCard.js and WorkerProfilePage.js. I don't think the reviews will be kept anywhere in the Redux store, so do even need a reviews slice? 
 
+### style guide
+- Single quotes are default, only use double quotes where necessary.
+- All variable naming is in camel case (excluding component names which should have the first letter capitalized).
+- All HTTP requests are made with the axios functions in the [axiosConfig.js](/src/utils/axiosConfig.js) file.
+- All forms are built with the Formik library.
+- All font awesome icons should use the FontAwesomeIcon component provided by the @fortawesome/react-fontawesome library.
+- Imports go at the top of the file. Any 3rd party imports go first, followed by local imports.
+- File names are in camel case (excluding component files, which should have the first letter capitalized).
 
 ## Cloud Functions -- DEPRECATED AFTER SWITCH TO MONGODB
 

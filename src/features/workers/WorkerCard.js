@@ -79,7 +79,7 @@ const WorkerCard = ({ worker }) => {
                 <Row className='my-2'>
                 </Row>
                 <Row className='mb-3'>
-                    <ReviewCarousel userId={id}/>
+                    {/* <ReviewCarousel userId={id}/> */}
                 </Row>
             </Container>
         </Card>

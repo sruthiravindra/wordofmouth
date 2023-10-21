@@ -9,11 +9,10 @@ const get = async (path) => {
             headers: {
                 "Authorization": "Bearer " + token,
                 "Content-Type": "application/json",
-                "Access-Control-Allow-Origin": "*"
             }
         }
         const response = await axios.get(request_url, request_header);
-        return response.data;
+        return response;
     } catch (err) {
         console.error(err);
     }
@@ -26,11 +25,10 @@ const post = async (path, data) => {
             headers: {
                 "Authorization": "Bearer " + token,
                 "Content-Type": "application/json",
-                "Access-Control-Allow-Origin": "*"
             }
         }
         const response = await axios.post(request_url, JSON.stringify(data), request_header);
-        return response.data;
+        return response;
     } catch (err) {
         console.error(err);
     }
@@ -43,11 +41,10 @@ const put = async (path, data) => {
             headers: {
                 "Authorization": "Bearer " + token,
                 "Content-Type": "application/json",
-                "Access-Control-Allow-Origin": "*"
             }
         }
         const response = await axios.put(request_url, JSON.stringify(data), request_header);
-        return response.data;
+        return response;
     } catch (err) {
         console.error(err);
     }
