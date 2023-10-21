@@ -12,18 +12,19 @@ const ReviewForm = ({ userId }) => {
     const currentUser = useSelector(selectCurrentUser);
     const workerProfile = useSelector((state) => state.users.workerProfile);
     const ratingAverage = useSelector((state) => state.reviews.ratingAverage);
+    const [formSubmitted, setFormSubmitted] = useState(false);
     const ratingChange = ratingAverage !== workerProfile.rating;
     const dispatch = useDispatch();
 
     useEffect(() => {
-        if (ratingChange === true) {
-            console.log('current rating average', ratingAverage);
+        if (ratingChange && formSubmitted) {
             dispatch(updateWorkerProfile({
                 profileId: userId,
                 profile: { rating: ratingAverage }
             }));
+            setFormSubmitted(false);
         }
-    }, [ratingChange, userId, dispatch])
+    }, [formSubmitted, ratingChange, userId, dispatch])
 
     const handleSubmit = (values) => {
         console.log(values);
@@ -35,7 +36,10 @@ const ReviewForm = ({ userId }) => {
             review_text: values.reviewText
         };
         dispatch(addReview(review))
-        setModalOpen(!modalOpen);
+            .finally(() => {
+                setFormSubmitted(true);
+                setModalOpen(!modalOpen);
+            });
     };
 
     return(

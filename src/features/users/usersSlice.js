@@ -16,7 +16,6 @@ export const fetchUser = createAsyncThunk(
 export const updateWorkerProfile = createAsyncThunk(
     'users/updateWorkerProfile',
     async ({ profileId, profile }) => {
-        console.log('profile updates', profile)
         const response = await axiosPut(`profiles/${profileId}`, profile);
         if (response.status >= 200 && response.status < 300) { return response.data }
         return Promise.reject(response.data.message);

@@ -57,7 +57,7 @@ const WorkerProfilePage = () => {
     if (errMsg) {
         return (
             <div>
-                ERROR
+                {errMsg}
             </div>
         )
     }

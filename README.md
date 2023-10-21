@@ -53,9 +53,13 @@ After a user has logged in, the [UserMenu.js](/src/features/user/UserMenu.js) be
 From within the [ContactRequestCard.js](/src/features/users/ContactRequestCard.js) component, the current user has the option to approve or decline a contact request. Both the 'Approve' and 'Decline' buttons dispatch the updateRequest thunk from the [requestsSlice.js](/src/features/requests/requestsSlice.js) file - the only difference is if the status is 'Approved' or 'Declined'. The thunk sends a PUT request to the server endpoint 'requests/:requestId' and updates the specified request's status from 'Pending' to either 'Approved' or 'Declined'. Both the to and from users' profile ids are added to each other's contacts arrays. After the thunk has been fulfilled, the state.requests.requestsArray is filtered to remove the request which was just approved or declined. 
 
 ### Worker Profile Page
+From the Worker Search Page, the user can click on the name/rating of any worker card to navigate to the [WorkerProfilePage.js](/src/pages/WorkerProfilePage.js) at the route of 'worker/:profileId'. This is essentially an expanded version of the worker card, which includes any worker-uploaded images, a full list of the worker's reviews, and the option to leave a review for the worker. The id is extracted with react-router-dom useParams(), and a React useEffect executes when the component is first rendered to dispatch the redux thunk fetchUser, located in [usersSlice.js](/src/features/users/usersSlice.js). The thunk sends a GET request to the server endpoint 'profiles/:profileId'. The server uses the id to find the worker's profile and send it back in the response body. The fetchUser.fulfilled reducer stores the retrieved profile in state.users.workerProfile. Back in WorkerProfilePage.js, the worker is retrieved with a Redux useSelector and displayed on the page.
 
 ### Add Review
+From the worker's profile page, there's a button at the bottom called 'Add Review'. When a user clicks on this button, the [ReviewForm.js](/src/features/reviews/ReviewForm.js) modal appears. The form is controlled with the Formik library and validated with [validateReviewForm.js](/src/utils/validateReviewForm.js). When the 'Submit' button is clicked, the addReview thunk action is dispatched from [reviewsSlice.js](/src/features/reviews/reviewsSlice.js). The thunk sends a POST request to the 'reviews' endpoint in the server. The server creates the review document and sends a response back to the thunk. The addReview.fulfilled reducer sets the slice's isLoading state to false, pushes the new review to state.reviews.reviewsArray, and recalculates the worker's rating average. Since the [ReviewList.js](/src/features/reviews/ReviewList.js) component pulls its data from state.reviews.reviewsArray, the new review will appear on the page without an additional call to fetchReviews.
 
+### Calculate Rating When Review is Posted
+ The addReview.fulfilled reducer in [reviewsSlice.js](/src/features/reviews/reviewsSlice.js) sets the slice's isLoading to false, pushes the new review to state.reviews.reviewsArray, and calculates the worker's new rating average. It stores this value in state.reviews.ratingAverage. In the [ReviewForm.js](/src/features/reviews/ReviewForm.js) component, a useEffect will run whenever this ratingAverage changes. This is acheived with an additional variable called ratingChange, which is set to boolean true/false depending on if it matches the rating which is currently stored in state.users.workerProfile. If the ratingChange variable is true, the updateWorkerProfile thunk is dispatched with the new average in [usersSlice.js](/src/features/users/usersSlice.js). In the thunk, a PUT request is sent to the server endpoint 'profiles/:profileId'. The server updates the specified profile document, and returns the updated document. The updateWorkerProfile.fulfilled reducer then stores the updated profile in state.users.workerProfile. Back in WorkerProfilePage.js, the profile data is pulled from the Redux state so the most up-to-date value is displayed.
 
 # Future Features
 
@@ -63,8 +67,6 @@ From within the [ContactRequestCard.js](/src/features/users/ContactRequestCard.j
 In the [WorkerCard.js](/src/features/workers/WorkerCard.js) component, the worker's reviews are fetched from within a React useEffect. A filter_reviewed_user_id is passed with the value of the worker profile id. A POST request is made to the endpoint 'reviews/fetchReviews' in the server, which searches reviews based on the id and returns an array of reviews. The reviews array is passed as a prop into the [ReviewCarousel.js](/src/features/reviews/ReviewCarousel.js) component, which will render the reviews as carousel items with a .map() method. We use the react-responsive-carousel here instead of the bootstrap carousel due to bugs and limited customization (leandrowd.github.io/react-responsive-carousel/). Each review is passed as a prop into the [ReviewPreview.js](/src/features/reviews/ReviewPreview.js) component which neatly displays a summary of the the review information as a Reactstrap Card component.
 
 ### Worker Card Indicates when Request is Pending
-
-### Calculate Rating When Review is Posted
 
 ### Delete Account
 
@@ -84,20 +86,22 @@ In the [WorkerCard.js](/src/features/workers/WorkerCard.js) component, the worke
 # TO DO
 
 <!-- - move updateUserDetails from usersSlice.js to userSlice.js -->
-- clean up usage of 'profile' vs 'user'
 <!-- - display loading icon while user profile is updating -->
 <!-- - convert all HTTP requests to use axios -->
 <!-- - eliminate the updateUserProfilePic thunk? It essentially just updates the profile_pic field which can be accomplished with updateUserDetails -->
+<!-- - remove WorkerFilteredList.js ? The data is now being filtered as it is fetched -->
+<!-- - rename ServicesPage.js to WorkerSearchPage.js ? -->
+- clean up usage of 'profile' vs 'user'
 - instead of storing the profile in local storage, dispatch userLogin when the application is first loaded. In userLogin, check to see if there's a token in local storage. If so, send a request to a new endpoint on the server 'users/restore' which will fetch the user's profile with the token. 
+- remove the forgot password link on the login modal until we add functionality to that
 - add functionality to the 'leave a review' button in ContactCard.js
 - prevent a user from requesting a contact if a request has already been sent
 - replace 'request contact' button on WorkerProfilePage.js with contact info if in current user's contacts
 - in requestsSlice.js updateRequest thunk, push the from_id user's profile into the current User's contacts
 - rework the geocode and distance away feature which is displayed on WorkerCard.js and WorkerProfilePage.js
-<!-- - remove WorkerFilteredList.js ? The data is now being filtered as it is fetched -->
-<!-- - rename ServicesPage.js to WorkerSearchPage.js ? -->
-- instead of fetching all reviews when the app loads, fetch reviews in a useEffect from within WorkerCard.js and WorkerProfilePage.js. I don't think the reviews will be kept anywhere in the Redux store, so do even need a reviews slice? 
+- instead of fetching all reviews when the app loads, fetch reviews in a useEffect from within WorkerCard.js and WorkerProfilePage.js. Only store reviews for the current worker profile page.
 - remove the teams feature?
+- add toast notifications everywhere data is updated
 
 ### style guide
 - Single quotes are default, only use double quotes where necessary.

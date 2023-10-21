@@ -8,7 +8,7 @@ import Loading from '../../components/Loading';
 const ReviewList = ({ userId }) => {
     const dispatch = useDispatch();
     useEffect(()=>{
-        const filterdata = {filter_reviewed_user_id:userId};
+        const filterdata = {filter_reviewed_user_id: userId};
         dispatch(fetchReviews(filterdata));
     },[])
 

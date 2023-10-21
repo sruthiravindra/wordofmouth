@@ -1,22 +1,42 @@
-//library imports
 import { Card, Button, Col, Row, Container } from 'reactstrap';
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faLocationDot, faPhone, faEnvelope } from '@fortawesome/free-solid-svg-icons';
 import { useDispatch, useSelector } from 'react-redux';
-//local imports
+import { useState, useEffect } from 'react';
+
+import { createRequest } from '../requests/requestsSlice';
+import { selectCurrentUser } from '../user/userSlice';
+import { axiosPost } from '../../utils/axiosConfig';
 import StarRating from '../reviews/StarRating';
 import ServiceList from '../services/ServiceList';
 import ReviewCarousel from '../reviews/ReviewCarousel';
-import { createRequest } from '../requests/requestsSlice';
-import { selectCurrentUser } from '../user/userSlice';
+import Loading from '../../components/Loading';
 
 const WorkerCard = ({ worker }) => {
-    const {first_name, last_name, profile_pic, _id: id, rating, services, email, phone, address} = worker;
+    const {first_name, last_name, profile_pic, _id: id, rating, services, email, phone, _id} = worker;
     const currentUser = useSelector(selectCurrentUser);
+    const dispatch = useDispatch();
+    const [reviewsLoading, setReviewsLoading] = useState(true);
+    const [reviewsError, setReviewsError] = useState('');
+    const [reviewsArray, setReviewsArray] = useState([]);
     let inContacts = null;
     if (currentUser) { inContacts = currentUser.contacts.find(contact => contact._id === id) }
-    const dispatch = useDispatch();
+
+    useEffect(() => {
+        axiosPost('reviews/fetchReviews', { filter_reviewed_user_id: _id })
+            .then((response) => {
+                if (response.status >= 200 && response.status < 300) {
+                    setReviewsArray(response.data);
+                    setReviewsLoading(false);
+                } else {
+                    setReviewsError('Failed to fetch reviews :: ' + response.data.message);
+                }
+            })
+            .catch((err) => {
+                setReviewsError('Failed to fetch reviews :: ' + err);
+            })
+    }, [])
 
     const requestContact = () => {
         if (currentUser) {
@@ -79,7 +99,12 @@ const WorkerCard = ({ worker }) => {
                 <Row className='my-2'>
                 </Row>
                 <Row className='mb-3'>
-                    {/* <ReviewCarousel userId={id}/> */}
+                    {  
+                        reviewsLoading ? (<div><Loading/></div>) 
+                        : reviewsError ? (<p>{reviewsError}</p>)
+                        : reviewsArray.length === 0 ? (<p>This worker doesn't have any reviews yet...</p>)
+                        : (<ReviewCarousel reviewsArray={reviewsArray} />) 
+                    }
                 </Row>
             </Container>
         </Card>
