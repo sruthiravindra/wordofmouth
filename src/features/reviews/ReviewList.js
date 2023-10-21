@@ -1,16 +1,14 @@
 import { Container, Pagination, PaginationItem, PaginationLink } from 'reactstrap';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { selectReviewsByUserId, fetchReviews } from './reviewsSlice';
+import { fetchReviews } from './reviewsSlice';
 import Review from './Review';
 import Loading from '../../components/Loading';
 
 const ReviewList = ({ userId }) => {
-    // const reviews = useSelector(selectReviewsByUserId(userId));
     const dispatch = useDispatch();
     useEffect(()=>{
         const filterdata = {filter_reviewed_user_id:userId};
-        console.log(filterdata);
         dispatch(fetchReviews(filterdata));
     },[])
 
@@ -46,9 +44,9 @@ const ReviewList = ({ userId }) => {
                     currentPage * pageSize,
                     (currentPage + 1) * pageSize
                 )
-                .map((review) => {
+                .map((review, idx) => {
                     return (
-                        <Review review={review} key={review.id}/>
+                        <Review review={review} key={idx}/>
                     )
                 })
             }

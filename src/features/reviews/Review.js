@@ -1,20 +1,20 @@
 import { Card, Row, Col } from 'reactstrap';
-import { useDispatch, useSelector } from 'react-redux';
+// import { useDispatch, useSelector } from 'react-redux';
 import StarRating from './StarRating';
-import { useState, useEffect } from "react";
-import {selectUserById, fetchUser} from '../users/usersSlice';
+// import { useState, useEffect } from "react";
+// import {selectUserById, fetchUser} from '../users/usersSlice';
 import { formatDate } from '../../utils/formatDate';
 
 const Review = ({ review }) => {
-    // const author = useSelector(selectUserById(review.author_id));
-    const dispatch = useDispatch();
-    const [author, setAuthor] = useState(''); 
-    useEffect(()=>{
-        dispatch(fetchUser(review.author_id))
-        .then(response=>{
-            setAuthor(response.payload.profile);
-        })
-    },[])
+    const author = review.author_id;
+    // const dispatch = useDispatch();
+    // const [author, setAuthor] = useState(''); 
+    // useEffect(()=>{
+    //     dispatch(fetchUser(review.author_id))
+    //     .then(response=>{
+    //         setAuthor(response.payload.profile);
+    //     })
+    // },[])
 
     return (
         <Card className='p-2 mb-1'>
@@ -22,7 +22,7 @@ const Review = ({ review }) => {
                 <Col xs='2' lg='1'>
                     <img 
                         src={author.profile_pic}
-                        alt='user profile picture'
+                        alt={`${author.first_name} ${author.last_name}`}
                         className='img-fluid profile-pic-small'
                     />
                 </Col>

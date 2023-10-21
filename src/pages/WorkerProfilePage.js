@@ -1,5 +1,5 @@
 import { Container, Row, Col, Button } from "reactstrap";
-import { selectUserById,fetchUser } from "../features/users/usersSlice";
+import { fetchUser } from "../features/users/usersSlice";
 import { useParams } from "react-router-dom";
 import { useSelector } from "react-redux/es/hooks/useSelector";
 import StarRating from "../features/reviews/StarRating";
@@ -21,20 +21,13 @@ const WorkerProfilePage = () => {
     const { userId } = useParams();
     const dispatch = useDispatch();
     const [distanceAway, setDistanceAway] = useState('...');
-    // const currentUser = useSelector(selectCurrentUser);
-    const [worker, setWorker] = useState(''); 
-    // effie: holding the isLoading variable in local state so it can be initialized to true and the page won't load infinitely
-    let [isLoading, setIsLoading] = useState(true);
-    let errMsg = '';
+    const worker = useSelector((state) => state.users.workerProfile);
+    const isLoading = useSelector((state) => state.users.isLoading)
+    let errMsg = useSelector((state) => state.users.errMsg);
 
     useEffect(()=>{
         dispatch(fetchUser(userId))
-        .then(response=>{
-            setWorker(response.payload.profile);
-            setIsLoading(false);
-        })
     },[])
-
 
     // useEffect(() => {
     //     if (currentUser && currentUser.address && worker.address) {
@@ -57,7 +50,7 @@ const WorkerProfilePage = () => {
 
     if (isLoading) {
         return (
-            <Loading />
+            <div className='mt-3'><Loading /></div>
         )
     } 
     
@@ -84,7 +77,7 @@ const WorkerProfilePage = () => {
             </Row>
             <Row className='d-flex align-items-center'>
                 <Col xs='3' lg='2'>
-                    <div class='flex-shrink-0'>
+                    <div className='flex-shrink-0'>
                         <img 
                         src={worker.profile_pic} 
                         alt='profile picture'

@@ -95,7 +95,7 @@ In the [WorkerCard.js](/src/features/workers/WorkerCard.js) component, the worke
 - in requestsSlice.js updateRequest thunk, push the from_id user's profile into the current User's contacts
 - rework the geocode and distance away feature which is displayed on WorkerCard.js and WorkerProfilePage.js
 <!-- - remove WorkerFilteredList.js ? The data is now being filtered as it is fetched -->
-- rename ServicesPage.js to WorkerSearchPage.js ?
+<!-- - rename ServicesPage.js to WorkerSearchPage.js ? -->
 - instead of fetching all reviews when the app loads, fetch reviews in a useEffect from within WorkerCard.js and WorkerProfilePage.js. I don't think the reviews will be kept anywhere in the Redux store, so do even need a reviews slice? 
 - remove the teams feature?
 

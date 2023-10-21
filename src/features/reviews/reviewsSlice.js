@@ -8,7 +8,7 @@ export const fetchReviews = createAsyncThunk(
     'reviews/fetchReviews',
     async (filterdata) => {
         const response = await axiosPost('reviews/fetchReviews', filterdata);
-        if (response.status >= 200 && response.status < 300) { return response.data.reviews }
+        if (response.status >= 200 && response.status < 300) { return response.data }
         return Promise.reject(response.data.message); 
 
     }
@@ -18,7 +18,9 @@ export const addReview = createAsyncThunk(
     'reviews/addReview',
     async (postdata, {dispatch}) => {
         const response = await axiosPost('reviews', postdata);
-        if (response.status >= 200 && response.status < 300) { return response.data.review }
+        if (response.status >= 200 && response.status < 300) { 
+            return response.data; 
+        }
         return Promise.reject(response.data.message); 
     }
 );
@@ -27,6 +29,7 @@ export const addReview = createAsyncThunk(
 
 const initialState = {
     reviewsArray: [],
+    ratingAverage: null,
     isLoading: true,
     errMsg: ''
 };
@@ -58,7 +61,12 @@ const reviewsSlice = createSlice({
         [addReview.fulfilled]: (state, action) => {
             state.isLoading = false;
             state.errMsg = '';
-            state.reviewsArray.push(action.payload)
+            state.reviewsArray.push(action.payload);
+            const ratingTotal = state.reviewsArray.reduce((acc, currReview) => {
+                return acc + currReview.rating;
+            }, 0 );
+            const ratingAverage = ratingTotal / state.reviewsArray.length;
+            state.ratingAverage = Math.round(ratingAverage * 10) / 10;
         },
         [addReview.rejected]: (state, action) => {
             state.isLoading = false;

@@ -1,15 +1,29 @@
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import { FormGroup, Label, Modal, ModalBody, ModalHeader, Button } from "reactstrap";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { selectCurrentUser } from "../user/userSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { addReview } from "./reviewsSlice";
 import { validateReviewForm } from "../../utils/validateReviewForm";
+import { updateWorkerProfile } from "../users/usersSlice";
 
 const ReviewForm = ({ userId }) => {
     const [modalOpen, setModalOpen] = useState(false);
     const currentUser = useSelector(selectCurrentUser);
+    const workerProfile = useSelector((state) => state.users.workerProfile);
+    const ratingAverage = useSelector((state) => state.reviews.ratingAverage);
+    const ratingChange = ratingAverage !== workerProfile.rating;
     const dispatch = useDispatch();
+
+    useEffect(() => {
+        if (ratingChange === true) {
+            console.log('current rating average', ratingAverage);
+            dispatch(updateWorkerProfile({
+                profileId: userId,
+                profile: { rating: ratingAverage }
+            }));
+        }
+    }, [ratingChange, userId, dispatch])
 
     const handleSubmit = (values) => {
         console.log(values);
@@ -20,8 +34,7 @@ const ReviewForm = ({ userId }) => {
             rating: values.rating,
             review_text: values.reviewText
         };
-        console.log(review)
-        dispatch(addReview(review));
+        dispatch(addReview(review))
         setModalOpen(!modalOpen);
     };
 

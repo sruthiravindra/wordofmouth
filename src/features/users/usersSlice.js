@@ -1,12 +1,23 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import { axiosGet, axiosPost } from '../../utils/axiosConfig';
+import { axiosGet, axiosPost, axiosPut } from '../../utils/axiosConfig';
 
 // ============================ async actions =================================
 
+//rename to fetchWorkerProfile
 export const fetchUser = createAsyncThunk(
     'users/fetchUser',
-    async (userId) => {
-        const response = await axiosGet(`profiles/${userId}`);
+    async (profileId) => {
+        const response = await axiosGet(`profiles/${profileId}`);
+        if (response.status >= 200 && response.status < 300) { return response.data }
+        return Promise.reject(response.data.message);
+    }
+);
+
+export const updateWorkerProfile = createAsyncThunk(
+    'users/updateWorkerProfile',
+    async ({ profileId, profile }) => {
+        console.log('profile updates', profile)
+        const response = await axiosPut(`profiles/${profileId}`, profile);
         if (response.status >= 200 && response.status < 300) { return response.data }
         return Promise.reject(response.data.message);
     }
@@ -37,7 +48,7 @@ export const fetchWorkersByKeyword = createAsyncThunk(
 // ============================ slice definition =================================
 
 const initialState = {
-    usersArray: [],
+    workerProfile: null,
     workerSearchArray: [],
     isLoading: true,
     errMsg: '',
@@ -49,6 +60,30 @@ const usersSlice = createSlice({
     initialState: initialState,
     reducers: {},
     extraReducers: {
+        [fetchUser.pending]: (state) => {
+            state.isLoading = true;
+        },
+        [fetchUser.fulfilled]: (state, action) => {
+            state.isLoading = false;
+            state.errMsg = '';
+            state.workerProfile = action.payload.profile;
+        },
+        [fetchUser.rejected]: (state, action) => {
+            state.isLoading = false;
+            state.errMsg = 'Failed to fetch worker :: ' + action.payload
+        },
+        [updateWorkerProfile.pending]: (state) => {
+            state.isLoading = true;
+        },
+        [updateWorkerProfile.fulfilled]: (state, action) => {
+            state.isLoading = false;
+            state.errMsg = '';
+            state.workerProfile = action.payload.profile;
+        },
+        [updateWorkerProfile.rejected]: (state, action) => {
+            state.isLoading = false;
+            state.errMsg = 'Failed to update worker profile :: ' + action.payload
+        },
         [fetchWorkersByServiceId.pending]: (state) => {
             state.isLoading = true;
         },
