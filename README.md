@@ -39,12 +39,18 @@ Both fetchWorkersByServiceId.fulfilled and fetchWorkersByKeyword.fulfilled will 
 From the [ServicesPage.js](/src/pages/ServicesPage.js), a search bar will continously search every time the user types. To prevent searches from overlapping, a useState hook creates the variable actionInProgress. Before any action is dispatched, actionInProgress must be false. Additionally, to prevent a search from executing on every keystroke, a timeout of 0.5 seconds is created and renewed on every keystroke. Therefore, a search will only execute if there is a 0.5 second pause between keystrokes. If there is a 0.5 second pause, the fetchWorkersByKeyword action will be dispatched from the [usersSlice.js](/src/features/users/usersSlice.js) file. 
 
 ### Worker Card Indicates Contact vs. Non-Contact
+The [WorkerCard.js](/src/features/workers/WorkerCard.js) component initalizes an inContacts variable to false. Then, it accesses the currentUser with a Redux useSelector. If the current user exists, a .find() method is called on currentUser.contacts with the worker's id to set the inContacts variable to truthy or falsy. If the worker is in the current user's contacts, two things are rendered differently in the worker card. First, the Card component className is set to 'worker-card-in-contacts' instead of 'worker-card', which applies different CSS styling. Then, the RequestContactButton component renders buttons to represent the worker's contact information instead of a 'request contact' button.
 
 ### Request Contact
+Within the [WorkerCard.js](/src/features/workers/WorkerCard.js) component, a 'request button' is displayed in the card header. After a user has logged in, they can click the button, which dispatches the createRequest Redux thunk within the [requestsSlice.js](/src/features/requests/requestsSlice.js) file. The thunk makes a POST request to the server endpoint '/requests', and from there the server creates a new request document. Nothing more is done after the thunk is fulfilled.
 
 ### Contacts Page
+After a user has logged in, the [UserMenu.js](/src/features/user/UserMenu.js) becomes visible in the header. From the dropdown menu, the 'My Contacts' option will navigate to the [ContactsPage.js](/src/pages/ContactsPage.js). When this component first loads, a React useEffect dispatches the fetchRequests thunk within the [requestsSlice.js](/src/features/requests/requestsSlice.js) file. The thunk sends a GET request to the server endpoint 'requests', which will use the JWT token to extract the user's id and search for requests. Both requests which the user has sent and received will be selected, the to and from profiles are populated, and an array of requests is returned. When the thunk has finished, state.requests.requestsArray is populated with the returned requests. Now, before any other components are mounted, the request data exists. The contacts page has a tabbed interface which was built using Reactstrap Tab components. 
+- The 'Contacts' tab displays any contacts which are listed in the current user's contacts with the [ContactList.js](/src/features/users/ContactRequestList.js). The contacts already exist as an array of profiles in the state.user.currentUser.contacts, so all that's needed to access this data is a useSelector from Redux. The contacts array is rendered with a .map() method, and each contact object is passed as a prop into [ContactCard.js](/src/features/users/ContactCard.js). 
+- The 'Requests' tab displays any requests which exist in state.requests.requestsArray, which will be populated before this component is rendered. The array is retreived with a useSelector from Redux, and rendered with a .map() method. Within the .map(), we check if the request.to_id === currentUser._id. If so, the request has been sent to the current user, and the request is passed as a prop to the [ContactRequestCard.js](/src/features/users/ContactRequestCard.js). If the ids do not match, then the request has been sent BY the current user, and the request is passed as a prop to the [ContactRequestSentCard.js](/src/features/users/ContactRequestSentCard.js).  
 
 ### Approve/Decline Contact Request
+From within the [ContactRequestCard.js](/src/features/users/ContactRequestCard.js) component, the current user has the option to approve or decline a contact request. Both the 'Approve' and 'Decline' buttons dispatch the updateRequest thunk from the [requestsSlice.js](/src/features/requests/requestsSlice.js) file - the only difference is if the status is 'Approved' or 'Declined'. The thunk sends a PUT request to the server endpoint 'requests/:requestId' and updates the specified request's status from 'Pending' to either 'Approved' or 'Declined'. Both the to and from users' profile ids are added to each other's contacts arrays. After the thunk has been fulfilled, the state.requests.requestsArray is filtered to remove the request which was just approved or declined. 
 
 ### Worker Profile Page
 
@@ -55,6 +61,8 @@ From the [ServicesPage.js](/src/pages/ServicesPage.js), a search bar will contin
 
 ### Review Carousel
 In the [WorkerCard.js](/src/features/workers/WorkerCard.js) component, the worker's reviews are fetched from within a React useEffect. A filter_reviewed_user_id is passed with the value of the worker profile id. A POST request is made to the endpoint 'reviews/fetchReviews' in the server, which searches reviews based on the id and returns an array of reviews. The reviews array is passed as a prop into the [ReviewCarousel.js](/src/features/reviews/ReviewCarousel.js) component, which will render the reviews as carousel items with a .map() method. We use the react-responsive-carousel here instead of the bootstrap carousel due to bugs and limited customization (leandrowd.github.io/react-responsive-carousel/). Each review is passed as a prop into the [ReviewPreview.js](/src/features/reviews/ReviewPreview.js) component which neatly displays a summary of the the review information as a Reactstrap Card component.
+
+### Worker Card Indicates when Request is Pending
 
 ### Calculate Rating When Review is Posted
 
@@ -84,6 +92,7 @@ In the [WorkerCard.js](/src/features/workers/WorkerCard.js) component, the worke
 - add functionality to the 'leave a review' button in ContactCard.js
 - prevent a user from requesting a contact if a request has already been sent
 - replace 'request contact' button on WorkerProfilePage.js with contact info if in current user's contacts
+- in requestsSlice.js updateRequest thunk, push the from_id user's profile into the current User's contacts
 - rework the geocode and distance away feature which is displayed on WorkerCard.js and WorkerProfilePage.js
 - remove WorkerFilteredList.js ? The data is now being filtered as it is fetched
 - rename ServicesPage.js to WorkerSearchPage.js ?
