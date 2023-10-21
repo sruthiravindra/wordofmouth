@@ -135,6 +135,9 @@ const usersSlice = createSlice({
 
 export const userReducer = usersSlice.reducer;
 export const {setCurrentUser, clearCurrentUser} = usersSlice.actions;
+
+// ============================ selectors =================================
+
 export const isAuthenticated = () => {
     console.log(localStorage.getItem('token') , 'token');
     return localStorage.getItem('token') ? true : false;

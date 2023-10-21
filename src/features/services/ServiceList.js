@@ -4,14 +4,14 @@ import { useSelector } from "react-redux";
 
 const ServiceList = ({ serviceIds }) => {
     const services = useSelector(selectServiceTitleById(serviceIds));
-    if(!serviceIds || serviceIds.length === 0)return (<p>no services yet</p>);
+    if (!serviceIds || serviceIds.length === 0) return (<p>no services yet</p>);
     return (
         <Row>
             <Col className='service-display'>
                 {
                     services.map((service, idx) => {
                         return (
-                            <p key={idx}>{service}</p>
+                            <div key={idx}>{service}</div>
                         );
                     })
                 }

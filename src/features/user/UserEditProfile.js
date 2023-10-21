@@ -1,44 +1,23 @@
 import React from "react";
 import { ErrorMessage, Field, Form, Formik } from "formik";
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { useRef } from "react";
 import { Container, Row, Col, FormGroup, Label, Button } from "reactstrap";
-import CustomPhoneField from "../../utils/CustomPhoneField";
-import { selectCurrentUser } from "./userSlice";
-import SubHeader from "../../components/SubHeader";
-import UserProfileUpload from "./UserProfileUpload";
-import { updateUserProfile } from "../user/userSlice";
-import { useDispatch } from "react-redux";
-import Error from '../../components/Error';
-import Loading from '../../components/Loading';
-
 import DropdownTreeSelect from 'react-dropdown-tree-select'
 import 'react-dropdown-tree-select/dist/styles.css'
-import { selectAllServices } from "../services/servicesSlice";
 
+import { selectCurrentUser } from "./userSlice";
+import { updateUserProfile } from "../user/userSlice";
+import { selectAllServices } from "../services/servicesSlice";
+import SubHeader from "../../components/SubHeader";
+import UserProfileUpload from "./UserProfileUpload";
+import CustomPhoneField from "../../utils/CustomPhoneField";
 
 const UserEditProfile = (props) => {
     const currentUser = useSelector(selectCurrentUser);
     const selectedValue = useRef(currentUser.services);
     const dispatch = useDispatch();
     const ref = React.createRef();
-    const isLoading = useSelector((state) => state.user.currentUser.isLoading);
-    const errMsg = useSelector((state) => state.user.currentUser.errMsg);
-    if (isLoading) {
-        return (
-            <Row>
-                <Loading />
-            </Row>
-        );
-    }
-
-    if (errMsg) {
-        return (
-            <Row>
-                <Error errMsg={errMsg} />
-            </Row>
-        );
-    }
 
     const ServicesDropdownList = ({ fldName, onFormChange, formik, ...rest }) => {
         const allServices = useSelector(selectAllServices);
@@ -73,6 +52,7 @@ const UserEditProfile = (props) => {
         dispatch(updateUserProfile({ currentUserId: currentUser._id, profile: { ...values } }))
         props.toggleEdit();
     }
+
     return (
         <Container>
             <SubHeader current='Profile' />

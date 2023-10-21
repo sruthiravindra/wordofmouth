@@ -1,46 +1,40 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { axiosGet, axiosPost, axiosPut } from '../../utils/axiosConfig';
 
+// ============================ async actions =================================
+
 export const fetchRequests = createAsyncThunk(
     'requests/fetchRequests',
     async () => {
-        try {
-            const response = await axiosGet('requests');
-            return response;
-        } catch (err) {
-            return Promise.reject("Unable to fetch sent requests", err);
-        }
+        const response = await axiosGet('requests');
+        if (response.status >= 200 && response.status < 300) { return response.data.requests }
+        return Promise.reject(response.data.message); 
     }   
-)
+);
 
 export const createRequest = createAsyncThunk(
     'requests/createRequest',
     async (request) => {
-        try {
-            const response = await axiosPost('requests', request)
-            console.log('response', response);
-            return response;
-        } catch (err) {
-            return Promise.reject("Unable to send request", err);
-        }
+        const response = await axiosPost('requests', request)
+        if (response.status >= 200 && response.status < 300) { return response.data.request }
+        return Promise.reject(response.data.message); 
     }  
-)
+);
 
 export const updateRequest = createAsyncThunk(
     'requests/updateRequest',
     async (data, {dispatch}) => {
-        try {
-            const { request_id, status } = data;
-            console.log('data', data)
-            const response = await axiosPut(`requests/${request_id}`, { status: status })
-            console.log('response', response);
+        const { request_id, status } = data;
+        const response = await axiosPut(`requests/${request_id}`, { status: status })
+        if (response.status >= 200 && response.status < 300) { 
             //add the from_id to the current user's contacts array
-            return response
-        } catch (err) {
-            return Promise.reject("Unable to update request", err);
+            return response.data.request;
         }
+        return Promise.reject(response.data.message); 
     } 
-)
+);
+
+// ============================ slice definition =================================
 
 const initialState = {
     requestsArray: [],
@@ -63,7 +57,7 @@ const requestsSlice = createSlice({
         },
         [fetchRequests.rejected]: (state, action) => {
             state.isLoading = false;
-            state.errMsg = action.error ? action.error.message : 'Fetch failed';
+            state.errMsg = 'Failed to fetch requests :: ' + action.payload;
         },
         [createRequest.pending]: (state) => {
             state.isLoading = true;
@@ -74,7 +68,7 @@ const requestsSlice = createSlice({
         },
         [createRequest.rejected]: (state, action) => {
             state.isLoading = false;
-            state.errMsg = action.error ? action.error.message : 'Fetch failed';
+            state.errMsg = 'Failed to send request :: ' + action.payload;
         },
         [updateRequest.pending]: (state) => {
             state.isLoading = true;
@@ -89,7 +83,7 @@ const requestsSlice = createSlice({
         },
         [updateRequest.rejected]: (state, action) => {
             state.isLoading = false;
-            state.errMsg = action.error ? action.error.message : 'Fetch failed';
+            state.errMsg = 'Failed to respond to request :: ' + action.payload;
         }
     }
 });

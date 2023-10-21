@@ -1,57 +1,35 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { baseUrl } from '../../app/shared/baseUrl';
+import { axiosPost } from '../../utils/axiosConfig';
 
+// ============================ async actions =================================
+
+export const fetchReviews = createAsyncThunk(
+    'reviews/fetchReviews',
+    async (filterdata) => {
+        const response = await axiosPost('reviews/fetchReviews', filterdata);
+        if (response.status >= 200 && response.status < 300) { return response.data.reviews }
+        return Promise.reject(response.data.message); 
+
+    }
+)
+
+export const addReview = createAsyncThunk(
+    'reviews/addReview',
+    async (postdata, {dispatch}) => {
+        const response = await axiosPost('reviews', postdata);
+        if (response.status >= 200 && response.status < 300) { return response.data.review }
+        return Promise.reject(response.data.message); 
+    }
+);
+
+// ============================ slice definition =================================
 
 const initialState = {
     reviewsArray: [],
     isLoading: true,
     errMsg: ''
 };
-
-export const fetchReviews = createAsyncThunk(
-    'reviews/fetchReviews',
-    async(filterdata)=>{
-        const response = await fetch(baseUrl + 'reviews/fetchReviews',{
-            body: JSON.stringify(filterdata),
-            method: 'POST',
-            headers:{
-                'Content-Type': 'application/json'
-            }
-        });
-
-        if(!response.ok){
-            return Promise.reject(response.status);
-        }
-        const data = await response.json();
-        return data;
-    }
-)
-
-export const addReview = createAsyncThunk(
-    'reviews/addReview',
-    async (postdata, { dispatch }) => {
-
-        const bearer = 'Bearer ' + localStorage.getItem('token');
-
-        const response = await fetch(baseUrl + 'reviews', {
-            body: JSON.stringify(postdata),
-            method: 'POST',
-            headers:{
-                Authorization: bearer,
-                'Content-Type':'application/json'
-            },
-            credentials: 'same-origin'
-        });
-
-        if(!response.ok){
-            return Promise.reject(response.status);
-        }
-
-        const data = await response.json();
-        return data;
-    }
-);
 
 const reviewsSlice = createSlice({
     name: 'reviews',
@@ -72,7 +50,7 @@ const reviewsSlice = createSlice({
         },
         [fetchReviews.rejected]: (state, action) => {
             state.isLoading = false;
-            state.errMsg = action.error ? action.error.message : 'Fetch failed';
+            state.errMsg = 'Failed to fetch reviews :: ' + action.payload;
         },
         [addReview.pending]: (state) => {
             state.isLoading = true;
@@ -84,13 +62,15 @@ const reviewsSlice = createSlice({
         },
         [addReview.rejected]: (state, action) => {
             state.isLoading = false;
-            state.errMsg = action.error ? action.error.message : 'Fetch failed';
+            state.errMsg = 'Failed to post review :: ' + action.payload;
         }
     }
 });
 
 export const reviewsReducer = reviewsSlice.reducer;
 export const { postReview } = reviewsSlice.actions;
+
+// ============================ selectors =================================
 
 export const selectReviewsByUserId = (userId) => (state) => {
     return state.reviews.reviewsArray.filter(

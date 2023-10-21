@@ -1,13 +1,19 @@
 import { useSelector } from "react-redux";
-import { selectCurrentUser } from "./userSlice";
 import { Col, Row, Button } from 'reactstrap';
+import { selectCurrentUser } from "./userSlice";
+import Loading from '../../components/Loading';
 import ServiceList from '../services/ServiceList';
 
-const UserAccountInfo = (props) => {
+const UserAccountInfo = ({ toggleEdit }) => {
     const currentUser = useSelector(selectCurrentUser);
+    const isLoading = useSelector((state) => state.user.isLoading);
+    const errMsg = useSelector((state) => state.user.errMsg);
 
-    return (
-        <div>
+    return isLoading ? 
+        (<div className='mt-3'><Loading /></div>) :
+        errMsg ? 
+        (<p>{errMsg}</p>) : 
+        (<div>
             <Row className='mt-4'>
                 <Col xs='4' md='3'>
                     <img
@@ -25,7 +31,7 @@ const UserAccountInfo = (props) => {
                 </Col>
             </Row>
             <Row className='d-flex justify-content-center m-5'>
-                <Button onClick={props.toggleEdit}>Edit Profile</Button>
+                <Button onClick={toggleEdit}>Edit Profile</Button>
             </Row>
             
         </div>

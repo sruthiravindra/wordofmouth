@@ -85,8 +85,8 @@ In the [WorkerCard.js](/src/features/workers/WorkerCard.js) component, the worke
 
 <!-- - move updateUserDetails from usersSlice.js to userSlice.js -->
 - clean up usage of 'profile' vs 'user'
-- display loading icon while user profile is updating
-- convert all HTTP requests to use axios
+<!-- - display loading icon while user profile is updating -->
+<!-- - convert all HTTP requests to use axios -->
 <!-- - eliminate the updateUserProfilePic thunk? It essentially just updates the profile_pic field which can be accomplished with updateUserDetails -->
 - instead of storing the profile in local storage, dispatch userLogin when the application is first loaded. In userLogin, check to see if there's a token in local storage. If so, send a request to a new endpoint on the server 'users/restore' which will fetch the user's profile with the token. 
 - add functionality to the 'leave a review' button in ContactCard.js
@@ -94,9 +94,10 @@ In the [WorkerCard.js](/src/features/workers/WorkerCard.js) component, the worke
 - replace 'request contact' button on WorkerProfilePage.js with contact info if in current user's contacts
 - in requestsSlice.js updateRequest thunk, push the from_id user's profile into the current User's contacts
 - rework the geocode and distance away feature which is displayed on WorkerCard.js and WorkerProfilePage.js
-- remove WorkerFilteredList.js ? The data is now being filtered as it is fetched
+<!-- - remove WorkerFilteredList.js ? The data is now being filtered as it is fetched -->
 - rename ServicesPage.js to WorkerSearchPage.js ?
 - instead of fetching all reviews when the app loads, fetch reviews in a useEffect from within WorkerCard.js and WorkerProfilePage.js. I don't think the reviews will be kept anywhere in the Redux store, so do even need a reviews slice? 
+- remove the teams feature?
 
 ### style guide
 - Single quotes are default, only use double quotes where necessary.

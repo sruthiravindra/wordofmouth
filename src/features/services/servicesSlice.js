@@ -1,24 +1,27 @@
-import { SERVICES } from '../../app/shared/SERVICES';
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import { axiosGet } from '../../utils/axiosConfig';
 import { baseUrl } from '../../app/shared/baseUrl';
+
+// ============================ async actions =================================
 
 export const fetchServices = createAsyncThunk(
     'services/fetchServices',
     async () => {
-        const response = await fetch(baseUrl+'services');
-        if(!response.ok){
-            return Promise.reject('Unable to fetch, status: ' + response.status);
-        }
-        const data = await response.json();
-        return data;
+        const response = await axiosGet('services');
+        if (response.status >= 200 && response.status < 300) { return response.data }
+        return Promise.reject(response.data.message); 
     }
-)
-export const searchServicesByTitle = createAsyncThunk(
-    'services/searchServicesByTitle',
-    async(data,{dispatch, getState})=>{
-        dispatch(searchServicesByTitleRed(data));
-    }
-)
+);
+
+//effie: what is this for?
+// export const searchServicesByTitle = createAsyncThunk(
+//     'services/searchServicesByTitle',
+//     async(data,{dispatch, getState})=>{
+//         dispatch(searchServicesByTitleRed(data));
+//     }
+// );
+
+// ============================ slice definition =================================
 
 const initialState = {
     servicesArray: [],
@@ -61,10 +64,6 @@ const servicesSlice = createSlice({
         [fetchServices.rejected]: (state, action) => {
             state.isLoading = false;
             state.errMsg = action.error ? action.error.message : 'Fetch failed';
-        },
-        [searchServicesByTitle.fulfilled]: (state, action) => {
-            state.isLoading = false;
-            state.errMsg = '';
         }
     }
 });
@@ -72,21 +71,19 @@ const servicesSlice = createSlice({
 export const servicesReducer = servicesSlice.reducer;
 export const { searchServicesByTitleRed } = servicesSlice.actions;
 
-// selectors 
+// ============================ selectors =================================
 
-export const selectAllServices = (state) => {
-    return state.services.servicesArray
-}
-export const selectParentServices = (state) => {
-    return state.services.servicesArray;
-};
+export const selectAllServices = (state) => { return state.services.servicesArray };
+
+export const selectParentServices = (state) => { return state.services.servicesArray };
+
 export const selectServicesByParent = (parent) => (state) => {
     return state.services.servicesArray.filter(
         (service) => service._id === parent
     )[0].sub_service;
-}
-export const selectServiceTitleById = (serviceIds) => (state) => {
+};
 
+export const selectServiceTitleById = (serviceIds) => (state) => {
     // no services set for the user
     if(!serviceIds){
         const response = new Array();
@@ -96,7 +93,6 @@ export const selectServiceTitleById = (serviceIds) => (state) => {
     // we need to check both levels and pick the service titles
     let result = state.services.servicesArray.reduce((acc,value)=>{
         let item = [];
-
         // case: its in the parent 
         if(serviceIds.indexOf(value._id)>=0)item.push(value.title);
         else{ // checking if sub service selected

@@ -3,7 +3,6 @@ import { axiosGet, axiosPost } from '../../utils/axiosConfig';
 
 // ============================ async actions =================================
 
-
 export const fetchUser = createAsyncThunk(
     'users/fetchUser',
     async (userId) => {
@@ -78,6 +77,7 @@ const usersSlice = createSlice({
 });
 
 export const usersReducers = usersSlice.reducer;
+
 
 //OLD FIREBASE CODE
 
