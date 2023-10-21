@@ -1,18 +1,16 @@
-//library imports
 import { Container, Input, Button } from 'reactstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
 import { useDispatch, useSelector } from 'react-redux';
 import { useState, useEffect } from 'react';
 import { useParams } from "react-router-dom";
-//local imports
+
 import { fetchWorkersByServiceId, fetchWorkersByKeyword } from '../features/users/usersSlice';
 import { selectServiceIdByTitle } from '../features/services/servicesSlice';
 import WorkerList from '../features/workers/WorkerList';
 import Loading from '../components/Loading';
 
-
-const ServicesPage = () => {
+const WorkerSearchPage = () => {
     const dispatch = useDispatch();
     const isLoading = useSelector((state) => state.services.isLoading);
     const errMsg = useSelector((state) => state.users.errMsg);
@@ -44,7 +42,7 @@ const ServicesPage = () => {
         } 
     }, [isLoading, keyword])
 
-    return isLoading ? ( <Loading /> ) : errMsg ? ( <p>{errMsg}</p> ) : (
+    return isLoading ? ( <div className='mt-3'><Loading /></div> ) : errMsg ? ( <p>{errMsg}</p> ) : (
         <Container>
             <div className='d-flex my-4' id='search-bar'>
                 <Input 
@@ -78,7 +76,7 @@ const ServicesPage = () => {
     );
 };
 
-export default ServicesPage;
+export default WorkerSearchPage;
 
 //OLD CODE
 

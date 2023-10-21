@@ -30,7 +30,7 @@ const HomePage = () => {
                                         className='py-1' 
                                         onChange={(e) => setKeyword(e.target.value)}
                                     />
-                                    <Link to={`/services/${keyword}`}>
+                                    <Link to={`/search/${keyword}`}>
                                         <Button className='custom-button'>Go</Button>
                                     </Link>
                                     <Link to='/about' className='read-me-link'>

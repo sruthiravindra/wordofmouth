@@ -1,5 +1,9 @@
 import { selectParentServices, selectServicesByParent } from '../services/servicesSlice';
 import { useSelector } from 'react-redux';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faBars } from '@fortawesome/free-solid-svg-icons';
+import { useState, useEffect } from 'react';
+import { NavLink, Link } from 'react-router-dom';
 import { 
     Navbar, 
     Collapse,
@@ -15,11 +19,8 @@ import {
     Col,
     Button
 } from 'reactstrap';
-import { useState, useEffect } from 'react';
-import { NavLink, Link } from 'react-router-dom';
+
 import logo from '../../app/assets/img/logo.svg'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faBars } from '@fortawesome/free-solid-svg-icons';
 import Login from '../../components/Login';
 
 const AccordionSubServices = ({ parentId } ) => {
@@ -30,7 +31,7 @@ const AccordionSubServices = ({ parentId } ) => {
                 subservices.map((subService, idx) => (
                     <NavLink
                         className="nav-link"
-                        to={`/services/${subService.title}`}
+                        to={`/search/${subService.title}`}
                         key={idx}
                     >
                         {subService.title}
@@ -47,7 +48,7 @@ const DropdownSubservices = ({ parentId } ) => {
         <>
             {
                 subservices.map((subService, idx) => (
-                    <NavLink className='nav-link' to={`/services/${subService.title}`} key={idx}>
+                    <NavLink className='nav-link' to={`/search/${subService.title}`} key={idx}>
                         <DropdownItem>{subService.title}</DropdownItem>
                     </NavLink>
                     )
@@ -63,7 +64,8 @@ const NavMenu = () => {
     const [isAccordion, setIsAccordian] = useState(false);
     const [accordionOpen, setAccordionOpen] = useState(false);
     const [openDropdownIndex, setOpenDropdownIndex] = useState(null);
-        const toggleDropdown = (idx) => {
+    
+    const toggleDropdown = (idx) => {
         if (openDropdownIndex === idx) {
             setOpenDropdownIndex(null);
         } else {
@@ -154,7 +156,7 @@ const NavMenu = () => {
                                             key={idx}
                                         >
                                             <DropdownToggle nav>
-                                                <NavLink className='parent-nav-link' to={`/services/${parentService.title}`}>
+                                                <NavLink className='parent-nav-link' to={`/search/${parentService.title}`}>
                                                 {parentService.title}
                                                 </NavLink>
                                             </DropdownToggle>
