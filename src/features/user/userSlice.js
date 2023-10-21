@@ -86,6 +86,13 @@ const usersSlice = createSlice({
             //     currentUser: action.payload 
             // }
             state.currentUser = action.payload.profile;
+            state.isLoading = false;
+        },
+        clearCurrentUser: (state) => {
+            state.isAuthenticated = false;
+            state.currentUser = [];
+            state.isLoading = false;
+            localStorage.removeItem('token');
         }
     },
         extraReducers:{
@@ -97,6 +104,7 @@ const usersSlice = createSlice({
         [userLogin.fulfilled]: (state, action) => {
             state.isLoading = false;
             localStorage.setItem('token', action.payload.token);
+            // localStorage.setItem('currentUserProfile', JSON.stringify(action.payload.profile));
             console.log(
                 `Login successful for user with _id: ${action.payload.id}`
             );
@@ -110,6 +118,8 @@ const usersSlice = createSlice({
             state.errMsg = '';
             state.isLoading = false;
             state.currentUser = null;
+            localStorage.removeItem('currentUserProfile');
+            localStorage.removeItem('token');
         },
         [userLogout.rejected]: (state) => {
             state.isLoading = false;
@@ -120,8 +130,9 @@ const usersSlice = createSlice({
 });
 
 export const userReducer = usersSlice.reducer;
-export const {setCurrentUser} = usersSlice.actions;
+export const {setCurrentUser, clearCurrentUser} = usersSlice.actions;
 export const isAuthenticated = () => {
+    console.log(localStorage.getItem('token') , 'token');
     return localStorage.getItem('token') ? true : false;
 };
 export const selectCurrentUser = (state) => state.user.currentUser;

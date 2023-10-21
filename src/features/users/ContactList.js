@@ -1,18 +1,16 @@
 import ContactCard from './ContactCard';
-import { selectUsersByUserIdArray } from "./usersSlice";
+import { selectCurrentUser } from '../user/userSlice';
 import { useSelector } from "react-redux";
-import { Container } from "reactstrap";
 
-const ContactList = ({ userIdArray }) => {
-    const contacts = useSelector(selectUsersByUserIdArray(userIdArray));
-    console.log(contacts);
+const ContactList = () => {
+    const contacts = useSelector(selectCurrentUser).contacts;
 
     return(
         <>
             {
-                contacts.map((contact) => {
+                contacts.map((contact, idx) => {
                     return (
-                        <ContactCard contact={contact} key={contact.id}/>
+                        <ContactCard contact={contact} key={idx}/>
                     )
                 })
             }

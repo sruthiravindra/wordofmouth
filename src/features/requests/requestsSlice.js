@@ -1,32 +1,25 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import { axiosGet, axiosPost } from '../../utils/axiosConfig';
+import { axiosGet, axiosPost, axiosPut } from '../../utils/axiosConfig';
 
-export const fetchSentRequests = createAsyncThunk(
-    'requests/fetchSentRequests',
-    async (currentProfileId) => {
+export const fetchRequests = createAsyncThunk(
+    'requests/fetchRequests',
+    async () => {
         try {
-
+            const response = await axiosGet('requests');
+            return response;
         } catch (err) {
             return Promise.reject("Unable to fetch sent requests", err);
         }
     }   
 )
 
-export const fetchReceivedRequests = createAsyncThunk(
-    'requests/fetchReceivedRequests',
-    async (currentProfileId) => {
-        try {
-
-        } catch (err) {
-            return Promise.reject("Unable to fetch received requests", err);
-        }
-    }   
-)
-
 export const createRequest = createAsyncThunk(
-    async (currentProfileId, requestedProfileId) => {
+    'requests/createRequest',
+    async (request) => {
         try {
-
+            const response = await axiosPost('requests', request)
+            console.log('response', response);
+            return response;
         } catch (err) {
             return Promise.reject("Unable to send request", err);
         }
@@ -35,9 +28,14 @@ export const createRequest = createAsyncThunk(
 
 export const updateRequest = createAsyncThunk(
     'requests/updateRequest',
-    async (status) => {
+    async (data, {dispatch}) => {
         try {
-
+            const { request_id, status } = data;
+            console.log('data', data)
+            const response = await axiosPut(`requests/${request_id}`, { status: status })
+            console.log('response', response);
+            //add the from_id to the current user's contacts array
+            return response
         } catch (err) {
             return Promise.reject("Unable to update request", err);
         }
@@ -45,9 +43,8 @@ export const updateRequest = createAsyncThunk(
 )
 
 const initialState = {
-    sentRequestsArray: [],
-    receivedRequestsArray: [],
-    isLoading: true,
+    requestsArray: [],
+    isLoading: false,
     errMsg: '',
 }
 
@@ -56,27 +53,15 @@ const requestsSlice = createSlice({
     initialState,
     reducers: {},
     extraReducers: {
-        [fetchSentRequests.pending]: (state) => {
+        [fetchRequests.pending]: (state) => {
             state.isLoading = true;
         },
-        [fetchSentRequests.fulfilled]: (state, action) => {
+        [fetchRequests.fulfilled]: (state, action) => {
             state.isLoading = false;
             state.errMsg = '';
-            state.sentRequestsArray = action.payload;
+            state.requestsArray = action.payload;
         },
-        [fetchSentRequests.rejected]: (state, action) => {
-            state.isLoading = false;
-            state.errMsg = action.error ? action.error.message : 'Fetch failed';
-        },
-        [fetchReceivedRequests.pending]: (state) => {
-            state.isLoading = true;
-        },
-        [fetchReceivedRequests.fulfilled]: (state, action) => {
-            state.isLoading = false;
-            state.errMsg = '';
-            state.receivedRequestsArray = action.payload;
-        },
-        [fetchReceivedRequests.rejected]: (state, action) => {
+        [fetchRequests.rejected]: (state, action) => {
             state.isLoading = false;
             state.errMsg = action.error ? action.error.message : 'Fetch failed';
         },
@@ -86,7 +71,6 @@ const requestsSlice = createSlice({
         [createRequest.fulfilled]: (state, action) => {
             state.isLoading = false;
             state.errMsg = '';
-            state.sentRequestsArray.push(action.payload);
         },
         [createRequest.rejected]: (state, action) => {
             state.isLoading = false;
@@ -98,14 +82,10 @@ const requestsSlice = createSlice({
         [updateRequest.fulfilled]: (state, action) => {
             state.isLoading = false;
             state.errMsg = '';
-            const updatedRequests = state.receivedRequestsArray.map(request => {
-                if (request._id === action.payload._id) {
-                    return action.payload;
-                } else {
-                    return request;
-                }
-            });
-            state.receivedRequestsArray = updatedRequests;
+            const updatedRequests = state.requestsArray.filter(request =>
+                request._id !== action.payload.request._id    
+            );
+            state.requestsArray = updatedRequests;
         },
         [updateRequest.rejected]: (state, action) => {
             state.isLoading = false;

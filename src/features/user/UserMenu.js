@@ -1,9 +1,10 @@
 import { useSelector } from "react-redux";
-import { useState, useEffect, useRef } from "react";
+import { useState } from "react";
 import { selectCurrentUser, userLogout  } from "./userSlice";
-import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import { DropdownMenu, DropdownToggle, Dropdown, DropdownItem } from 'reactstrap';
 import { useDispatch } from "react-redux";
+import { toast } from "react-toastify";
 
 const UserMenu = () => {
     const currentUser = useSelector(selectCurrentUser);
@@ -12,6 +13,7 @@ const UserMenu = () => {
     const dispatch = useDispatch();
     const logout = () => {
         dispatch(userLogout())
+                    toast("Logout Successfull!!! ");
     }
 
     return(
@@ -21,25 +23,24 @@ const UserMenu = () => {
                     {currentUser.profile_pic &&
                         <img 
                             src={currentUser.profile_pic}
-                            alt={currentUser.first_name}
+                            alt={currentUser.first_name + currentUser.last_name}
                             style={{ width: '2.5rem', height: '2.5rem' }}
                         />
                     }
-                    <p className='d-inline'>{currentUser.first_name}</p>
                 </DropdownToggle>
                 <DropdownMenu className='user-menu'>
                     <DropdownItem>
-                        <Link to='/account'>
+                        <NavLink to='/account' className='nav-link'>
                             My Account
-                        </Link>
+                        </NavLink>
                     </DropdownItem>
                     <DropdownItem>
-                        <Link to='/contacts' className='red-link'>
+                        <NavLink to='/contacts' className='nav-link'>
                             My Contacts
-                        </Link>
+                        </NavLink>
                     </DropdownItem>
                     <DropdownItem>
-                        <a onClick={logout}>Logout</a>
+                        <a onClick={logout} className='nav-link'>Logout</a>
                     </DropdownItem>
                 </DropdownMenu>
             </Dropdown>

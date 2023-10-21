@@ -1,53 +1,65 @@
+//library imports
 import { Card, Button, Col, Row, Container } from 'reactstrap';
 import { Link } from 'react-router-dom';
-import { useEffect, useState } from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faLocationDot, faPhone, faEnvelope } from '@fortawesome/free-solid-svg-icons';
+import { useDispatch, useSelector } from 'react-redux';
+//local imports
 import StarRating from '../reviews/StarRating';
 import ServiceList from '../services/ServiceList';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faLocationDot } from '@fortawesome/free-solid-svg-icons';
 import ReviewCarousel from '../reviews/ReviewCarousel';
-import GetGeocode from '../../utils/GetGeocode';
-import getDistance from '../../utils/getDistance';
-import { current } from '@reduxjs/toolkit';
+import { createRequest } from '../requests/requestsSlice';
+import { selectCurrentUser } from '../user/userSlice';
 
-const WorkerCard = ({ worker, currentUserGeocode }) => {
-    const {first_name, last_name, profile_pic, _id: id, rating, services, address} = worker;
-    const [distanceAway, setDistanceAway] = useState('...');
+const WorkerCard = ({ worker }) => {
+    const {first_name, last_name, profile_pic, _id: id, rating, services, email, phone, address} = worker;
+    const currentUser = useSelector(selectCurrentUser);
+    let inContacts = null;
+    if (currentUser) { inContacts = currentUser.contacts.find(contact => contact._id === id) }
+    const dispatch = useDispatch();
 
-    useEffect(() => {
-        if (currentUserGeocode) {
-            GetGeocode(address)
-                .then((coordinates) => {
-                    if (coordinates) {
-                        const { latitude:lat2, longitude:lng2 } = coordinates;
-                        const { latitude:lat1, longitude:lng1 } = currentUserGeocode;
-                        const distance = getDistance(lat1, lng1, lat2, lng2);
-                        setDistanceAway(Math.floor(distance));
-                    }
-                })
-                .catch((error) => {
-                    console.error(error);
-                })
+    const requestContact = () => {
+        if (currentUser) {
+            const request = {
+                from_id: currentUser._id,
+                to_id: id
+            }
+            dispatch(createRequest(request));
         } else {
-            setDistanceAway('...');
+            alert('Must be logged in to request contact');
         }
-    }, [currentUserGeocode])
+    }
+
+    const RequestContactButton = () => {
+        return inContacts ?
+        (<>
+            {phone && (
+                <Button>
+                    <FontAwesomeIcon icon={faPhone} />
+                </Button>)}
+            {email && (
+                <Button>
+                    <FontAwesomeIcon icon={faEnvelope} />
+                </Button>)}
+        </>)
+        : (<Button onClick={requestContact}>Request Contact</Button>)
+    }
 
     return (
-        <Card className='worker-card p-0'>
+        <Card className={ inContacts ? 'worker-card-in-contacts' : 'worker-card'}>
             <Container fluid>
                 <Row className='worker-header'>
                     <Col className='location' xs='8'>
                         <FontAwesomeIcon icon={faLocationDot} className='d-inline me-1'/>
-                        <p className='d-inline mb-0'>{`${distanceAway} km away`}</p>
+                        <p className='d-inline mb-0'>{`... km away`}</p>
                     </Col>
                     <Col className='request-btn-col'>
-                        <Button>Request Contact</Button>
+                        <RequestContactButton />
                     </Col>
                 </Row>
                 <Row>
                     <Col xs='3' sm='2' lg='1'>
-                        <div class='flex-shrink-0'>
+                        <div className='flex-shrink-0'>
                             <img 
                             src={profile_pic} 
                             alt='profile picture'
@@ -75,3 +87,30 @@ const WorkerCard = ({ worker, currentUserGeocode }) => {
 };
 
 export default WorkerCard;
+
+// import GetGeocode from '../../utils/GetGeocode';
+// import getDistance from '../../utils/getDistance';
+// import { useEffect, useState } from 'react';
+
+
+// const [distanceAway, setDistanceAway] = useState('...');
+
+
+    // useEffect(() => {
+    //     if (currentUserGeocode) {
+    //         GetGeocode(address)
+    //             .then((coordinates) => {
+    //                 if (coordinates) {
+    //                     const { latitude:lat2, longitude:lng2 } = coordinates;
+    //                     const { latitude:lat1, longitude:lng1 } = currentUserGeocode;
+    //                     const distance = getDistance(lat1, lng1, lat2, lng2);
+    //                     setDistanceAway(Math.floor(distance));
+    //                 }
+    //             })
+    //             .catch((error) => {
+    //                 console.error(error);
+    //             })
+    //     } else {
+    //         setDistanceAway('...');
+    //     }
+    // }, [currentUserGeocode])

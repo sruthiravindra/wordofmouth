@@ -1,18 +1,18 @@
 import axios from 'axios';
 import { baseUrl } from '../app/shared/baseUrl';
-const token = ""
+const token = localStorage.getItem('token')
 
-const get = async (path, data) => {
+const get = async (path) => {
     try {
         const request_url = baseUrl + path;
         const request_header = {
             headers: {
-                // "Authorization": "Bearer " + token,
+                "Authorization": "Bearer " + token,
                 "Content-Type": "application/json",
                 "Access-Control-Allow-Origin": "*"
             }
         }
-        const response = await axios.get(request_url, JSON.stringify(data), request_header);
+        const response = await axios.get(request_url, request_header);
         return response.data;
     } catch (err) {
         console.error(err);
@@ -24,8 +24,9 @@ const post = async (path, data) => {
         const request_url = baseUrl + path;
         const request_header = {
             headers: {
-                // "Authorization": "Bearer " + token,
-                "Content-Type": "application/json"
+                "Authorization": "Bearer " + token,
+                "Content-Type": "application/json",
+                "Access-Control-Allow-Origin": "*"
             }
         }
         const response = await axios.post(request_url, JSON.stringify(data), request_header);
@@ -40,8 +41,9 @@ const put = async (path, data) => {
         const request_url = baseUrl + path;
         const request_header = {
             headers: {
-                // "Authorization": "Bearer " + token,
-                "Content-Type": "application/json"
+                "Authorization": "Bearer " + token,
+                "Content-Type": "application/json",
+                "Access-Control-Allow-Origin": "*"
             }
         }
         const response = await axios.put(request_url, JSON.stringify(data), request_header);

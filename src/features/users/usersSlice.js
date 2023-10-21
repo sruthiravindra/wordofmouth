@@ -1,9 +1,8 @@
-import { createSlice, createAsyncThunk, current } from '@reduxjs/toolkit';
-import { searchServicesByTitle } from '../services/servicesSlice';
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { setCurrentUser } from '../user/userSlice';
 import { functions } from '../../firebaseConfig';
 import { httpsCallable } from 'firebase/functions';
-import { axiosGet, axiosPost, axiosPut } from '../../utils/axiosConfig';
+import { axiosGet, axiosPost } from '../../utils/axiosConfig';
 import { baseUrl } from '../../app/shared/baseUrl';
 
 // ============================ async actions =================================
@@ -20,7 +19,6 @@ export const fetchUser = createAsyncThunk(
     'users/fetchUser',
     async (userId) => {
         const response = await axiosGet(`profiles/${userId}`);
-        console.log(response,"response");
         return response;
     }
 )
@@ -29,7 +27,6 @@ export const fetchWorkersByServiceId = createAsyncThunk(
     async(serviceId) => {
         try{
             const response = await axiosGet(`workers/${serviceId}`);
-            console.log("profiles", response.profiles);
             return response.profiles;
         } catch(err) {
             return Promise.reject("Unable to fetch workers by service id", err);
@@ -43,9 +40,7 @@ export const fetchWorkersByKeyword = createAsyncThunk(
         if (!keyword) { return [] }
         try {
             const serviceIds = await axiosGet(`services/search/${keyword}`);
-            console.log(`service ids retreived with keyword ${keyword}`, serviceIds.serviceIds);
             const response = await axiosPost(`workers/search/${keyword}`, serviceIds.serviceIds);
-            console.log('profiles retrieved', response.profiles);
             return response.profiles;
         } catch (err) {
             return Promise.reject("Unable to fetch workers by keyword", err);
@@ -54,18 +49,31 @@ export const fetchWorkersByKeyword = createAsyncThunk(
 )
 
 export const updateUserProfilePic = createAsyncThunk(
-    "users/updateUserProfilePic",
-    async(data, {dispatch}) => {
-        try{
-            console.log('update user profile pic thunk called')
-            console.log(data.image)
-            const uploadProfilePic = httpsCallable(functions, 'uploadProfilePic');
-            const response = await uploadProfilePic(data);
-            console.log(response);
-            dispatch(setCurrentUser(response.data.user));
-        } catch (e) {
-            return Promise.reject("Unable to update, status :" + e);
+    'users/updateUserProfilePic',
+    async(data,{dispatch})=>{
+
+        const bearer = 'Bearer ' + localStorage.getItem('token');
+        const response = await fetch(
+            baseUrl + 'profiles/' + data.currentUserId+'/updateProfilePic',
+            {
+                method: 'PUT',
+                headers: {
+                    Authorization: bearer,
+                    'Content-Type': 'application/json'
+                },
+                credentials: 'same-origin',
+                body: JSON.stringify({"profile_pic": data.profile_pic})
+            }
+        );
+
+        if (!response.ok) {
+            return Promise.reject(
+                'Error updating profile pic' +
+                    response.status
+            );
         }
+        const returnval = await response.json();
+        dispatch(setCurrentUser(returnval));    
     }
 )
 

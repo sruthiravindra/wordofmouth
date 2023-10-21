@@ -63,7 +63,7 @@ const NavMenu = () => {
     const [isAccordion, setIsAccordian] = useState(false);
     const [accordionOpen, setAccordionOpen] = useState(false);
     const [openDropdownIndex, setOpenDropdownIndex] = useState(null);
-    const toggleDropdown = (idx) => {
+        const toggleDropdown = (idx) => {
         if (openDropdownIndex === idx) {
             setOpenDropdownIndex(null);
         } else {
@@ -130,8 +130,8 @@ const NavMenu = () => {
                                 parentServices.map((parentService, idx) => {
                                     return (
                                         <AccordionItem key={idx}>
-                                            <AccordionHeader targetId={idx}>{parentService.title}</AccordionHeader>
-                                            <AccordionBody accordionId={idx}>
+                                            <AccordionHeader targetId={idx.toString()}>{parentService.title}</AccordionHeader>
+                                            <AccordionBody accordionId={idx.toString()}>
                                                 <AccordionSubServices parentId={parentService._id}/>
                                             </AccordionBody>
                                         </AccordionItem>

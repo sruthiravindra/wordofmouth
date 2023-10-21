@@ -1,27 +1,30 @@
 import { Formik, Form, Field } from "formik";
 import { FormGroup, Label, Modal, ModalBody, ModalHeader, Button } from "reactstrap";
-import { useState } from "react";
+// import { useState } from "react";
 import { Link } from "react-router-dom";
-import { validateUserLoginForm } from "../../utils/validateUserLoginForm";
 import { ErrorMessage } from "formik";
 import { useDispatch, useSelector } from "react-redux";
-import { selectCurrentUser } from "../user/userSlice";
-import UserMenu from "./UserMenu";
-import { userLogin } from './userSlice';
+import { toast } from "react-toastify";
 
+import { validateUserLoginForm } from "../../utils/validateUserLoginForm";
+import { selectCurrentUser, userLogin } from "./userSlice";
+import UserMenu from "./UserMenu";
+import Loading from '../../components/Loading';
 
 // import { selectAllUsers, selectUserByEmailPassword } from "../users/usersSlice";
 // import { getAuth } from "firebase/auth";
 // import { signInWithEmailAndPassword } from "firebase/auth";
 
 const UserLoginForm = (props) => {
+    const isLoading = useSelector((state) => state.user.isLoading);
+    const errMsg = useSelector((state) => state.user.errMsg);
     const modalLoginOpen = props.modalLoginOpen;
     const setModalLoginOpen = props.setModalLoginOpen;
     const loginError = useSelector((state) => state.user.errMsg);
     const currentUser = useSelector(selectCurrentUser);
     const dispatch = useDispatch();
 
-    const LoginUser = async (values) => {
+        const LoginUser = async (values) => {
         dispatch(
             userLogin({
                 username: values.email,
@@ -30,9 +33,10 @@ const UserLoginForm = (props) => {
         )
             .then(response => {
                 if (response.error) {
-                    alert("Login Failed!!!")
+                    toast("Login Failed!!! :: " + response.error.message);
                 } else {
                     setModalLoginOpen(false);
+                    toast("Login Successful!!!");
 
                 }
 
@@ -80,9 +84,12 @@ const UserLoginForm = (props) => {
                                     {(msg) => <p className="text-danger">{msg}</p>}
                                 </ErrorMessage>
                             </FormGroup>
-                            <Button type="submit">
-                                Login
-                            </Button>{' '}
+                            {
+                                isLoading ? (<Loading />) 
+                                : (<Button type="submit">
+                                    Login
+                                </Button>)
+                            }{' '}
                             {/* <Button
                                 variant="contained"
                                 color="secondary"

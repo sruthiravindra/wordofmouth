@@ -1,21 +1,28 @@
-import ContactRequestCard from './ContactRequestCard';
-import { selectUsersByUserIdArray } from "./usersSlice";
 import { useSelector } from "react-redux";
+import { selectCurrentUser } from "../user/userSlice";
+import Loading from '../../components/Loading';
+import ContactRequestCard from './ContactRequestCard';
+import ContactRequestSentCard from "./ContactRequestSentCard";
 
-const ContactList = ({ userIdArray }) => {
-    const contacts = useSelector(selectUsersByUserIdArray(userIdArray));
 
-    return(
+const ContactRequestList = () => {
+    const isLoading = useSelector((state) => state.requests.isLoading);
+    const errMsg = useSelector((state) => state.requests.errMsg);
+    const contactRequests = useSelector((state) => state.requests.requestsArray);
+    const currentUser = useSelector(selectCurrentUser);
+
+    return isLoading ? (<Loading />) : errMsg ? (<p>{errMsg}</p>) 
+    : contactRequests === undefined || contactRequests.length === 0 ? (<p>No requests to display</p>) : (
         <>
             {
-                contacts.map((contact) => {
-                    return (
-                        <ContactRequestCard contact={contact} key={contact.id}/>
-                    )
+                contactRequests.map((request, idx) => {
+                    return request.to_id === currentUser._id 
+                    ? (<ContactRequestCard request={request} key={idx} />) 
+                    : (<ContactRequestSentCard request={request} key={idx} />)
                 })
             }
         </>
     )
 };
 
-export default ContactList;
+export default ContactRequestList;
