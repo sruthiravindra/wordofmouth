@@ -6,49 +6,54 @@ import { axiosGet, axiosPut, axiosPost } from '../../utils/axiosConfig';
 export const userSignup = createAsyncThunk(
     'user/signup',
     async({ username, password, firstName, lastName },{dispatch})=>{
-        const newUser = { username, password, first_name: firstName, last_name: lastName };
-        console.log('new user', newUser);
-        const response = await axiosPost('users/signup', newUser);
-        if (response.status >= 200 && response.status < 300) { 
+        try {
+            const newUser = { username, password, first_name: firstName, last_name: lastName };
+            const response = await axiosPost('users/signup', newUser);
             dispatch(userLogin({ username, password }));
-            return;
+            return response.data;
+        } catch (err) {
+            return Promise.reject(err) 
         }
-        return Promise.reject(response.data.message) 
     }
 );
 
 export const userLogin = createAsyncThunk(
     'user/login',
     async ({ username, password }, { dispatch }) => {
-        const response = await axiosPost('users/login', { username, password })
-        if (response.status >= 200 && response.status < 300) { 
+        try {
+            const response = await axiosPost('users/login', { username, password });
             dispatch(setCurrentUser(response.data));
             return response.data;
-        } 
-        return Promise.reject(response.data.message) 
+        } catch (err) {
+            return Promise.reject(err);
+        }
     }
 );
 
 export const userLogout = createAsyncThunk(
     'user/logout', 
     async () => {
-        const response = await axiosGet('users/logout');
-        // Remove the token on client side no matter what happens with the fetch
-        localStorage.removeItem('token');
-        if (response.status >= 200 && response.status < 300) { return response.data }
-        return Promise.reject(response.data.message);
+        try {
+            const response = await axiosGet('users/logout');
+            // Remove the token on client side no matter what happens with the fetch
+            localStorage.removeItem('token');
+            return response.data;
+        } catch (err) {
+            return Promise.reject(err);
+        }
     }
 );
 
 export const updateUserProfile = createAsyncThunk(
     'users/updateUserProfile', 
     async (data, {dispatch}) => {
-        const response = await axiosPut(`profiles/${data.currentUserId}`, data.profile);
-        if (response.status >= 200 && response.status < 300) { 
+        try {
+            const response = await axiosPut(`profiles/${data.currentUserId}`, data.profile);
             dispatch(setCurrentUser(response.data));
-            return;
-        }
-        return Promise.reject(response.data.message);
+            return response.data;
+        } catch (err) {
+            return Promise.reject(err);
+        }    
     }
 );
 
@@ -67,7 +72,7 @@ const usersSlice = createSlice({
     name: "user",
     initialState,
     reducers:{
-        setCurrentUser : (state, action)=>{
+        setCurrentUser : (state, action) => {
             state.currentUser = action.payload.profile;
         },
         clearCurrentUser: (state) => {
@@ -75,6 +80,9 @@ const usersSlice = createSlice({
             state.currentUser = [];
             state.isLoading = false;
             localStorage.removeItem('token');
+        },
+        setErrMsg : (state, action) => {
+            state.errMsg = action.payload;
         }
     },
     extraReducers:{
@@ -89,7 +97,7 @@ const usersSlice = createSlice({
         },
         [userSignup.rejected]: (state, action) => {
             state.isLoading = false;
-            state.errMsg = 'Sign up failed :: ' + action.payload;
+            state.errMsg = 'Sign up failed :: ' + action.error.message;
         },
         [userLogin.pending]: (state) => {
             state.errMsg = '';
@@ -102,8 +110,9 @@ const usersSlice = createSlice({
             console.log(`Login successful for user with _id: ${action.payload.id}`);
         },
         [userLogin.rejected]: (state, action) => {
+            console.log('action', action)
             state.isLoading = false;
-            state.errMsg = 'Login failed :: ' + action.payload;
+            state.errMsg = 'Login failed :: ' + action.error.message;
             localStorage.removeItem('token');
         },        
         [userLogout.fulfilled]: (state) => {
@@ -115,7 +124,7 @@ const usersSlice = createSlice({
         },
         [userLogout.rejected]: (state, action) => {
             state.isLoading = false;
-            state.errMsg = 'Logout failed :: ' + action.payload;
+            state.errMsg = 'Logout failed :: ' + action.error.message;
             state.currentUser = null;
         },
         [updateUserProfile.pending]: (state) => {
@@ -128,13 +137,13 @@ const usersSlice = createSlice({
         },
         [updateUserProfile.rejected]: (state, action) => {
             state.isLoading = false;
-            state.errMsg = 'Update user profile failed. :: ' + action.payload;
+            state.errMsg = 'Update user profile failed. :: ' + action.error.message;
         }
     }
 });
 
 export const userReducer = usersSlice.reducer;
-export const {setCurrentUser, clearCurrentUser} = usersSlice.actions;
+export const {setCurrentUser, clearCurrentUser, setErrMsg} = usersSlice.actions;
 
 // ============================ selectors =================================
 

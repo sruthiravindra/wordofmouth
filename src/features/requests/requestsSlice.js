@@ -6,31 +6,38 @@ import { axiosGet, axiosPost, axiosPut } from '../../utils/axiosConfig';
 export const fetchRequests = createAsyncThunk(
     'requests/fetchRequests',
     async () => {
-        const response = await axiosGet('requests');
-        if (response.status >= 200 && response.status < 300) { return response.data.requests }
-        return Promise.reject(response.data.message); 
+        try {
+            const response = await axiosGet('requests');
+            return response.data.requests;
+        } catch (err) {
+            return Promise.reject(err);
+        }
     }   
 );
 
 export const createRequest = createAsyncThunk(
     'requests/createRequest',
     async (request) => {
-        const response = await axiosPost('requests', request)
-        if (response.status >= 200 && response.status < 300) { return response.data.request }
-        return Promise.reject(response.data.message); 
+        try {
+            const response = await axiosPost('requests', request);
+            return response.data.request;
+        } catch (err) {
+            return Promise.reject(err);
+        }
     }  
 );
 
 export const updateRequest = createAsyncThunk(
     'requests/updateRequest',
     async (data, {dispatch}) => {
-        const { request_id, status } = data;
-        const response = await axiosPut(`requests/${request_id}`, { status: status })
-        if (response.status >= 200 && response.status < 300) { 
+        try {
+            const { request_id, status } = data;
+            const response = await axiosPut(`requests/${request_id}`, { status: status })
             //add the from_id to the current user's contacts array
             return response.data.request;
+        } catch (err) {
+            return Promise.reject(err);
         }
-        return Promise.reject(response.data.message); 
     } 
 );
 
@@ -57,7 +64,7 @@ const requestsSlice = createSlice({
         },
         [fetchRequests.rejected]: (state, action) => {
             state.isLoading = false;
-            state.errMsg = 'Failed to fetch requests :: ' + action.payload;
+            state.errMsg = 'Failed to fetch requests :: ' + action.error.message;
         },
         [createRequest.pending]: (state) => {
             state.isLoading = true;
@@ -68,7 +75,7 @@ const requestsSlice = createSlice({
         },
         [createRequest.rejected]: (state, action) => {
             state.isLoading = false;
-            state.errMsg = 'Failed to send request :: ' + action.payload;
+            state.errMsg = 'Failed to send request :: ' + action.error.message;
         },
         [updateRequest.pending]: (state) => {
             state.isLoading = true;
@@ -83,7 +90,7 @@ const requestsSlice = createSlice({
         },
         [updateRequest.rejected]: (state, action) => {
             state.isLoading = false;
-            state.errMsg = 'Failed to respond to request :: ' + action.payload;
+            state.errMsg = 'Failed to respond to request :: ' + action.error.message;
         }
     }
 });

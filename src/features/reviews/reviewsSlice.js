@@ -7,21 +7,25 @@ import { axiosPost } from '../../utils/axiosConfig';
 export const fetchReviews = createAsyncThunk(
     'reviews/fetchReviews',
     async (filterdata) => {
-        const response = await axiosPost('reviews/fetchReviews', filterdata);
-        if (response.status >= 200 && response.status < 300) { return response.data }
-        return Promise.reject(response.data.message); 
+        try {
+            const response = await axiosPost('reviews/fetchReviews', filterdata);
+            return response.data;
+        } catch (err) {
+            return Promise.reject(err);
+        }
 
     }
 )
 
 export const addReview = createAsyncThunk(
     'reviews/addReview',
-    async (postdata, {dispatch}) => {
-        const response = await axiosPost('reviews', postdata);
-        if (response.status >= 200 && response.status < 300) { 
+    async (postdata) => {
+        try {
+            const response = await axiosPost('reviews', postdata);
             return response.data; 
+        } catch (err) {
+            return Promise.reject(err);
         }
-        return Promise.reject(response.data.message); 
     }
 );
 
@@ -53,7 +57,7 @@ const reviewsSlice = createSlice({
         },
         [fetchReviews.rejected]: (state, action) => {
             state.isLoading = false;
-            state.errMsg = 'Failed to fetch reviews :: ' + action.payload;
+            state.errMsg = 'Failed to fetch reviews :: ' + action.error.message;
         },
         [addReview.pending]: (state) => {
             state.isLoading = true;
@@ -70,7 +74,7 @@ const reviewsSlice = createSlice({
         },
         [addReview.rejected]: (state, action) => {
             state.isLoading = false;
-            state.errMsg = 'Failed to post review :: ' + action.payload;
+            state.errMsg = 'Failed to post review :: ' + action.error.message;
         }
     }
 });

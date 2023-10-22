@@ -15,6 +15,7 @@ const get = async (path) => {
         return response;
     } catch (err) {
         console.error(err);
+        throw new Error(err.message);
     }
 }
 
@@ -31,6 +32,7 @@ const post = async (path, data) => {
         return response;
     } catch (err) {
         console.error(err);
+        throw new Error(err.message);
     }
 }
 
@@ -47,6 +49,7 @@ const put = async (path, data) => {
         return response;
     } catch (err) {
         console.error(err);
+        throw new Error(err.message);
     }
 }
 

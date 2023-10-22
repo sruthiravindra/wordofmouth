@@ -61,10 +61,10 @@ From the worker's profile page, there's a button at the bottom called 'Add Revie
 ### Calculate Rating When Review is Posted
  The addReview.fulfilled reducer in [reviewsSlice.js](/src/features/reviews/reviewsSlice.js) sets the slice's isLoading to false, pushes the new review to state.reviews.reviewsArray, and calculates the worker's new rating average. It stores this value in state.reviews.ratingAverage. In the [ReviewForm.js](/src/features/reviews/ReviewForm.js) component, a useEffect will run whenever this ratingAverage changes. This is acheived with an additional variable called ratingChange, which is set to boolean true/false depending on if it matches the rating which is currently stored in state.users.workerProfile. If the ratingChange variable is true, the updateWorkerProfile thunk is dispatched with the new average in [usersSlice.js](/src/features/users/usersSlice.js). In the thunk, a PUT request is sent to the server endpoint 'profiles/:profileId'. The server updates the specified profile document, and returns the updated document. The updateWorkerProfile.fulfilled reducer then stores the updated profile in state.users.workerProfile. Back in WorkerProfilePage.js, the profile data is pulled from the Redux state so the most up-to-date value is displayed.
 
-# Future Features
-
-### Review Carousel
+ ### Review Carousel
 In the [WorkerCard.js](/src/features/workers/WorkerCard.js) component, the worker's reviews are fetched from within a React useEffect. A filter_reviewed_user_id is passed with the value of the worker profile id. A POST request is made to the endpoint 'reviews/fetchReviews' in the server, which searches reviews based on the id and returns an array of reviews. The reviews array is passed as a prop into the [ReviewCarousel.js](/src/features/reviews/ReviewCarousel.js) component, which will render the reviews as carousel items with a .map() method. We use the react-responsive-carousel here instead of the bootstrap carousel due to bugs and limited customization (leandrowd.github.io/react-responsive-carousel/). Each review is passed as a prop into the [ReviewPreview.js](/src/features/reviews/ReviewPreview.js) component which neatly displays a summary of the the review information as a Reactstrap Card component.
+
+# Future Features
 
 ### Worker Card Indicates when Request is Pending
 
@@ -111,6 +111,7 @@ In the [WorkerCard.js](/src/features/workers/WorkerCard.js) component, the worke
 - All font awesome icons should use the FontAwesomeIcon component provided by the @fortawesome/react-fontawesome library.
 - Imports go at the top of the file. Any 3rd party imports go first, followed by local imports.
 - File names are in camel case (excluding component files, which should have the first letter capitalized).
+
 
 ## Cloud Functions -- DEPRECATED AFTER SWITCH TO MONGODB
 

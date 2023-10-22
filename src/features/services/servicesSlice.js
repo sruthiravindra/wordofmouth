@@ -7,9 +7,12 @@ import { baseUrl } from '../../app/shared/baseUrl';
 export const fetchServices = createAsyncThunk(
     'services/fetchServices',
     async () => {
-        const response = await axiosGet('services');
-        if (response.status >= 200 && response.status < 300) { return response.data }
-        return Promise.reject(response.data.message); 
+        try {
+            const response = await axiosGet('services');
+            return response.data;
+        } catch (err) {
+            return Promise.reject(err);
+        }
     }
 );
 
@@ -63,7 +66,7 @@ const servicesSlice = createSlice({
         },
         [fetchServices.rejected]: (state, action) => {
             state.isLoading = false;
-            state.errMsg = action.error ? action.error.message : 'Fetch failed';
+            state.errMsg = 'Failed to fetch services :: ' + action.error.message;
         }
     }
 });

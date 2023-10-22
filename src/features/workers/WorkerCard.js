@@ -102,7 +102,11 @@ const WorkerCard = ({ worker }) => {
                     {  
                         reviewsLoading ? (<div><Loading/></div>) 
                         : reviewsError ? (<p>{reviewsError}</p>)
-                        : reviewsArray.length === 0 ? (<p>This worker doesn't have any reviews yet...</p>)
+                        : reviewsArray.length === 0 ? (
+                            <div className='text-center'>
+                                <p>This worker doesn't have any reviews yet...</p>
+                            </div>
+                        )
                         : (<ReviewCarousel reviewsArray={reviewsArray} />) 
                     }
                 </Row>

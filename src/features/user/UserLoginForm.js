@@ -1,19 +1,13 @@
 import { Formik, Form, Field } from "formik";
 import { FormGroup, Label, Modal, ModalBody, ModalHeader, Button } from "reactstrap";
-// import { useState } from "react";
-import { Link } from "react-router-dom";
 import { ErrorMessage } from "formik";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
 
 import { validateUserLoginForm } from "../../utils/validateUserLoginForm";
-import { selectCurrentUser, userLogin } from "./userSlice";
+import { selectCurrentUser, setErrMsg, userLogin } from "./userSlice";
 import UserMenu from "./UserMenu";
 import Loading from '../../components/Loading';
-
-// import { selectAllUsers, selectUserByEmailPassword } from "../users/usersSlice";
-// import { getAuth } from "firebase/auth";
-// import { signInWithEmailAndPassword } from "firebase/auth";
 
 const UserLoginForm = (props) => {
     const isLoading = useSelector((state) => state.user.isLoading);
@@ -33,11 +27,15 @@ const UserLoginForm = (props) => {
         )
             .then(response => {
                 if (response.error) {
-                    toast("Login Failed!!! :: " + response.error.message);
+                    let errMsg = response.error.message;
+                    // if (response.error.message.includes('401')) {
+                    //     errMsg = 'Incorrect login credentials'
+                    // }
+                    // dispatch(setErrMsg(errMsg));
+                    toast("Login Failed: " + errMsg);
                 } else {
                     setModalLoginOpen(false);
-                    toast("Login Successful!!!");
-
+                    toast("Login Successful!");
                 }
 
             });
@@ -89,17 +87,18 @@ const UserLoginForm = (props) => {
                                 : (<Button type="submit">
                                     Login
                                 </Button>)
-                            }{' '}
+                            }
                             {/* <Button
                                 variant="contained"
                                 color="secondary"
                                 onClick={() => LoginWithGoogle(props)} >Login with google</Button> */}
-                            <div style={{ color: "red", display: (loginError == "") ? "none" : "" }}>
-                                <span>{loginError}</span>
-                            </div>
-                            <br />
-                            <br />
-                            <p><Link to="/">Forgot Password</Link></p>
+                            
+                            {
+                                loginError ? 
+                                (<p className='err-msg'>{loginError}</p>) : 
+                                (<></>)
+                            }
+                            {/* <p><Link to="/">Forgot Password</Link></p> */}
                             <p>Not a registered user?
                                 {' '}
                                 <Button

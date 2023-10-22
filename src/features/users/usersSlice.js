@@ -7,39 +7,49 @@ import { axiosGet, axiosPost, axiosPut } from '../../utils/axiosConfig';
 export const fetchUser = createAsyncThunk(
     'users/fetchUser',
     async (profileId) => {
-        const response = await axiosGet(`profiles/${profileId}`);
-        if (response.status >= 200 && response.status < 300) { return response.data }
-        return Promise.reject(response.data.message);
+        try {
+            const response = await axiosGet(`profiles/${profileId}`);
+            return response.data;
+        } catch (err) {
+            return Promise.reject(err);
+        }
     }
 );
 
 export const updateWorkerProfile = createAsyncThunk(
     'users/updateWorkerProfile',
     async ({ profileId, profile }) => {
-        const response = await axiosPut(`profiles/${profileId}`, profile);
-        if (response.status >= 200 && response.status < 300) { return response.data }
-        return Promise.reject(response.data.message);
+        try {
+            const response = await axiosPut(`profiles/${profileId}`, profile);
+            return response.data;
+        } catch (err) {
+            return Promise.reject(err);
+        }
     }
 );
 
 export const fetchWorkersByServiceId = createAsyncThunk(
     "users/fetchWorkersByServiceId",
     async(serviceId) => {
-        const response = await axiosGet(`workers/${serviceId}`);
-        if (response.status >= 200 && response.status < 300) { return response.data.profiles }
-        return Promise.reject(response.data.message);
+        try {
+            const response = await axiosGet(`workers/${serviceId}`);
+            return response.data.profiles;
+        } catch (err) {
+            return Promise.reject(err);
+        }
     }
 )
 
 export const fetchWorkersByKeyword = createAsyncThunk(
     "users/fetchWorkersByKeyword",
     async(keyword) => {
-        if (!keyword) { return [] }
-        const servicesResponse = await axiosGet(`services/search/${keyword}`);
-        if (servicesResponse.status >= 200 && servicesResponse.status < 300) { 
+        try {
+            if (!keyword) { return [] }
+            const servicesResponse = await axiosGet(`services/search/${keyword}`);
             const response = await axiosPost(`workers/search/${keyword}`, servicesResponse.data.serviceIds);
-            if (response.status >= 200 && response.status < 300) { return response.data.profiles }
-            return Promise.reject(response.data.message);
+            return response.data.profiles;
+        } catch (err) {
+            return Promise.reject(err);
         }
     }
 );
@@ -69,7 +79,7 @@ const usersSlice = createSlice({
         },
         [fetchUser.rejected]: (state, action) => {
             state.isLoading = false;
-            state.errMsg = 'Failed to fetch worker :: ' + action.payload
+            state.errMsg = 'Failed to fetch worker :: ' + action.error.message;
         },
         [updateWorkerProfile.pending]: (state) => {
             state.isLoading = true;
@@ -81,7 +91,7 @@ const usersSlice = createSlice({
         },
         [updateWorkerProfile.rejected]: (state, action) => {
             state.isLoading = false;
-            state.errMsg = 'Failed to update worker profile :: ' + action.payload
+            state.errMsg = 'Failed to update worker profile :: ' + action.error.message;
         },
         [fetchWorkersByServiceId.pending]: (state) => {
             state.isLoading = true;
@@ -93,7 +103,7 @@ const usersSlice = createSlice({
         },
         [fetchWorkersByServiceId.rejected]: (state, action) => {
             state.isLoading = false;
-            state.errMsg = 'Failed to fetch workers:: ' + action.payload
+            state.errMsg = 'Failed to fetch workers:: ' + action.error.message;
         },
         [fetchWorkersByKeyword.pending]: (state) => {
             state.isLoading = true;
@@ -105,7 +115,7 @@ const usersSlice = createSlice({
         },
         [fetchWorkersByKeyword.rejected]: (state, action) => {
             state.isLoading = false;
-            state.errMsg = 'Failed to fetch workers:: ' + action.payload
+            state.errMsg = 'Failed to fetch workers:: ' + action.error.message;
         }
     }
 });
