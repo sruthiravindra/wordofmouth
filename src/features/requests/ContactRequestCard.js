@@ -1,7 +1,7 @@
 import { Card, Button, Col, Row } from 'reactstrap';
 import { NavLink } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import { updateRequest } from '../requests/requestsSlice';
+import { updateRequest } from './requestsSlice';
 import StarRating from '../reviews/StarRating';
 
 const ContactRequestCard = ({ request }) => {

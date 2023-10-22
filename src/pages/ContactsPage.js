@@ -4,8 +4,8 @@ import { useState } from 'react';
 import { useEffect } from "react";
 import { fetchRequests } from "../features/requests/requestsSlice";
 import Loading from '../components/Loading';
-import ContactList from '../features/users/ContactList';
-import ContactRequestList from '../features/users/ContactRequestList';
+import ContactList from '../features/requests/ContactList';
+import ContactRequestList from '../features/requests/ContactRequestList';
 
 const ContactsPage = () => {
     const isLoading = useSelector((state) => state.requests.isLoading)
