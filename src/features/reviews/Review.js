@@ -1,20 +1,9 @@
 import { Card, Row, Col } from 'reactstrap';
-// import { useDispatch, useSelector } from 'react-redux';
 import StarRating from './StarRating';
-// import { useState, useEffect } from "react";
-// import {selectUserById, fetchUser} from '../users/usersSlice';
 import { formatDate } from '../../utils/formatDate';
 
 const Review = ({ review }) => {
     const author = review.author_id;
-    // const dispatch = useDispatch();
-    // const [author, setAuthor] = useState(''); 
-    // useEffect(()=>{
-    //     dispatch(fetchUser(review.author_id))
-    //     .then(response=>{
-    //         setAuthor(response.payload.profile);
-    //     })
-    // },[])
 
     return (
         <Card className='p-2 mb-1'>

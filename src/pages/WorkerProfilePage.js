@@ -1,32 +1,32 @@
 import { Container, Row, Col, Button } from "reactstrap";
-import { fetchUser } from "../features/users/usersSlice";
+import { useState, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
-import { useSelector } from "react-redux/es/hooks/useSelector";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faLocationDot } from "@fortawesome/free-solid-svg-icons";
+
+import { fetchWorkerProfile } from "../features/workers/workersSlice";
+import Loading from "../components/Loading";
 import StarRating from "../features/reviews/StarRating";
 import ServiceList from "../features/services/ServiceList";
 import ReviewList from "../features/reviews/ReviewList";
 import ReviewForm from "../features/reviews/ReviewForm";
 import WorkerImageGallery from "../features/workers/WorkerImageGallery";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faLocationDot } from "@fortawesome/free-solid-svg-icons";
-import Loading from "../components/Loading";
-import { useState, useEffect } from "react";
 // import { selectCurrentUser } from "../features/user/userSlice";
 // import GetGeocode from "../utils/GetGeocode";
 // import getDistance from "../utils/getDistance";
-import { useDispatch } from "react-redux";
 
 
 const WorkerProfilePage = () => {
     const { userId } = useParams();
     const dispatch = useDispatch();
     const [distanceAway, setDistanceAway] = useState('...');
-    const worker = useSelector((state) => state.users.workerProfile);
-    const isLoading = useSelector((state) => state.users.isLoading)
-    let errMsg = useSelector((state) => state.users.errMsg);
+    const worker = useSelector((state) => state.workers.workerProfile);
+    const isLoading = useSelector((state) => state.workers.isLoading)
+    let errMsg = useSelector((state) => state.workers.errMsg);
 
     useEffect(()=>{
-        dispatch(fetchUser(userId))
+        dispatch(fetchWorkerProfile(userId))
     },[])
 
     // useEffect(() => {
@@ -90,7 +90,7 @@ const WorkerProfilePage = () => {
                         <p className='d-inline'>({worker.rating})</p>
                         <div className='location'>
                             <FontAwesomeIcon icon={faLocationDot} className='d-inline me-1'/>
-                        <p className='d-inline'>{worker.address}</p>
+                        {/* <p className='d-inline'>{worker.address}</p> */}
                     </div>
                     <ServiceList serviceIds={worker.services}/>
                 </Col>

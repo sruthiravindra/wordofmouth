@@ -3,9 +3,8 @@ import { axiosGet, axiosPost, axiosPut } from '../../utils/axiosConfig';
 
 // ============================ async actions =================================
 
-//rename to fetchWorkerProfile
-export const fetchUser = createAsyncThunk(
-    'users/fetchUser',
+export const fetchWorkerProfile = createAsyncThunk(
+    'workers/fetchWorkerProfile',
     async (profileId) => {
         try {
             const response = await axiosGet(`profiles/${profileId}`);
@@ -17,7 +16,7 @@ export const fetchUser = createAsyncThunk(
 );
 
 export const updateWorkerProfile = createAsyncThunk(
-    'users/updateWorkerProfile',
+    'workers/updateWorkerProfile',
     async ({ profileId, profile }) => {
         try {
             const response = await axiosPut(`profiles/${profileId}`, profile);
@@ -29,7 +28,7 @@ export const updateWorkerProfile = createAsyncThunk(
 );
 
 export const fetchWorkersByServiceId = createAsyncThunk(
-    "users/fetchWorkersByServiceId",
+    "workers/fetchWorkersByServiceId",
     async(serviceId) => {
         try {
             const response = await axiosGet(`workers/${serviceId}`);
@@ -41,7 +40,7 @@ export const fetchWorkersByServiceId = createAsyncThunk(
 )
 
 export const fetchWorkersByKeyword = createAsyncThunk(
-    "users/fetchWorkersByKeyword",
+    "workers/fetchWorkersByKeyword",
     async(keyword) => {
         try {
             if (!keyword) { return [] }
@@ -64,20 +63,20 @@ const initialState = {
     actionReturnData: 0
 }
 
-const usersSlice = createSlice({
-    name: 'users',
+const workersSlice = createSlice({
+    name: 'workers',
     initialState: initialState,
     reducers: {},
     extraReducers: {
-        [fetchUser.pending]: (state) => {
+        [fetchWorkerProfile.pending]: (state) => {
             state.isLoading = true;
         },
-        [fetchUser.fulfilled]: (state, action) => {
+        [fetchWorkerProfile.fulfilled]: (state, action) => {
             state.isLoading = false;
             state.errMsg = '';
             state.workerProfile = action.payload.profile;
         },
-        [fetchUser.rejected]: (state, action) => {
+        [fetchWorkerProfile.rejected]: (state, action) => {
             state.isLoading = false;
             state.errMsg = 'Failed to fetch worker :: ' + action.error.message;
         },
@@ -120,7 +119,7 @@ const usersSlice = createSlice({
     }
 });
 
-export const usersReducers = usersSlice.reducer;
+export const workersReducer = workersSlice.reducer;
 
 
 //OLD FIREBASE CODE

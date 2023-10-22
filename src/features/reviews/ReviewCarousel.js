@@ -4,8 +4,7 @@ import "react-responsive-carousel/lib/styles/carousel.min.css";
 
 
 const ReviewCarousel = ({ reviewsArray }) => {
-    console.log('reviews array', reviewsArray);
-        
+            
     return (
         <div>
             <Carousel

@@ -5,8 +5,8 @@ import { Pagination, PaginationItem, PaginationLink } from "reactstrap";
 import { useState } from "react";
 
 const WorkerList = ({ currentUserGeocode }) => {
-    const workers = useSelector((state) => state.users.workerSearchArray)
-    const isLoading = useSelector((state) => state.users.isLoading)
+    const workers = useSelector((state) => state.workers.workerSearchArray)
+    const isLoading = useSelector((state) => state.workers.isLoading)
 
     const [currentPage, setCurrentPage] = useState(0);
     const pageSize = 10;

@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useState, useEffect } from 'react';
 import { useParams } from "react-router-dom";
 
-import { fetchWorkersByServiceId, fetchWorkersByKeyword } from '../features/users/usersSlice';
+import { fetchWorkersByServiceId, fetchWorkersByKeyword } from '../features/workers/workersSlice';
 import { selectServiceIdByTitle } from '../features/services/servicesSlice';
 import WorkerList from '../features/workers/WorkerList';
 import Loading from '../components/Loading';
@@ -13,7 +13,7 @@ import Loading from '../components/Loading';
 const WorkerSearchPage = () => {
     const dispatch = useDispatch();
     const isLoading = useSelector((state) => state.services.isLoading);
-    const errMsg = useSelector((state) => state.users.errMsg);
+    const errMsg = useSelector((state) => state.workers.errMsg);
     const { keyword } = useParams();
     const [filterString, setFilterString] = useState(keyword);
     const [actionInProgress, setActionInProgress] = useState(false);

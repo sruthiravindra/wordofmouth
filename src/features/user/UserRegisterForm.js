@@ -1,11 +1,9 @@
 import { Formik, Field, Form, ErrorMessage } from "formik";
 import { FormGroup, Button, Label, ModalHeader, ModalBody, Modal, Row, Col } from "reactstrap";
 import { validateUserRegisterForm } from "../../utils/validateUserRegisterForm";
-import {userSignup} from "../user/userSlice";
+import { userSignup } from "../user/userSlice";
 import { useDispatch } from "react-redux";
-import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
-import { database } from "../../firebaseConfig";
-import { doc, onSnapshot } from "firebase/firestore";
+import { getAuth } from "firebase/auth";
 
 const UserRegisterForm = (props) => {
     const modalRegisterOpen = props.modalRegisterOpen;

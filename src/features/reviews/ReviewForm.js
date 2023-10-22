@@ -5,12 +5,12 @@ import { selectCurrentUser } from "../user/userSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { addReview } from "./reviewsSlice";
 import { validateReviewForm } from "../../utils/validateReviewForm";
-import { updateWorkerProfile } from "../users/usersSlice";
+import { updateWorkerProfile } from "../workers/workersSlice";
 
 const ReviewForm = ({ userId }) => {
     const [modalOpen, setModalOpen] = useState(false);
     const currentUser = useSelector(selectCurrentUser);
-    const workerProfile = useSelector((state) => state.users.workerProfile);
+    const workerProfile = useSelector((state) => state.workers.workerProfile);
     const ratingAverage = useSelector((state) => state.reviews.ratingAverage);
     const [formSubmitted, setFormSubmitted] = useState(false);
     const ratingChange = ratingAverage !== workerProfile.rating;

@@ -25,7 +25,6 @@ function App() {
 
   useEffect(() => {
     dispatch(fetchServices());
-    dispatch(fetchReviews());
   }, [dispatch]);
 
   return (

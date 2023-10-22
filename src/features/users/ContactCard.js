@@ -27,7 +27,7 @@ const ContactCard = ({ contact }) => {
                                 <ServiceList serviceIds={services}/>
                             </div>
                             <div className='contact-info-btns'>
-                                <Button>Leave a review</Button>
+                                {/* <Button>Leave a review</Button> */}
                                 {
                                     phone && (<Button>
                                         <FontAwesomeIcon icon={faPhone} />

@@ -17,8 +17,10 @@ const ContactsPage = () => {
         dispatch(fetchRequests());
     }, [dispatch])
 
-    return isLoading ? (<Loading />) : errMsg ? (<p>{errMsg}</p>) : (
-        <>
+    return isLoading ? (<div className='mt-3'><Loading /></div>) 
+        : (errMsg) 
+        ? (<p className='mt-3 text-center'>{errMsg}</p>) 
+        : (<>
             <Nav tabs>
                 <NavItem>
                     <NavLink className={activeTab === '1' ? 'active' : ''} onClick={() => setActiveTab('1')}>

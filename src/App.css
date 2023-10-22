@@ -445,15 +445,16 @@ div.contact-card-info {
 
 div.contact-info-btns {
   display: flex;
+  flex-direction: column;
   flex-grow: 1;
-  justify-content: end;
+  align-items: end;
 }
 
 div.contact-info-btns button {
   display: flex;
   align-items: center;
-  margin-left: 0.5em;
   padding: 0.25em 0.5em;
+  margin: 0.1em 0em;
   background-color: white;
 }
 

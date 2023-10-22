@@ -70,6 +70,10 @@ In the [WorkerCard.js](/src/features/workers/WorkerCard.js) component, the worke
 
 ### Delete Account
 
+### Add functionality to the 'leave a review' button in ContactCard.js
+
+### Distance Away displayed on worker cards
+
 ### Email/text sent on account creation
 
 ### Email/text on account deletion
@@ -91,17 +95,22 @@ In the [WorkerCard.js](/src/features/workers/WorkerCard.js) component, the worke
 <!-- - eliminate the updateUserProfilePic thunk? It essentially just updates the profile_pic field which can be accomplished with updateUserDetails -->
 <!-- - remove WorkerFilteredList.js ? The data is now being filtered as it is fetched -->
 <!-- - rename ServicesPage.js to WorkerSearchPage.js ? -->
-- clean up usage of 'profile' vs 'user'
-- instead of storing the profile in local storage, dispatch userLogin when the application is first loaded. In userLogin, check to see if there's a token in local storage. If so, send a request to a new endpoint on the server 'users/restore' which will fetch the user's profile with the token. 
-- remove the forgot password link on the login modal until we add functionality to that
-- add functionality to the 'leave a review' button in ContactCard.js
+<!-- - remove the forgot password link on the login modal until we add functionality to that -->
+<!-- - instead of fetching all reviews when the app loads, fetch reviews in a useEffect from within WorkerCard.js and WorkerProfilePage.js. Only store reviews for the current worker profile page. --> 
+- rename fetchUser to fetchWorkerProfile
+- rename the usersSlice to workersSlice and move to worker folder
+- move Contact/Request files to the 'requests' folder and remove the 'users' folder
 - prevent a user from requesting a contact if a request has already been sent
 - replace 'request contact' button on WorkerProfilePage.js with contact info if in current user's contacts
 - in requestsSlice.js updateRequest thunk, push the from_id user's profile into the current User's contacts
-- rework the geocode and distance away feature which is displayed on WorkerCard.js and WorkerProfilePage.js
-- instead of fetching all reviews when the app loads, fetch reviews in a useEffect from within WorkerCard.js and WorkerProfilePage.js. Only store reviews for the current worker profile page.
 - remove the teams feature?
 - add toast notifications everywhere data is updated
+- update the About page
+
+- customize the look of the toast notifications
+- make error messages prettier
+- clean up usage of 'profile' vs 'user'
+- instead of storing the profile in local storage, dispatch userLogin when the application is first loaded. In userLogin, check to see if there's a token in local storage. If so, send a request to a new endpoint on the server 'users/restore' which will fetch the user's profile with the token.
 
 ### style guide
 - Single quotes are default, only use double quotes where necessary.

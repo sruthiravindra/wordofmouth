@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
 
 import { validateUserLoginForm } from "../../utils/validateUserLoginForm";
-import { selectCurrentUser, setErrMsg, userLogin } from "./userSlice";
+import { selectCurrentUser, userLogin } from "./userSlice";
 import UserMenu from "./UserMenu";
 import Loading from '../../components/Loading';
 
@@ -27,12 +27,7 @@ const UserLoginForm = (props) => {
         )
             .then(response => {
                 if (response.error) {
-                    let errMsg = response.error.message;
-                    // if (response.error.message.includes('401')) {
-                    //     errMsg = 'Incorrect login credentials'
-                    // }
-                    // dispatch(setErrMsg(errMsg));
-                    toast("Login Failed: " + errMsg);
+                    toast("Login Failed: " + response.error.message);
                 } else {
                     setModalLoginOpen(false);
                     toast("Login Successful!");
