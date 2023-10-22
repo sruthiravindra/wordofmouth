@@ -2,6 +2,7 @@ import { Card, Col, Row } from 'reactstrap';
 import { NavLink } from 'react-router-dom';
 import StarRating from '../reviews/StarRating';
 import { formatDate } from '../../utils/formatDate';
+import '../../css/features/requests.css';
 
 const ContactRequestSentCard = ({ request }) => {
     const {first_name, last_name, profile_pic, rating, _id: user_id } = request.to_users[0];

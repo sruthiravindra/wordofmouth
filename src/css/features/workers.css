@@ -1,0 +1,91 @@
+/* WORKER CARD */
+
+.card.worker-card {
+    margin-bottom: 1em;
+    border-radius: 0em;
+    background-color: rgb(246, 241, 241);
+  }
+  
+.worker-header {
+  background-color: rgb(196, 31, 9);
+  margin-bottom: 0.7em;
+  padding: 0.5em 0em;
+}
+
+.request-btn-col {
+  display: flex;
+  justify-content: end;
+  padding: 0em;
+}
+
+.request-btn-col .btn {
+  color: white;
+  background-color: rgb(214, 72, 54);
+  padding: 0.3em 0.5em;
+  margin: 0em;
+  font-size: small;
+}
+
+.profile-pic-small {
+  border: 1px solid rgb(199, 199, 199);
+  border-radius: 10em;
+}
+
+.location {
+  color: white;
+  opacity: 0.7;
+  font-size: small;
+  display: flex;
+  align-items: center;
+}
+
+.clicked-button {
+  text-align: center;
+  font-size: small;
+  color: rgb(22, 137, 203);
+  padding: 0.5em;
+}
+
+.card-title {
+  font-weight: 500;
+  font-size: 1.25rem;
+}
+
+p.in-your-contacts {
+  color: white;
+  opacity: 0.7;
+  font-style: italic;
+  margin-bottom: 0;
+}
+
+p.request-sent {
+  margin: 0em;
+  color: white;
+  opacity: 0.7;
+  font-size: small;
+  font-style: italic;
+}
+  
+  /* WORKER CARD (IN CONTACTS) */
+  
+.card.worker-card-in-contacts {
+  margin-bottom: 1em;
+  border-radius: 0em;
+  background-color: rgb(241, 246, 242);
+}
+
+.card.worker-card-in-contacts .worker-header {
+  background-color: rgb(121, 200, 122);
+  margin-bottom: 0.7em;
+  padding: 0.5em 0em;
+}
+
+.card.worker-card-in-contacts button {
+  border: none;
+  background-color: rgb(84, 170, 85);
+}
+
+.card.worker-card-in-contacts button:hover {
+  color: rgb(241, 246, 242);
+  background-color: rgb(57, 142, 59);
+}

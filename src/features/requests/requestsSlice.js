@@ -8,7 +8,7 @@ export const fetchRequests = createAsyncThunk(
     async () => {
         try {
             const response = await axiosGet('requests');
-            return response.data.requests;
+            return response.data;
         } catch (err) {
             return Promise.reject(err);
         }
@@ -17,9 +17,10 @@ export const fetchRequests = createAsyncThunk(
 
 export const createRequest = createAsyncThunk(
     'requests/createRequest',
-    async (request) => {
+    async (request, {dispatch}) => {
         try {
             const response = await axiosPost('requests', request);
+            dispatch(fetchRequests);
             return response.data.request;
         } catch (err) {
             return Promise.reject(err);
@@ -96,3 +97,11 @@ const requestsSlice = createSlice({
 });
 
 export const requestsReducers = requestsSlice.reducer;
+
+export const findRequestByToId = (profileId) => (state) => {
+    const found = state.requests.requestsArray.find(request =>
+        request.to_id === profileId
+    );
+    if (found) return true;
+    return false;
+}

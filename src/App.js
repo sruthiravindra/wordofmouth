@@ -1,8 +1,13 @@
 import React from 'react';
-import './App.css';
-import Footer from './components/Footer';
-import NavMenu from './features/nav/NavMenu';
 import { Route, Routes } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { useEffect } from 'react';
+
+import { fetchServices } from './features/services/servicesSlice';
+import { selectCurrentUser } from "./features/user/userSlice";
+import { fetchRequests } from './features/requests/requestsSlice';
+import { useSelector } from 'react-redux';
+import { ToastContainer } from 'react-toastify';
 import AboutPage from './pages/AboutPage';
 import HomePage from './pages/HomePage';
 import WorkerSearchPage from './pages/WorkerSearchPage';
@@ -10,14 +15,10 @@ import WorkerProfilePage from './pages/WorkerProfilePage';
 import ContactUsPage from './pages/ContactUsPage';
 import ContactsPage from './pages/ContactsPage';
 import AccountPage from './pages/AccountPage';
-import { useDispatch } from 'react-redux';
-import { useEffect } from 'react';
-import { fetchServices } from './features/services/servicesSlice';
-import { fetchReviews } from './features/reviews/reviewsSlice';
-import { selectCurrentUser } from "./features/user/userSlice";
-import { useSelector } from 'react-redux';
-import { ToastContainer, toast } from 'react-toastify';
+import Footer from './components/Footer';
+import NavMenu from './components/NavMenu';
 import 'react-toastify/dist/ReactToastify.css';
+import './App.css';
 
 function App() {
   const dispatch = useDispatch();
@@ -26,6 +27,12 @@ function App() {
   useEffect(() => {
     dispatch(fetchServices());
   }, [dispatch]);
+
+  useEffect(() => {
+    if (currentUser) {
+      dispatch(fetchRequests());
+    }
+  }, [currentUser, dispatch])
 
   return (
     <div className="App">

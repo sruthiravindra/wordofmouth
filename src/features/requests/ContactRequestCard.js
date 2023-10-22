@@ -3,6 +3,7 @@ import { NavLink } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { updateRequest } from './requestsSlice';
 import StarRating from '../reviews/StarRating';
+import '../../css/features/requests.css';
 
 const ContactRequestCard = ({ request }) => {
     const {first_name, last_name, profile_pic, rating, _id: user_id } = request.from_users[0];

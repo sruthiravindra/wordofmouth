@@ -1,0 +1,57 @@
+.site-footer {
+    background-color: black;
+    color: white;
+    padding: 2em 0;
+    margin-top: 3rem;
+  }
+  
+  .site-footer a.btn {
+    color: black;
+    background-color: rgb(238, 238, 238);
+    border: none;
+    border-radius: 5em;
+    margin: 0.8em 0.3em;
+    padding: 0.5em 0.6em;
+  }
+  
+  .site-footer div.row {
+    text-align: center;
+  }
+  
+  .site-footer .footer-links {
+    list-style-type: none;
+    margin-top: 1em;
+  }
+  
+  .site-footer .footer-links li {
+    display: inline;
+    margin: 0em 0.5em;
+  }
+  
+  .site-footer .footer-links a {
+    color: white;
+    text-decoration: none;
+  }
+  
+  .site-footer .subscribe {
+    margin-top: 1em;
+    font-size: small;
+  }
+  
+  .site-footer .subscribe div {
+    display: flex;
+    justify-content: center;
+  }
+  
+  .site-footer .subscribe input {
+    padding: 0.3em 0em;
+    border-radius: 0em;
+    border: none;
+  }
+  
+  .site-footer .subscribe .btn {
+    color: white;
+    background-color: black;
+    border: 1px solid white;
+    border-radius: 0em;
+  }

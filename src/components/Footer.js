@@ -2,6 +2,7 @@ import { Row, Col, Container, Input, Button } from "reactstrap";
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faInstagram, faFacebook, faXTwitter, faYoutube } from "@fortawesome/free-brands-svg-icons";
+import '../css/components/Footer.css'
 
 const Footer = () => {
     return (

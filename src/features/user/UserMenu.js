@@ -5,6 +5,7 @@ import { NavLink } from "react-router-dom";
 import { DropdownMenu, DropdownToggle, Dropdown, DropdownItem } from 'reactstrap';
 import { useDispatch } from "react-redux";
 import { toast } from "react-toastify";
+import '../../css/features/user.css';
 
 const UserMenu = () => {
     const currentUser = useSelector(selectCurrentUser);

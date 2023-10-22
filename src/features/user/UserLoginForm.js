@@ -8,6 +8,8 @@ import { validateUserLoginForm } from "../../utils/validateUserLoginForm";
 import { selectCurrentUser, userLogin } from "./userSlice";
 import UserMenu from "./UserMenu";
 import Loading from '../../components/Loading';
+import '../../css/features/user.css';
+
 
 const UserLoginForm = (props) => {
     const isLoading = useSelector((state) => state.user.isLoading);

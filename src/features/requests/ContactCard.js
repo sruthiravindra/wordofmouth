@@ -4,6 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPhone, faEnvelope } from '@fortawesome/free-solid-svg-icons';
 import StarRating from '../reviews/StarRating';
 import ServiceList from '../services/ServiceList';
+import '../../css/features/requests.css';
 
 const ContactCard = ({ contact }) => {
     const {first_name, last_name, profile_pic, _id, rating, services, email, phone} = contact;

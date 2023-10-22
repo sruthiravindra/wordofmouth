@@ -1,6 +1,7 @@
 import { selectServiceTitleById } from './servicesSlice';
 import { Row, Col } from 'reactstrap';
 import { useSelector } from "react-redux";
+import '../../css/features/services.css';
 
 const ServiceList = ({ serviceIds }) => {
     const services = useSelector(selectServiceTitleById(serviceIds));

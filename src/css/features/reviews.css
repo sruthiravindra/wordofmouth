@@ -1,0 +1,26 @@
+/* REVIEW PREVIEW */
+
+.review-preview.card {
+    font-size: small;
+    border: none;
+    padding: 0.5em 1.5em;
+    border-radius: 0em;
+  }
+  
+  .review-signature.row {
+    text-align: end;
+    justify-content: end;
+    margin-right: 1em;
+  }
+  
+  .review-signature.row p {
+    display: inline;
+    margin: 0em 0.3em;
+    padding: 0em;
+    font-style: italic;
+  }
+  
+  .review-title {
+    font-weight: bold;
+    font-size: medium;
+  }

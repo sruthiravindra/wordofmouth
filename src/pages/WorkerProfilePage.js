@@ -12,6 +12,7 @@ import ServiceList from "../features/services/ServiceList";
 import ReviewList from "../features/reviews/ReviewList";
 import ReviewForm from "../features/reviews/ReviewForm";
 import WorkerImageGallery from "../features/workers/WorkerImageGallery";
+import '../css/pages/WorkerProfilePage.css';
 // import { selectCurrentUser } from "../features/user/userSlice";
 // import GetGeocode from "../utils/GetGeocode";
 // import getDistance from "../utils/getDistance";
@@ -48,22 +49,9 @@ const WorkerProfilePage = () => {
     //     }
     // }, [currentUser])
 
-    if (isLoading) {
-        return (
-            <div className='mt-3'><Loading /></div>
-        )
-    } 
-    
-    if (errMsg) {
-        return (
-            <div>
-                {errMsg}
-            </div>
-        )
-    }
-
-    return (
-        <Container fluid className='p-3'>
+    return isLoading ? (<div className='mt-3'><Loading /></div>) 
+        : errMsg ? (<p>{errMsg}</p>) 
+        : (<Container fluid className='p-3'>
             <Row className='profile-page-header'>
                 <Col>
                     <div className='location'>

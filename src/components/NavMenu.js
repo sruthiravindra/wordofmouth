@@ -1,4 +1,4 @@
-import { selectParentServices, selectServicesByParent } from '../services/servicesSlice';
+import { selectParentServices, selectServicesByParent } from '../features/services/servicesSlice';
 import { useSelector } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBars } from '@fortawesome/free-solid-svg-icons';
@@ -20,8 +20,9 @@ import {
     Button
 } from 'reactstrap';
 
-import logo from '../../app/assets/img/logo.svg'
-import Login from '../../components/Login';
+import logo from '../app/assets/img/logo.svg'
+import Login from './Login';
+import '../css/components/NavMenu.css';
 
 const AccordionSubServices = ({ parentId } ) => {
     const subservices = useSelector(selectServicesByParent(parentId));

@@ -1,6 +1,7 @@
 import { Card, Row, Col } from 'reactstrap';
 import StarRating from './StarRating';
 import { formatDate } from '../../utils/formatDate';
+import '../../css/features/reviews.css';
 
 const ReviewPreview = ({ review }) => {
     const author = review.author_id;

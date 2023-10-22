@@ -1,0 +1,27 @@
+/* USER LOGIN FORM */
+
+.err-msg {
+    color: red;
+    margin-top: 0.5em;
+}
+  
+/* USER MENU */
+
+button.dropdown-item a.nav-link {
+    color: black;
+    padding: 0;
+}
+
+/* USER PROFILE UPLOAD */
+
+.profile-image-input {
+    color: grey;
+    border: 1px solid grey;
+    text-align: center;
+    padding: 0.2em 0.5em;
+    margin: 0.7em 0.2em;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 0.2em;
+}

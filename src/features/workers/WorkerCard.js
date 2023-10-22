@@ -4,14 +4,16 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faLocationDot, faPhone, faEnvelope } from '@fortawesome/free-solid-svg-icons';
 import { useDispatch, useSelector } from 'react-redux';
 import { useState, useEffect } from 'react';
+import { toast } from "react-toastify";
 
-import { createRequest } from '../requests/requestsSlice';
+import { createRequest, findRequestByToId } from '../requests/requestsSlice';
 import { selectCurrentUser } from '../user/userSlice';
 import { axiosPost } from '../../utils/axiosConfig';
 import StarRating from '../reviews/StarRating';
 import ServiceList from '../services/ServiceList';
 import ReviewCarousel from '../reviews/ReviewCarousel';
 import Loading from '../../components/Loading';
+import '../../css/features/workers.css';
 
 const WorkerCard = ({ worker }) => {
     const {first_name, last_name, profile_pic, _id: id, rating, services, email, phone, _id} = worker;
@@ -21,7 +23,10 @@ const WorkerCard = ({ worker }) => {
     const [reviewsError, setReviewsError] = useState('');
     const [reviewsArray, setReviewsArray] = useState([]);
     let inContacts = null;
-    if (currentUser) { inContacts = currentUser.contacts.find(contact => contact._id === id) }
+    let requestSent = useSelector(findRequestByToId(id));
+    if (currentUser) { 
+        inContacts = currentUser.contacts.find(contact => contact._id === id) 
+    }
 
     useEffect(() => {
         axiosPost('reviews/fetchReviews', { filter_reviewed_user_id: _id })
@@ -44,7 +49,15 @@ const WorkerCard = ({ worker }) => {
                 from_id: currentUser._id,
                 to_id: id
             }
-            dispatch(createRequest(request));
+            dispatch(createRequest(request))
+                .then(response => {
+                    if (response.error) {
+                        toast("Failed to Send Request: " + response.error.message);
+                    } else {
+                        toast("Contact Request Sent!");
+                    }
+    
+                });
         } else {
             alert('Must be logged in to request contact');
         }
@@ -62,6 +75,8 @@ const WorkerCard = ({ worker }) => {
                     <FontAwesomeIcon icon={faEnvelope} />
                 </Button>)}
         </>)
+        : requestSent ?
+        (<p className='request-sent'>request sent</p>)
         : (<Button onClick={requestContact}>Request Contact</Button>)
     }
 

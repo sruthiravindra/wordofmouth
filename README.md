@@ -99,15 +99,18 @@ In the [WorkerCard.js](/src/features/workers/WorkerCard.js) component, the worke
 <!-- - instead of fetching all reviews when the app loads, fetch reviews in a useEffect from within WorkerCard.js and WorkerProfilePage.js. Only store reviews for the current worker profile page. --> 
 <!-- - rename fetchUser to fetchWorkerProfile -->
 <!-- - rename the usersSlice to workersSlice and move to worker folder -->
-- move Contact/Request files to the 'requests' folder and remove the 'users' folder
-- move nav NavMenu component to the components folder
-- add a css folder and separate css into separate files
-- prevent a user from requesting a contact if a request has already been sent
+<!-- - move Contact/Request files to the 'requests' folder and remove the 'users' folder -->
+<!-- - move nav NavMenu component to the components folder -->
+<!-- - add a css folder and separate css into separate files -->
+<!-- - remove the teams feature? -->
+<!-- - prevent a user from requesting a contact if a request has already been sent -->
 - replace 'request contact' button on WorkerProfilePage.js with contact info if in current user's contacts
 - in requestsSlice.js updateRequest thunk, push the from_id user's profile into the current User's contacts
-- remove the teams feature?
 - add toast notifications everywhere data is updated
 - update the About page
+- update title + favicon
+
+### can do later
 
 - customize the look of the toast notifications
 - make error messages prettier

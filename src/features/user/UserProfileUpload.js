@@ -8,6 +8,7 @@ import { ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircleArrowUp } from '@fortawesome/free-solid-svg-icons';
 import { toast } from "react-toastify";
+import '../../css/features/user.css';
 
 const UserProfileUpload = () => {
     const currentUser = useSelector(selectCurrentUser);

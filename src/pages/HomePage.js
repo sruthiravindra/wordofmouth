@@ -3,6 +3,7 @@ import ktmAerialImg from '../app/assets/img/ktm-aerial.jpeg';
 import { Link } from 'react-router-dom';
 import { useState } from 'react';
 import { useSpring, animated } from 'react-spring';
+import '../css/pages/HomePage.css';
 
 const HomePage = () => {
     const fadeProps = useSpring({

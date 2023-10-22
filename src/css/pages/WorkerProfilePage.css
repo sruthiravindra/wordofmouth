@@ -1,0 +1,22 @@
+div.profile-page-header {
+    background-color: rgb(196, 31, 9);
+    padding: 0.5em;
+    margin-bottom: 2em;
+}
+
+div.profile-page-header div.col {
+    display: flex;
+    align-items: center;
+}
+
+div.profile-page-header .btn {
+    margin-left: auto;
+    font-size: small;
+}
+
+div.profile-page-header p {
+    color: white;
+    font-size: small;
+    margin-bottom: 0em;
+    padding-left: 0.5em;
+}
