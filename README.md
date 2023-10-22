@@ -104,8 +104,8 @@ In the [WorkerCard.js](/src/features/workers/WorkerCard.js) component, the worke
 <!-- - add a css folder and separate css into separate files -->
 <!-- - remove the teams feature? -->
 <!-- - prevent a user from requesting a contact if a request has already been sent -->
-- replace 'request contact' button on WorkerProfilePage.js with contact info if in current user's contacts
-- in requestsSlice.js updateRequest thunk, push the from_id user's profile into the current User's contacts
+<!-- - replace 'request contact' button on WorkerProfilePage.js with contact info if in current user's contacts -->
+<!-- - in requestsSlice.js updateRequest thunk, push the from_id user's profile into the current User's contacts -->
 - add toast notifications everywhere data is updated
 - update the About page
 - update title + favicon

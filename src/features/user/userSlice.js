@@ -81,8 +81,8 @@ const usersSlice = createSlice({
             state.isLoading = false;
             localStorage.removeItem('token');
         },
-        setErrMsg : (state, action) => {
-            state.errMsg = action.payload;
+        pushContact : (state, action) => {
+            state.currentUser.contacts.push(action.payload);
         }
     },
     extraReducers:{
@@ -143,7 +143,7 @@ const usersSlice = createSlice({
 });
 
 export const userReducer = usersSlice.reducer;
-export const {setCurrentUser, clearCurrentUser, setErrMsg} = usersSlice.actions;
+export const {setCurrentUser, clearCurrentUser, pushContact} = usersSlice.actions;
 
 // ============================ selectors =================================
 

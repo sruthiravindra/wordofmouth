@@ -1,6 +1,6 @@
 import { Card, Button, Col, Row } from 'reactstrap';
 import { NavLink } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { updateRequest } from './requestsSlice';
 import StarRating from '../reviews/StarRating';
 import '../../css/features/requests.css';
@@ -13,6 +13,7 @@ const ContactRequestCard = ({ request }) => {
     const approveRequest = () => {
         const data = {
             request_id: request_id,
+            from_id: user_id,
             status: 'Approved'
         }
         dispatch(updateRequest(data));
@@ -21,6 +22,7 @@ const ContactRequestCard = ({ request }) => {
     const declineRequest = () => {
         const data = {
             request_id: request_id,
+            from_id: null,
             status: 'Declined'
         }
         dispatch(updateRequest(data));

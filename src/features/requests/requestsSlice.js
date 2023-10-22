@@ -1,5 +1,7 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { axiosGet, axiosPost, axiosPut } from '../../utils/axiosConfig';
+import { pushContact } from '../user/userSlice';
+import { fetchWorkerProfile } from '../workers/workersSlice';
 
 // ============================ async actions =================================
 
@@ -32,9 +34,16 @@ export const updateRequest = createAsyncThunk(
     'requests/updateRequest',
     async (data, {dispatch}) => {
         try {
-            const { request_id, status } = data;
+            const { request_id, from_id, status } = data;
             const response = await axiosPut(`requests/${request_id}`, { status: status })
-            //add the from_id to the current user's contacts array
+            if (status === 'Approved') { 
+                try {
+                    const response = await axiosGet(`profiles/${from_id}`);
+                    dispatch(pushContact(response.data.profile));
+                } catch (err) {
+                    return Promise.reject(err);
+                }
+            }
             return response.data.request;
         } catch (err) {
             return Promise.reject(err);
@@ -85,7 +94,7 @@ const requestsSlice = createSlice({
             state.isLoading = false;
             state.errMsg = '';
             const updatedRequests = state.requestsArray.filter(request =>
-                request._id !== action.payload.request._id    
+                request._id !== action.payload._id    
             );
             state.requestsArray = updatedRequests;
         },
