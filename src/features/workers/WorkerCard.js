@@ -22,6 +22,8 @@ const WorkerCard = ({ worker }) => {
     const [reviewsLoading, setReviewsLoading] = useState(true);
     const [reviewsError, setReviewsError] = useState('');
     const [reviewsArray, setReviewsArray] = useState([]);
+    const [requestLoading, setRequestLoading] = useState(false);
+    const [reqBtnClicked, setReqBtnClicked] = useState(false);
     let inContacts = null;
     let requestSent = useSelector(findRequestByToId(id));
     if (currentUser) { 
@@ -45,6 +47,8 @@ const WorkerCard = ({ worker }) => {
 
     const requestContact = () => {
         if (currentUser) {
+            setRequestLoading(true);
+            setReqBtnClicked(true);
             const request = {
                 from_id: currentUser._id,
                 to_id: id
@@ -57,15 +61,18 @@ const WorkerCard = ({ worker }) => {
                         toast("Contact Request Sent!");
                     }
     
-                });
+                })
+                .finally(() => { setRequestLoading(false) });
         } else {
             alert('Must be logged in to request contact');
         }
     }
 
     const RequestContactButton = () => {
-        return inContacts ?
-        (<>
+        return requestLoading
+        ? (<Loading />)
+        : inContacts 
+        ? (<>
             {phone && (
                 <Button>
                     <FontAwesomeIcon icon={faPhone} />
@@ -75,8 +82,8 @@ const WorkerCard = ({ worker }) => {
                     <FontAwesomeIcon icon={faEnvelope} />
                 </Button>)}
         </>)
-        : requestSent ?
-        (<p className='request-sent'>request sent</p>)
+        : requestSent || reqBtnClicked
+        ? (<p className='request-sent'>request sent</p>)
         : (<Button onClick={requestContact}>Request Contact</Button>)
     }
 
@@ -118,7 +125,7 @@ const WorkerCard = ({ worker }) => {
                         reviewsLoading ? (<div><Loading/></div>) 
                         : reviewsError ? (<p>{reviewsError}</p>)
                         : reviewsArray.length === 0 ? (
-                            <div className='text-center'>
+                            <div>
                                 <p>This worker doesn't have any reviews yet...</p>
                             </div>
                         )

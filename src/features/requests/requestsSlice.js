@@ -20,8 +20,8 @@ export const createRequest = createAsyncThunk(
     async (request, {dispatch}) => {
         try {
             const response = await axiosPost('requests', request);
-            dispatch(fetchRequests);
-            return response.data.request;
+            dispatch(fetchRequests());
+            return response.data;
         } catch (err) {
             return Promise.reject(err);
         }
