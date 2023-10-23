@@ -25,7 +25,7 @@ div.profile-page-header p {
 }
 
 .profile-page-header div.loading-icon {
-    color: white;
+    color: rgb(196, 31, 9);
     opacity: 0.7;
     display: flex;
     justify-content: end;
