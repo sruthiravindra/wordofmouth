@@ -1,7 +1,7 @@
 import { Card, Button, Col, Row, Container } from 'reactstrap';
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faLocationDot, faPhone, faEnvelope } from '@fortawesome/free-solid-svg-icons';
+import { faLocationDot, faPhone, faEnvelope, faStar } from '@fortawesome/free-solid-svg-icons';
 import { useDispatch, useSelector } from 'react-redux';
 import { useState, useEffect } from 'react';
 import { toast } from "react-toastify";
@@ -81,11 +81,11 @@ const WorkerCard = ({ worker }) => {
         : inContacts 
         ? (<>
             {phone && (
-                <Button>
+                <Button className='contact-btn'>
                     <FontAwesomeIcon icon={faPhone} />
                 </Button>)}
             {email && (
-                <Button>
+                <Button className='contact-btn'>
                     <FontAwesomeIcon icon={faEnvelope} />
                 </Button>)}
         </>)
@@ -95,19 +95,16 @@ const WorkerCard = ({ worker }) => {
     }
 
     return (
-        <Card className={ inContacts ? 'worker-card-in-contacts' : 'worker-card'}>
+        <Card className='worker-card'>
             <Container fluid>
                 <Row className='worker-header'>
                     <Col className='location' xs='8'>
                         <FontAwesomeIcon icon={faLocationDot} className='d-inline me-1'/>
                         <p className='d-inline mb-0'>{`... km away`}</p>
                     </Col>
-                    <Col className='request-btn-col'>
-                        <RequestContactButton />
-                    </Col>
                 </Row>
                 <Row>
-                    <Col xs='3' sm='2' lg='1'>
+                    <Col xs='2' lg='1'>
                         <div className='flex-shrink-0'>
                             <img 
                             src={profile_pic} 
@@ -115,14 +112,19 @@ const WorkerCard = ({ worker }) => {
                             className='img-fluid profile-pic-small'/>
                         </div>
                     </Col>
-                    <Col className='d-flex flex-column justify-content-center'>
-                        <Link to={`/worker/${id}`} className='unstyledLink'>
-                            <h5 className='d-inline'>{first_name} {last_name}</h5>
-                            <StarRating rating={rating}/><p className='d-inline'>({rating})</p>
-                        </Link>
+                    <Col xs='6' md='7' className='worker-info'>
+                        <div className='name-and-rating'>
+                            <Link to={`/worker/${id}`}>
+                                <p className='d-inline'>{first_name} {last_name}</p>
+                                <StarRating rating={rating}/><p className='rating'>({rating})</p>
+                            </Link>
+                        </div>
                         <div className='mt-2'>
                             <ServiceList serviceIds={services} />
                         </div>
+                    </Col>
+                    <Col className='request-btn-col'>
+                        <RequestContactButton />
                     </Col>
                 </Row>
                 <Row className='my-2'>

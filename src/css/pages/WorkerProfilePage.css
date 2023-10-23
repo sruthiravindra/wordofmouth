@@ -29,8 +29,4 @@ div.profile-page-header p {
     opacity: 0.7;
     display: flex;
     justify-content: end;
-  }
-
-  div.col button.contact-btn {
-    margin: 0em;
-  }
+}

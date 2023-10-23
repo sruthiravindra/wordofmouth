@@ -1,33 +1,55 @@
 /* WORKER CARD */
 
-.card.worker-card {
+div.card.worker-card {
     margin-bottom: 1em;
-    border-radius: 0em;
-    background-color: rgb(246, 241, 241);
+    border-radius: 0.25em;
+    background-color: rgb(245, 227, 224);
   }
   
-.worker-header {
+div.worker-header {
   background-color: rgb(196, 31, 9);
   margin-bottom: 0.7em;
   padding: 0.5em 0em;
+  border-radius: 0.25em 0.25em 0em 0em;
 }
 
-.request-btn-col {
+div.request-btn-col {
   display: flex;
-  justify-content: end;
-  padding: 0em;
+  justify-content: center;
+  align-items: center;
 }
 
 .request-btn-col .btn {
   color: white;
-  background-color: rgb(214, 72, 54);
-  padding: 0.3em 0.5em;
-  margin: 0em;
+  background-color: rgb(216, 61, 40);
+  border: 3px solid white;
+  border-radius: 0.5em;
+  box-shadow: 0 0 0 1px rgb(195, 195, 195);
+  padding: 0.5em;
   font-size: small;
 }
 
+.request-btn-col .btn:hover {
+  background-color: rgb(240, 93, 74);
+  color: white;
+  border: 3px solid white;
+  box-shadow: 0 0 0 1px rgb(195, 195, 195);
+}
+
+.request-btn-col button.contact-btn {
+  padding: 0.5em 0.75em;
+  margin: 0em 0.2em;
+}
+
+.request-btn-col button.contact-btn:hover {
+  background-color: rgb(240, 93, 74);
+  color: white;
+  border: 3px solid white;
+  box-shadow: 0 0 0 1px rgb(195, 195, 195);
+}
+
 .profile-pic-small {
-  border: 1px solid rgb(199, 199, 199);
+  border: 3px solid white;
   border-radius: 10em;
 }
 
@@ -39,23 +61,26 @@
   align-items: center;
 }
 
-.clicked-button {
-  text-align: center;
+div.worker-info {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+div.name-and-rating a {
+  color: black;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+div.worker-card div.star-rating {
+  color: rgb(255, 123, 0)
+}
+
+p.rating {
+  display: inline;
+  font-weight: normal;
   font-size: small;
-  color: rgb(22, 137, 203);
-  padding: 0.5em;
-}
-
-.card-title {
-  font-weight: 500;
-  font-size: 1.25rem;
-}
-
-p.in-your-contacts {
-  color: white;
-  opacity: 0.7;
-  font-style: italic;
-  margin-bottom: 0;
 }
 
 p.request-sent {
@@ -77,26 +102,9 @@ p.request-sent {
   display: none;
 }
 
-  /* WORKER CARD (IN CONTACTS) */
-  
-.card.worker-card-in-contacts {
-  margin-bottom: 1em;
-  border-radius: 0em;
-  background-color: rgb(241, 246, 242);
-}
-
-.card.worker-card-in-contacts .worker-header {
-  background-color: rgb(121, 200, 122);
-  margin-bottom: 0.7em;
-  padding: 0.5em 0em;
-}
-
-.card.worker-card-in-contacts button {
-  border: none;
-  background-color: rgb(84, 170, 85);
-}
-
-.card.worker-card-in-contacts button:hover {
-  color: rgb(241, 246, 242);
-  background-color: rgb(57, 142, 59);
+div.worker-card div.service-display div {
+  color: black;
+  background-color: white;
+  border-radius: 0.75em;
+  border: 1px solid rgb(196, 31, 9);
 }
