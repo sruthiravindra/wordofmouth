@@ -27,11 +27,17 @@ const UserProfileUpload = () => {
                     (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
                 toast("Upload inprogress..", {
                     toastId: 'picuploadinprogress',
+                    position: "bottom-right",
+                    theme: "light"
                 });
             },
             (error) => {
                 console.log(error.message);
-                toast("Failed Uploading :: " + error.message);
+                toast("Failed Uploading :: " + error.message, {
+                    position: "bottom-right",
+                    theme: "light",
+                    type: "success"
+                });
             },
             async () => {
                 try {
@@ -40,11 +46,19 @@ const UserProfileUpload = () => {
                         currentUserId: currentUser._id,
                         profile: {profile_pic: downloadURL}
                     }));
-                    toast("Uploaded Successfully");
+                    toast("Uploaded Successfully!", {
+                        position: "bottom-right",
+                        theme: "light",
+                        type: "success"
+                    });
 
                 } catch (error) {
                     console.log(error.message);
-                    toast("Failed Uploading :: " + error.message);
+                    toast("Failed Uploading: " + error.message, {
+                        position: "bottom-right",
+                        theme: "light",
+                        type: "error"
+                    });
 
                 }
             }

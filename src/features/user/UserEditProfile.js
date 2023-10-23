@@ -55,9 +55,17 @@ const UserEditProfile = (props) => {
         dispatch(updateUserProfile({ currentUserId: currentUser._id, profile: { ...values } }))
             .then(response => {
                 if (response.error) {
-                    toast("Profile Update Failed: " + response.error.message);
+                    toast("Profile Update Failed: " + response.error.message, {
+                        position: "bottom-right",
+                        theme: "light",
+                        type: "error"
+                    });
                 } else {
-                    toast("Profile Update Was Successful!");
+                    toast("Profile Update Was Successful!", {
+                        position: "bottom-right",
+                        theme: "light",
+                        type: "success"
+                    });
                     props.toggleEdit();
                 }
             })

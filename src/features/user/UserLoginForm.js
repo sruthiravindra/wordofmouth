@@ -29,10 +29,18 @@ const UserLoginForm = (props) => {
         )
             .then(response => {
                 if (response.error) {
-                    toast("Login Failed: " + response.error.message);
+                    toast("Login Failed: " + response.error.message, {
+                        position: "bottom-right",
+                        theme: "light",
+                        type: "error"
+                    });
                 } else {
                     setModalLoginOpen(false);
-                    toast("Login Successful!");
+                    toast("Login Successful!", {
+                        position: "bottom-right",
+                        theme: "light",
+                        type: "success"
+                    });
                 }
             });
     }
@@ -41,10 +49,9 @@ const UserLoginForm = (props) => {
         <>
             <span className='ml-auto user'>
                 {
-                    currentUser ? (
-                        <UserMenu />
-                    ) : (
-                        <Button onClick={() => setModalLoginOpen(true)}>
+                    currentUser 
+                    ? (<UserMenu />) 
+                    : (<Button onClick={() => setModalLoginOpen(true)}>
                             Log In
                         </Button>
                     )

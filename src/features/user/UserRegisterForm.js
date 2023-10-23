@@ -21,9 +21,17 @@ const UserRegisterForm = (props) => {
         }))
         .then(response => {
             if (response.error) {
-                toast('Registration Failed: ' + response.error.message);
+                toast('Registration Failed: ' + response.error.message, {
+                    position: "bottom-right",
+                    theme: "light",
+                    type: "error"
+                });
             } else {
-                toast('Registration Successful! Loggin in now...')
+                toast('Registration Successful! Loggin in now...', {
+                    position: "bottom-right",
+                    theme: "light",
+                    type: "success"
+                })
                 setModalRegisterOpen(false);
             }
         })

@@ -20,9 +20,17 @@ const ContactRequestCard = ({ request }) => {
         dispatch(updateRequest(data))
             .then((response) => {
                 if (response.error) {
-                    toast("Failed to approve request: " + response.error.message);
+                    toast("Failed to approve request: " + response.error.message, {
+                        position: "bottom-right",
+                        theme: "light",
+                        type: "error"
+                    });
                 } else {
-                    toast("Request approved!");
+                    toast("Request approved!", {
+                        position: "bottom-right",
+                        theme: "light",
+                        type: "success"
+                    });
                 }
             });
     }
@@ -36,9 +44,17 @@ const ContactRequestCard = ({ request }) => {
         dispatch(updateRequest(data))
             .then((response) => {
                 if (response.error) {
-                    toast("Failed to decline request: " + response.error.message);
+                    toast("Failed to decline request: " + response.error.message, {
+                        position: "bottom-right",
+                        theme: "light",
+                        type: "error"
+                    });
                 } else {
-                    toast("Request declined! The user will not be notified.");
+                    toast("Request declined! The user will not be notified.", {
+                        position: "bottom-right",
+                        theme: "light",
+                        type: "success"
+                    });
                 }
             });
     }

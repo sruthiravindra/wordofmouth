@@ -56,11 +56,18 @@ const WorkerCard = ({ worker }) => {
             dispatch(createRequest(request))
                 .then(response => {
                     if (response.error) {
-                        toast("Failed to Send Request: " + response.error.message);
+                        toast("Failed to Send Request: " + response.error.message, {
+                            position: "bottom-right",
+                            theme: "light",
+                            type: "error"
+                        });
                     } else {
-                        toast("Contact Request Sent!");
+                        toast("Contact Request Sent!", {
+                            position: "bottom-right",
+                            theme: "light",
+                            type: "success"
+                        });
                     }
-    
                 })
                 .finally(() => { setRequestLoading(false) });
         } else {

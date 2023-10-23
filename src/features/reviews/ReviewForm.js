@@ -41,11 +41,19 @@ const ReviewForm = ({ userId }) => {
         dispatch(addReview(review))
             .then(response => {
                 if (response.error) {
-                    toast("Failed to post review : " + response.error.message);
+                    toast("Failed to post review : " + response.error.message, {
+                        position: "bottom-right",
+                        theme: "light",
+                        type: "error"
+                    });
                 } else {
                     setFormSubmitted(true);
                     setModalOpen(!modalOpen);
-                    toast("Review posted!");
+                    toast("Review posted!", {
+                        position: "bottom-right",
+                        theme: "light",
+                        type: "success"
+                    });
                 }
             });
     };

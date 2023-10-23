@@ -1,13 +1,16 @@
-import { Card, Button, Col, Row } from 'reactstrap';
+import { Card, Button, Col, Row, Tooltip } from 'reactstrap';
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPhone, faEnvelope } from '@fortawesome/free-solid-svg-icons';
+import { useState } from 'react';
 import StarRating from '../reviews/StarRating';
 import ServiceList from '../services/ServiceList';
 import '../../css/features/requests.css';
 
 const ContactCard = ({ contact }) => {
     const {first_name, last_name, profile_pic, _id, rating, services, email, phone} = contact;
+    const [phoneTooltip, setPhoneTooltip] = useState(false);
+    const [emailTooltip, setEmailTooltip] =  useState(false);
 
     return (
         <>
@@ -30,16 +33,36 @@ const ContactCard = ({ contact }) => {
                             <div className='contact-info-btns'>
                                 {/* <Button>Leave a review</Button> */}
                                 {
-                                    phone && (<Button>
-                                        <FontAwesomeIcon icon={faPhone} />
-                                            {`${phone}`}
-                                    </Button>)
+                                    phone && (<>
+                                        <Button id = {`phone-${_id}`}>
+                                            <FontAwesomeIcon icon={faPhone} />
+                                        </Button>
+                                        <Tooltip
+                                            placement = "bottom"
+                                            isOpen = {phoneTooltip}
+                                            toggle = {() => setPhoneTooltip(!phoneTooltip)}
+                                            autohide = {true}
+                                            target = {`#phone-${_id}`}
+                                        >
+                                            {phone}
+                                        </Tooltip>
+                                    </>)     
                                 }
                                 {
-                                    email && (<Button>
-                                        <FontAwesomeIcon icon={faEnvelope} />
-                                        {`${email}`}
-                                    </Button>)
+                                    email && (<>
+                                        <Button id = {`email-${_id}`}>
+                                            <FontAwesomeIcon icon={faEnvelope} />
+                                        </Button>
+                                        <Tooltip
+                                            placement = "bottom"
+                                            isOpen = {emailTooltip}
+                                            toggle = {() => setEmailTooltip(!emailTooltip)}
+                                            autohide = {true}
+                                            target = {`email-${_id}`}
+                                        >
+                                            {email}
+                                        </Tooltip>
+                                    </>)
                                 }
                             </div>
                     </Col>

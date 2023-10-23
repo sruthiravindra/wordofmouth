@@ -7,12 +7,12 @@
     flex-wrap: wrap;
   }
   
-  .col.service-display div {
-    color: white;
-    font-size: small;
-    background-color: rgb(184, 176, 176);
-    border-radius: 1em;
-    display: inline;
-    margin: 0.2em 0.2em 0.2em 0em;
-    padding: 0.2em 0.8em;
-  }
+.col.service-display div {
+  color: white;
+  font-size: small;
+  background-color: rgb(184, 176, 176);
+  border-radius: 1em;
+  display: inline;
+  margin: 0.2em 0.2em 0.2em 0em;
+  padding: 0.2em 0.8em;
+}

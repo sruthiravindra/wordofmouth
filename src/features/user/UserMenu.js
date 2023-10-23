@@ -14,7 +14,21 @@ const UserMenu = () => {
     const dispatch = useDispatch();
     const logout = () => {
         dispatch(userLogout())
-                    toast("Logout Successfull!!! ");
+            .then(response => {
+                if (response.error) {
+                    toast("Logout Failed: " + response.error.message, {
+                        position: "bottom-right",
+                        theme: "light",
+                        type: "error"
+                    });
+                } else {
+                    toast("Logout Successful!", {
+                        position: "bottom-right",
+                        theme: "light",
+                        type: "success"
+                    });
+                }
+            });
     }
 
     return(

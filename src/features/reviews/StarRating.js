@@ -3,7 +3,7 @@
 const StarRating = (props) => {
     const rate_weightage=[1,2,3,4,5];
     return (
-        <div className='d-inline mx-2'>
+        <div className='d-inline mx-2 star-rating'>
             {
                 // updated by sruthi: start :: changed the star rating to display based on rating value
                 rate_weightage.map((weight, idx)=>{
