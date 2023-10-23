@@ -9,11 +9,11 @@ const UserAccountInfo = ({ toggleEdit }) => {
     const isLoading = useSelector((state) => state.user.isLoading);
     const errMsg = useSelector((state) => state.user.errMsg);
 
-    return isLoading ? 
-        (<div className='mt-3'><Loading /></div>) :
-        errMsg ? 
-        (<p>{errMsg}</p>) : 
-        (<div>
+    return isLoading 
+        ? (<div className='mt-3'><Loading /></div>) 
+        : errMsg 
+        ? (<p>{errMsg}</p>) 
+        : (<div>
             <Row className='mt-4'>
                 <Col xs='4' md='3'>
                     <img

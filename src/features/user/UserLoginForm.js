@@ -34,7 +34,6 @@ const UserLoginForm = (props) => {
                     setModalLoginOpen(false);
                     toast("Login Successful!");
                 }
-
             });
     }
 

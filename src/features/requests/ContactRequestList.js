@@ -11,9 +11,13 @@ const ContactRequestList = () => {
     const contactRequests = useSelector((state) => state.requests.requestsArray);
     const currentUser = useSelector(selectCurrentUser);
 
-    return isLoading ? (<Loading />) : errMsg ? (<p>{errMsg}</p>) 
-    : contactRequests === undefined || contactRequests.length === 0 ? (<p>No requests to display</p>) : (
-        <>
+    return isLoading 
+        ? (<Loading />) 
+        : errMsg 
+        ? (<p>{errMsg}</p>) 
+        : contactRequests === undefined || contactRequests.length === 0 
+        ? (<p className='no-requests'>No requests at this time</p>) 
+        : (<>
             {
                 contactRequests.map((request, idx) => {
                     return request.to_id === currentUser._id 

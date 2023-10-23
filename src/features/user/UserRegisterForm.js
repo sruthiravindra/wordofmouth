@@ -1,53 +1,32 @@
 import { Formik, Field, Form, ErrorMessage } from "formik";
-import { FormGroup, Button, Label, ModalHeader, ModalBody, Modal, Row, Col } from "reactstrap";
+import { FormGroup, Button, ModalHeader, ModalBody, Modal, Row, Col } from "reactstrap";
+import { useDispatch, useSelector } from "react-redux";
+import { toast } from "react-toastify";
 import { validateUserRegisterForm } from "../../utils/validateUserRegisterForm";
 import { userSignup } from "../user/userSlice";
-import { useDispatch } from "react-redux";
-import { getAuth } from "firebase/auth";
+import Loading from '../../components/Loading';
 
 const UserRegisterForm = (props) => {
     const modalRegisterOpen = props.modalRegisterOpen;
     const setModalRegisterOpen = props.setModalRegisterOpen;
+    const isLoading = useSelector((state) => state.user.isLoading);
     const dispatch = useDispatch();
-    const auth = getAuth();
 
     const registerUser = async (values) => {
-        try {
-            dispatch(userSignup({
-                firstName: values.firstName,
-                lastName: values.lastName,
-                username: values.username,
-                password: values.password
-            }))
-            .then(response=>{
-                if(response.error){
-                    console.log(response.error);
-                    alert("Registration Failed!")
-                }else{
-                    setModalRegisterOpen(false);
-                }
-            })
-        //     const userCredential = await createUserWithEmailAndPassword(auth, values.email, values.password);
-        //     const uid = userCredential.user.uid
-        //     const docRef = doc(database, `userData/${uid}`);
-
-        //     //wait for the doc to be added by the cloud function, then add the rest of the data captured in the register form
-        //     const listener = onSnapshot(docRef, (snapshot) => {
-        //         if (snapshot.exists) {
-        //             console.log('user doc created');
-        //             const user = {
-        //                 id: uid,
-        //                 firstName: values.firstName,
-        //                 lastName: values.lastName,
-        //             }
-        //             dispatch(updateUserProfile(user));
-        //             listener();
-        //         }
-        //     });
-        } catch (error) {
-            alert(error.message);
-        }
-        setModalRegisterOpen(false);
+        dispatch(userSignup({
+            firstName: values.firstName,
+            lastName: values.lastName,
+            username: values.username,
+            password: values.password
+        }))
+        .then(response => {
+            if (response.error) {
+                toast('Registration Failed: ' + response.error.message);
+            } else {
+                toast('Registration Successful! Loggin in now...')
+                setModalRegisterOpen(false);
+            }
+        })
     }
 
     return (
@@ -107,9 +86,11 @@ const UserRegisterForm = (props) => {
                                     {(msg) => <p className="text-danger">{msg}</p>}
                                 </ErrorMessage>
                             </FormGroup>
-                            <Button type="submit">
-                                Register
-                            </Button>
+                            {
+                                isLoading
+                                ? (<Loading />)
+                                : (<Button type="submit">Register</Button>)
+                            }
                             <br />
                             <br />
                             <p>Already a registered user?
@@ -125,3 +106,25 @@ const UserRegisterForm = (props) => {
 };
 
 export default UserRegisterForm;
+
+// import { getAuth } from "firebase/auth";
+
+
+//     const auth = getAuth();
+//     const userCredential = await createUserWithEmailAndPassword(auth, values.email, values.password);
+//     const uid = userCredential.user.uid
+//     const docRef = doc(database, `userData/${uid}`);
+
+//     //wait for the doc to be added by the cloud function, then add the rest of the data captured in the register form
+//     const listener = onSnapshot(docRef, (snapshot) => {
+//         if (snapshot.exists) {
+//             console.log('user doc created');
+//             const user = {
+//                 id: uid,
+//                 firstName: values.firstName,
+//                 lastName: values.lastName,
+//             }
+//             dispatch(updateUserProfile(user));
+//             listener();
+//         }
+//     });

@@ -78,3 +78,11 @@ div.contact-card {
     align-items: center;
     justify-content: end;
   }
+
+  /* CONTACT REQUEST LIST */
+
+  p.no-requests {
+    text-align: center;
+    margin-top: 3em;
+    margin-bottom: 3em;
+  }

@@ -1,6 +1,7 @@
 import { Card, Button, Col, Row } from 'reactstrap';
 import { NavLink } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
+import { toast } from "react-toastify";
 import { updateRequest } from './requestsSlice';
 import StarRating from '../reviews/StarRating';
 import '../../css/features/requests.css';
@@ -16,7 +17,14 @@ const ContactRequestCard = ({ request }) => {
             from_id: user_id,
             status: 'Approved'
         }
-        dispatch(updateRequest(data));
+        dispatch(updateRequest(data))
+            .then((response) => {
+                if (response.error) {
+                    toast("Failed to approve request: " + response.error.message);
+                } else {
+                    toast("Request approved!");
+                }
+            });
     }
 
     const declineRequest = () => {
@@ -25,7 +33,14 @@ const ContactRequestCard = ({ request }) => {
             from_id: null,
             status: 'Declined'
         }
-        dispatch(updateRequest(data));
+        dispatch(updateRequest(data))
+            .then((response) => {
+                if (response.error) {
+                    toast("Failed to decline request: " + response.error.message);
+                } else {
+                    toast("Request declined! The user will not be notified.");
+                }
+            });
     }
 
     return (

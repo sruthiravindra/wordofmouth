@@ -9,8 +9,11 @@ div.profile-page-header div.col {
     align-items: center;
 }
 
+div.profile-page-header div.request-col {
+    justify-content: end;
+}
+
 div.profile-page-header .btn {
-    margin-left: auto;
     font-size: small;
 }
 
@@ -26,4 +29,8 @@ div.profile-page-header p {
     opacity: 0.7;
     display: flex;
     justify-content: end;
+  }
+
+  div.col button.contact-btn {
+    margin: 0em;
   }

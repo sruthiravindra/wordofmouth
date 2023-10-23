@@ -3,6 +3,7 @@ import { ErrorMessage, Field, Form, Formik } from "formik";
 import { useSelector, useDispatch } from 'react-redux';
 import { useRef } from "react";
 import { Container, Row, Col, FormGroup, Label, Button } from "reactstrap";
+import { toast } from "react-toastify";
 import DropdownTreeSelect from 'react-dropdown-tree-select'
 import 'react-dropdown-tree-select/dist/styles.css'
 
@@ -12,9 +13,11 @@ import { selectAllServices } from "../services/servicesSlice";
 import SubHeader from "../../components/SubHeader";
 import UserProfileUpload from "./UserProfileUpload";
 import CustomPhoneField from "../../utils/CustomPhoneField";
+import Loading from "../../components/Loading";
 
 const UserEditProfile = (props) => {
     const currentUser = useSelector(selectCurrentUser);
+    const isLoading = useSelector((state) => state.user.isLoading);
     const selectedValue = useRef(currentUser.services);
     const dispatch = useDispatch();
     const ref = React.createRef();
@@ -50,7 +53,14 @@ const UserEditProfile = (props) => {
     const handleSubmit = (values) => {
         values.services = selectedValue.current;
         dispatch(updateUserProfile({ currentUserId: currentUser._id, profile: { ...values } }))
-        props.toggleEdit();
+            .then(response => {
+                if (response.error) {
+                    toast("Profile Update Failed: " + response.error.message);
+                } else {
+                    toast("Profile Update Was Successful!");
+                    props.toggleEdit();
+                }
+            })
     }
 
     return (
@@ -118,8 +128,14 @@ const UserEditProfile = (props) => {
                                         defaultValue={currentUser.services}
                                         onFormChange={e => formik.setFieldValue("services", e)} />
                                 </FormGroup>
-                                <Button className='mb-4' type="submit">Submit</Button>
-                                <Button className='mb-4 mx-2' onClick={props.toggleEdit}>Cancel</Button>
+                                {
+                                    isLoading
+                                    ? (<Loading />)
+                                    : (<>
+                                        <Button className='mb-4' type="submit">Submit</Button>
+                                        <Button className='mb-4 mx-2' onClick={props.toggleEdit}>Cancel</Button>
+                                    </>)
+                                }
                             </Form>
                         )}
                     </Formik>

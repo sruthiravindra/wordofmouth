@@ -107,7 +107,7 @@ const usersSlice = createSlice({
         [userLogin.fulfilled]: (state, action) => {
             state.isLoading = false;
             localStorage.setItem('token', action.payload.token);
-            console.log(`Login successful for user with _id: ${action.payload.id}`);
+            console.log(`Login successful!`);
         },
         [userLogin.rejected]: (state, action) => {
             console.log('action', action)
@@ -137,7 +137,7 @@ const usersSlice = createSlice({
         },
         [updateUserProfile.rejected]: (state, action) => {
             state.isLoading = false;
-            state.errMsg = 'Update user profile failed. :: ' + action.error.message;
+            // state.errMsg = 'Update user profile failed. :: ' + action.error.message;
         }
     }
 });

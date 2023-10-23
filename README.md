@@ -116,15 +116,19 @@ In the [WorkerCard.js](/src/features/workers/WorkerCard.js) component, the worke
 - make error messages prettier
 - clean up usage of 'profile' vs 'user'
 - instead of storing the profile in local storage, dispatch userLogin when the application is first loaded. In userLogin, check to see if there's a token in local storage. If so, send a request to a new endpoint on the server 'users/restore' which will fetch the user's profile with the token.
+- add the other profile data fields to the account/edit account components
+- add the amount of reviews next to a star rating
+- improve design of contact cards + add functionality to the call/email buttons
+- add functionality to the call/email buttons on woker cards/profile pages
 
 ### style guide
 - Single quotes are default, only use double quotes where necessary.
-- All variable naming is in camel case (excluding component names which should have the first letter capitalized).
+- All variable naming is in camel case (excluding component names).
 - All HTTP requests are made with the axios functions in the [axiosConfig.js](/src/utils/axiosConfig.js) file.
 - All forms are built with the Formik library.
 - All font awesome icons should use the FontAwesomeIcon component provided by the @fortawesome/react-fontawesome library.
 - Imports go at the top of the file. Any 3rd party imports go first, followed by local imports.
-- File names are in camel case (excluding component files, which should have the first letter capitalized).
+- File names are in camel case (excluding component files).
 
 
 ## Cloud Functions -- DEPRECATED AFTER SWITCH TO MONGODB

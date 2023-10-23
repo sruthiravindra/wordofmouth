@@ -1,18 +1,22 @@
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import { FormGroup, Label, Modal, ModalBody, ModalHeader, Button } from "reactstrap";
 import { useState, useEffect } from "react";
-import { selectCurrentUser } from "../user/userSlice";
 import { useDispatch, useSelector } from "react-redux";
+import { toast } from "react-toastify";
+
+import { selectCurrentUser } from "../user/userSlice";
 import { addReview } from "./reviewsSlice";
 import { validateReviewForm } from "../../utils/validateReviewForm";
 import { updateWorkerProfile } from "../workers/workersSlice";
+import Loading from "../../components/Loading";
 
 const ReviewForm = ({ userId }) => {
     const [modalOpen, setModalOpen] = useState(false);
+    const [formSubmitted, setFormSubmitted] = useState(false);
     const currentUser = useSelector(selectCurrentUser);
     const workerProfile = useSelector((state) => state.workers.workerProfile);
     const ratingAverage = useSelector((state) => state.reviews.ratingAverage);
-    const [formSubmitted, setFormSubmitted] = useState(false);
+    const isLoading = useSelector((state) => state.reviews.isLoading);
     const ratingChange = ratingAverage !== workerProfile.rating;
     const dispatch = useDispatch();
 
@@ -27,7 +31,6 @@ const ReviewForm = ({ userId }) => {
     }, [formSubmitted, ratingChange, userId, dispatch])
 
     const handleSubmit = (values) => {
-        console.log(values);
         const review = {
             reviewed_user_id: userId,
             author_id: currentUser._id,
@@ -36,9 +39,14 @@ const ReviewForm = ({ userId }) => {
             review_text: values.reviewText
         };
         dispatch(addReview(review))
-            .finally(() => {
-                setFormSubmitted(true);
-                setModalOpen(!modalOpen);
+            .then(response => {
+                if (response.error) {
+                    toast("Failed to post review : " + response.error.message);
+                } else {
+                    setFormSubmitted(true);
+                    setModalOpen(!modalOpen);
+                    toast("Review posted!");
+                }
             });
     };
 
@@ -113,8 +121,15 @@ const ReviewForm = ({ userId }) => {
                                     className='form-control'
                                 />
                             </FormGroup>
-                            <Button type='submit'>Submit</Button>
-                            <Button className='mx-1' onClick={() => setModalOpen(!modalOpen)}>Cancel</Button>
+                            {
+                                isLoading 
+                                ? (<Loading />)
+                                : (
+                                    <><Button type='submit'>Submit</Button>
+                                    <Button className='mx-1' onClick={() => setModalOpen(!modalOpen)}>Cancel</Button></>
+                                )
+                            }
+                            
                         </Form>
                     </Formik>
                 </ModalBody>

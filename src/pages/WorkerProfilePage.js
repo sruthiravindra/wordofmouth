@@ -65,11 +65,11 @@ const WorkerProfilePage = () => {
         : inContacts 
         ? (<>
             {worker.phone && (
-                <Button>
+                <Button className='contact-btn'>
                     <FontAwesomeIcon icon={faPhone} />
                 </Button>)}
             {worker.email && (
-                <Button>
+                <Button className='contact-btn'>
                     <FontAwesomeIcon icon={faEnvelope} />
                 </Button>)}
         </>)
@@ -78,8 +78,10 @@ const WorkerProfilePage = () => {
         : (<Button onClick={requestContact}>Request Contact</Button>)
     }
 
-    return isLoading ? (<div className='mt-3'><Loading /></div>) 
-        : errMsg ? (<p>{errMsg}</p>) 
+    return isLoading || worker === null
+        ? (<div className='mt-3'><Loading /></div>) 
+        : errMsg 
+        ? (<p>{errMsg}</p>) 
         : (<Container fluid className='p-3'>
             <Row className='profile-page-header'>
                 <Col>
@@ -88,7 +90,7 @@ const WorkerProfilePage = () => {
                         <p>{'... km away'}</p>
                     </div>
                 </Col>
-                <Col className='d-flex justify-content-end'>
+                <Col className='request-col'>
                     <RequestContactButton />
                 </Col>
             </Row>
@@ -115,7 +117,7 @@ const WorkerProfilePage = () => {
             <hr />
             <WorkerImageGallery />
             <hr />
-            <h6 className='text-center' > Reviews for {worker.first_name} {worker.last_name}</h6>
+            <h6 className='text-center' id='reviews'> Reviews for {worker.first_name} {worker.last_name}</h6>
             <hr />
             <ReviewList userId={userId}/>
             <div className='text-end my-4'>
