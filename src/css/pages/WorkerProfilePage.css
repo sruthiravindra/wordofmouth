@@ -9,14 +9,6 @@ div.profile-page-header div.col {
     align-items: center;
 }
 
-div.profile-page-header div.request-col {
-    justify-content: end;
-}
-
-div.profile-page-header .btn {
-    font-size: small;
-}
-
 div.profile-page-header p {
     color: white;
     font-size: small;
@@ -24,9 +16,18 @@ div.profile-page-header p {
     padding-left: 0.5em;
 }
 
-.profile-page-header div.loading-icon {
-    color: rgb(196, 31, 9);
-    opacity: 0.7;
-    display: flex;
-    justify-content: end;
+div.name-and-rating {
+    font-weight: bold;
+    font-size: large;
 }
+
+div.profile-page div.star-rating {
+    color: rgb(255, 123, 0)
+}
+
+div.profile-page div.service-display div {
+    color: black;
+    background-color: rgb(244, 235, 234);
+    border-radius: 0.75em;
+    border: 1px solid rgb(196, 31, 9);
+  }

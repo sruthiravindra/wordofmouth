@@ -71,6 +71,8 @@ In the [WorkerCard.js](/src/features/workers/WorkerCard.js) component, the worke
 
 ### Delete Account
 
+### Update User email/phone and password
+
 ### 'Leave a review' button in ContactCard.js
 
 ### Distance Away displayed on worker cards
@@ -92,28 +94,7 @@ In the [WorkerCard.js](/src/features/workers/WorkerCard.js) component, the worke
 
 # TO DO
 
-<!-- - move updateUserDetails from usersSlice.js to userSlice.js -->
-<!-- - display loading icon while user profile is updating -->
-<!-- - convert all HTTP requests to use axios -->
-<!-- - eliminate the updateUserProfilePic thunk? It essentially just updates the profile_pic field which can be accomplished with updateUserDetails -->
-<!-- - remove WorkerFilteredList.js ? The data is now being filtered as it is fetched -->
-<!-- - rename ServicesPage.js to WorkerSearchPage.js ? -->
-<!-- - remove the forgot password link on the login modal until we add functionality to that -->
-<!-- - instead of fetching all reviews when the app loads, fetch reviews in a useEffect from within WorkerCard.js and WorkerProfilePage.js. Only store reviews for the current worker profile page. --> 
-<!-- - rename fetchUser to fetchWorkerProfile -->
-<!-- - rename the usersSlice to workersSlice and move to worker folder -->
-<!-- - move Contact/Request files to the 'requests' folder and remove the 'users' folder -->
-<!-- - move nav NavMenu component to the components folder -->
-<!-- - add a css folder and separate css into separate files -->
-<!-- - remove the teams feature? -->
-<!-- - prevent a user from requesting a contact if a request has already been sent -->
-<!-- - replace 'request contact' button on WorkerProfilePage.js with contact info if in current user's contacts -->
-<!-- - in requestsSlice.js updateRequest thunk, push the from_id user's profile into the current User's contacts -->
-<!-- - add toast notifications everywhere data is updated -->
-<!-- - update the About page -->
-<!-- - update title + favicon -->
-
-- customize the look of the toast notifications
+- move css folder to app/assets/css
 - make error messages prettier
 - clean up usage of 'profile' vs 'user'
 - instead of storing the profile in local storage, dispatch userLogin when the application is first loaded. In userLogin, check to see if there's a token in local storage. If so, send a request to a new endpoint on the server 'users/restore' which will fetch the user's profile with the token.

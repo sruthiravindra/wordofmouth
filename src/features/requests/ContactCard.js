@@ -41,7 +41,7 @@ const ContactCard = ({ contact }) => {
                                             placement = "bottom"
                                             isOpen = {phoneTooltip}
                                             toggle = {() => setPhoneTooltip(!phoneTooltip)}
-                                            autohide = {true}
+                                            autohide = {false}
                                             target = {`#phone-${_id}`}
                                         >
                                             {phone}
@@ -57,7 +57,7 @@ const ContactCard = ({ contact }) => {
                                             placement = "bottom"
                                             isOpen = {emailTooltip}
                                             toggle = {() => setEmailTooltip(!emailTooltip)}
-                                            autohide = {true}
+                                            autohide = {false}
                                             target = {`email-${_id}`}
                                         >
                                             {email}

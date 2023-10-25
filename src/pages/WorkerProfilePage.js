@@ -8,6 +8,7 @@ import { toast } from "react-toastify";
 
 import { fetchWorkerProfile } from "../features/workers/workersSlice";
 import { findRequestByToId, createRequest } from "../features/requests/requestsSlice";
+import { selectServiceTitleById } from "../features/services/servicesSlice";
 import { selectCurrentUser } from "../features/user/userSlice";
 import Loading from "../components/Loading";
 import StarRating from "../features/reviews/StarRating";
@@ -20,7 +21,6 @@ import '../css/pages/WorkerProfilePage.css';
 const WorkerProfilePage = () => {
     const { userId } = useParams();
     const [requestLoading, setRequestLoading] = useState(false);
-    const [reqBtnClicked, setReqBtnClicked] = useState(false);
     const worker = useSelector((state) => state.workers.workerProfile);
     const currentUser = useSelector(selectCurrentUser);
     const isLoading = useSelector((state) => state.workers.isLoading)
@@ -39,7 +39,6 @@ const WorkerProfilePage = () => {
     const requestContact = () => {
         if (currentUser) {
             setRequestLoading(true);
-            setReqBtnClicked(true);
             const request = {
                 from_id: currentUser._id,
                 to_id: userId
@@ -73,7 +72,7 @@ const WorkerProfilePage = () => {
                     <FontAwesomeIcon icon={faEnvelope} />
                 </Button>)}
         </>)
-        : requestSent || reqBtnClicked
+        : requestSent
         ? (<p className='request-sent'>request sent</p>)
         : (<Button onClick={requestContact}>Request Contact</Button>)
     }
@@ -82,16 +81,13 @@ const WorkerProfilePage = () => {
         ? (<div className='mt-3'><Loading /></div>) 
         : errMsg 
         ? (<p>{errMsg}</p>) 
-        : (<Container fluid className='p-3'>
+        : (<Container fluid className='profile-page'>
             <Row className='profile-page-header'>
                 <Col>
                     <div className='location'>
                         <FontAwesomeIcon icon={faLocationDot} />
                         <p>{'... km away'}</p>
                     </div>
-                </Col>
-                <Col className='request-col'>
-                    <RequestContactButton />
                 </Col>
             </Row>
             <Row className='d-flex align-items-center'>
@@ -103,15 +99,18 @@ const WorkerProfilePage = () => {
                         className='img-fluid profile-pic-small'/>
                     </div>
                 </Col>
-                <Col className=''>
-                        <h5 className='d-inline'>{worker.first_name} {worker.last_name}</h5>
+                <Col>
+                    <div className='name-and-rating'>
+                        <p className='d-inline'>{worker.first_name} {worker.last_name}</p>
                         <StarRating rating={worker.rating}/>
-                        <p className='d-inline'>({worker.rating})</p>
-                        <div className='location'>
-                            <FontAwesomeIcon icon={faLocationDot} className='d-inline me-1'/>
-                        {/* <p className='d-inline'>{worker.address}</p> */}
+                        <p className='rating'>({worker.rating})</p>
                     </div>
-                    <ServiceList serviceIds={worker.services}/>
+                    <ServiceList serviceIds={
+                        worker.services.map(service => service._id)
+                    }/>
+                </Col>
+                <Col className='request-btn-col'>
+                    <RequestContactButton />
                 </Col>
             </Row>
             <hr />

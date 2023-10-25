@@ -1,7 +1,6 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { axiosGet, axiosPost, axiosPut } from '../../utils/axiosConfig';
 import { pushContact } from '../user/userSlice';
-import { fetchWorkerProfile } from '../workers/workersSlice';
 
 // ============================ async actions =================================
 
@@ -22,7 +21,7 @@ export const createRequest = createAsyncThunk(
     async (request, {dispatch}) => {
         try {
             const response = await axiosPost('requests', request);
-            dispatch(fetchRequests());
+            await dispatch(fetchRequests());
             return response.data;
         } catch (err) {
             return Promise.reject(err);
@@ -62,7 +61,11 @@ const initialState = {
 const requestsSlice = createSlice({
     name: 'requests',
     initialState,
-    reducers: {},
+    reducers: {
+        clearRequests: (state) => {
+            state.requestsArray = [];
+        }
+    },
     extraReducers: {
         [fetchRequests.pending]: (state) => {
             state.isLoading = true;
@@ -106,6 +109,7 @@ const requestsSlice = createSlice({
 });
 
 export const requestsReducers = requestsSlice.reducer;
+export const {clearRequests} = requestsSlice.actions;
 
 export const findRequestByToId = (profileId) => (state) => {
     const found = state.requests.requestsArray.find(request =>

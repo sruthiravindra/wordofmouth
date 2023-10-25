@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { axiosGet, axiosPut, axiosPost } from '../../utils/axiosConfig';
+import { clearRequests } from '../requests/requestsSlice';
 
 // ============================ async actions =================================
 
@@ -22,7 +23,6 @@ export const userLogin = createAsyncThunk(
     async ({ username, password }, { dispatch }) => {
         try {
             const response = await axiosPost('users/login', { username, password });
-            dispatch(setCurrentUser(response.data));
             return response.data;
         } catch (err) {
             return Promise.reject(err);
@@ -32,11 +32,12 @@ export const userLogin = createAsyncThunk(
 
 export const userLogout = createAsyncThunk(
     'user/logout', 
-    async () => {
+    async (data, {dispatch}) => {
         try {
             const response = await axiosGet('users/logout');
             // Remove the token on client side no matter what happens with the fetch
             localStorage.removeItem('token');
+            dispatch(clearRequests());
             return response.data;
         } catch (err) {
             return Promise.reject(err);
@@ -56,6 +57,8 @@ export const updateUserProfile = createAsyncThunk(
         }    
     }
 );
+
+//to do: add updateUser async thunk
 
 // ============================ slice definition =================================
 
@@ -107,7 +110,8 @@ const usersSlice = createSlice({
         [userLogin.fulfilled]: (state, action) => {
             state.isLoading = false;
             localStorage.setItem('token', action.payload.token);
-            console.log(`Login successful!`);
+            console.log('Login successful!');
+            state.currentUser = action.payload.profile;
         },
         [userLogin.rejected]: (state, action) => {
             console.log('action', action)

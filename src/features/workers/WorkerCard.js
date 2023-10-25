@@ -1,4 +1,4 @@
-import { Card, Button, Col, Row, Container } from 'reactstrap';
+import { Card, Button, Col, Row, Container, Tooltip } from 'reactstrap';
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faLocationDot, faPhone, faEnvelope, faStar } from '@fortawesome/free-solid-svg-icons';
@@ -18,17 +18,21 @@ import '../../css/features/workers.css';
 const WorkerCard = ({ worker }) => {
     const {first_name, last_name, profile_pic, _id: id, rating, services, email, phone, _id} = worker;
     const currentUser = useSelector(selectCurrentUser);
-    const dispatch = useDispatch();
     const [reviewsLoading, setReviewsLoading] = useState(true);
     const [reviewsError, setReviewsError] = useState('');
     const [reviewsArray, setReviewsArray] = useState([]);
     const [requestLoading, setRequestLoading] = useState(false);
-    const [reqBtnClicked, setReqBtnClicked] = useState(false);
+    const [phoneTooltip, setPhoneTooltip] = useState(false);
+    const [emailTooltip, setEmailTooltip] =  useState(false);
+    const [imgTooltip, setImgTooltip] =  useState(false);
     let inContacts = null;
     let requestSent = useSelector(findRequestByToId(id));
+    const dispatch = useDispatch();
+
     if (currentUser) { 
         inContacts = currentUser.contacts.find(contact => contact._id === id) 
     }
+
 
     useEffect(() => {
         axiosPost('reviews/fetchReviews', { filter_reviewed_user_id: _id })
@@ -48,7 +52,6 @@ const WorkerCard = ({ worker }) => {
     const requestContact = () => {
         if (currentUser) {
             setRequestLoading(true);
-            setReqBtnClicked(true);
             const request = {
                 from_id: currentUser._id,
                 to_id: id
@@ -69,7 +72,9 @@ const WorkerCard = ({ worker }) => {
                         });
                     }
                 })
-                .finally(() => { setRequestLoading(false) });
+                .finally(() => { 
+                    setRequestLoading(false);
+                });
         } else {
             alert('Must be logged in to request contact');
         }
@@ -78,19 +83,10 @@ const WorkerCard = ({ worker }) => {
     const RequestContactButton = () => {
         return requestLoading
         ? (<Loading />)
-        : inContacts 
-        ? (<>
-            {phone && (
-                <Button className='contact-btn'>
-                    <FontAwesomeIcon icon={faPhone} />
-                </Button>)}
-            {email && (
-                <Button className='contact-btn'>
-                    <FontAwesomeIcon icon={faEnvelope} />
-                </Button>)}
-        </>)
-        : requestSent || reqBtnClicked
+        : requestSent
         ? (<p className='request-sent'>request sent</p>)
+        : inContacts 
+        ? (<></>)
         : (<Button onClick={requestContact}>Request Contact</Button>)
     }
 
@@ -105,12 +101,21 @@ const WorkerCard = ({ worker }) => {
                 </Row>
                 <Row>
                     <Col xs='2' lg='1'>
-                        <div className='flex-shrink-0'>
+                        <div className='flex-shrink-0' id={`img-${id}`}>
                             <img 
                             src={profile_pic} 
                             alt='profile picture'
                             className='img-fluid profile-pic-small'/>
                         </div>
+                        <Tooltip
+                            placement = "bottom"
+                            isOpen = {imgTooltip}
+                            toggle = {() => setImgTooltip(!imgTooltip)}
+                            autohide = {true}
+                            target = {`#img-${id}`}
+                        >
+                            {email}
+                        </Tooltip>
                     </Col>
                     <Col xs='6' md='7' className='worker-info'>
                         <div className='name-and-rating'>
@@ -125,6 +130,38 @@ const WorkerCard = ({ worker }) => {
                     </Col>
                     <Col className='request-btn-col'>
                         <RequestContactButton />
+                        {phone && inContacts && (
+                            <><div id={`phone-${id}`}>
+                                <Button className='contact-btn'>
+                                <FontAwesomeIcon icon={faPhone} />
+                                </Button>
+                            </div>
+                            <Tooltip
+                                placement = "bottom"
+                                isOpen = {phoneTooltip}
+                                toggle = {() => setPhoneTooltip(!phoneTooltip)}
+                                autohide = {false}
+                                target = {`phone-${id}`}
+                            >
+                                {phone}
+                            </Tooltip>  
+                            </>)}
+                            {email && inContacts && (
+                            <><div id={`email-${id}`}>
+                                <Button className='contact-btn'>
+                                    <FontAwesomeIcon icon={faEnvelope} />
+                                </Button>
+                            </div>
+                            <Tooltip
+                                placement = "bottom"
+                                isOpen = {emailTooltip}
+                                toggle = {() => setEmailTooltip(!emailTooltip)}
+                                autohide = {false}
+                                target = {`email-${id}`}
+                            >
+                                {email}
+                            </Tooltip>
+                        </>)}
                     </Col>
                 </Row>
                 <Row className='my-2'>

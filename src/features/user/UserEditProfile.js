@@ -108,7 +108,7 @@ const UserEditProfile = (props) => {
                                 </FormGroup>
                                 <FormGroup className="col-md-10">
                                     <Label htmlFor="email">Email</Label>
-                                    <Field id="email" name="email" disabled={!formik.isSubmitting} placeholder="Enter Email Address" className="form-control" />
+                                    <Field id="email" name="email" disabled={true} placeholder="Enter Email Address" className="form-control" />
                                     <ErrorMessage name="email">
                                         {(msg) => <p className="text-danger">{msg}</p>}
                                     </ErrorMessage>
@@ -117,6 +117,7 @@ const UserEditProfile = (props) => {
                                     <Label htmlFor="phone">Phone Number</Label>
                                     <CustomPhoneField
                                         ref={ref}
+                                        disabled={true}
                                         name="phone"
                                         formik={formik}
                                         defaultValue={currentUser.phone}

@@ -1,9 +1,13 @@
 import axios from 'axios';
 import { baseUrl } from '../app/shared/baseUrl';
-const token = localStorage.getItem('token')
+
+const getToken = () => {
+    return localStorage.getItem('token')
+}
 
 const get = async (path) => {
     try {
+        const token = getToken()
         const request_url = baseUrl + path;
         const request_header = {
             headers: {
@@ -21,6 +25,7 @@ const get = async (path) => {
 
 const post = async (path, data) => {
     try {
+        const token = getToken()
         const request_url = baseUrl + path;
         const request_header = {
             headers: {
@@ -38,6 +43,7 @@ const post = async (path, data) => {
 
 const put = async (path, data) => {
     try {
+        const token = getToken()
         const request_url = baseUrl + path;
         const request_header = {
             headers: {

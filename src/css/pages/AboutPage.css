@@ -1,14 +1,4 @@
-img.headshot {
-    border-radius: 10em;
-  }
-  
-  .row.team-member {
-    display: flex;
-    align-items: center;
-    margin-bottom: 2em;
-  }
-  
-  span.feature {
+span.feature {
     font-weight: bold;
     color: rgb(196, 31, 9);
-  }
+}

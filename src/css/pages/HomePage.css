@@ -5,7 +5,7 @@
   
 .read-me-link {
   text-decoration: none;
-  color: rgb(196, 31, 9);
+  color: rgb(12, 63, 203);
 }
 
 .home-msg {
@@ -28,4 +28,30 @@ div.home-body {
 div.home-search {
   display: flex;
   justify-content: center;
+}
+
+p.about-us-title {
+  text-align: center;
+  font-size: x-large;
+  margin-top: 2em;
+}
+
+div.team-member {
+  display: flex;
+  align-items: center;
+  margin-bottom: 2em;
+}
+
+img.headshot {
+  border-radius: 10em;
+}
+
+a.read-me-link {
+  text-align: center;
+  color: rgb(196, 31, 9);
+  text-decoration: underline;
+}
+
+div.home {
+  border-bottom: 2px solid black;
 }
