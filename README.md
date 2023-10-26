@@ -69,15 +69,27 @@ In the [WorkerCard.js](/src/features/workers/WorkerCard.js) component, the worke
 
 # Future Features
 
+## User session restore
+
+### 'Keep me logged in' button
+
 ### Delete Account
 
 ### Update User email/phone and password
+
+### Option to delete request that the user sent
+
+### Email/phone buttons will email/call on click
 
 ### 'Leave a review' button in ContactCard.js
 
 ### Distance Away displayed on worker cards
 
-### Register as a Worker
+### Different Registration as Worker vs. Customer
+
+### User can view all the reviews they have written
+
+## User can edit reviews which they have written
 
 ### Email/text sent on account creation
 
@@ -100,8 +112,6 @@ In the [WorkerCard.js](/src/features/workers/WorkerCard.js) component, the worke
 - instead of storing the profile in local storage, dispatch userLogin when the application is first loaded. In userLogin, check to see if there's a token in local storage. If so, send a request to a new endpoint on the server 'users/restore' which will fetch the user's profile with the token.
 - add the other profile data fields to the account/edit account components
 - add the amount of reviews next to a star rating
-- improve design of contact cards + add functionality to the call/email buttons
-- add functionality to the call/email buttons on woker cards/profile pages
 
 ### style guide
 - Single quotes are default, only use double quotes where necessary.

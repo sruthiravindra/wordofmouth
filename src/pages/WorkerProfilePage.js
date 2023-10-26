@@ -8,7 +8,6 @@ import { toast } from "react-toastify";
 
 import { fetchWorkerProfile } from "../features/workers/workersSlice";
 import { findRequestByToId, createRequest } from "../features/requests/requestsSlice";
-import { selectServiceTitleById } from "../features/services/servicesSlice";
 import { selectCurrentUser } from "../features/user/userSlice";
 import Loading from "../components/Loading";
 import StarRating from "../features/reviews/StarRating";
@@ -46,9 +45,17 @@ const WorkerProfilePage = () => {
             dispatch(createRequest(request))
                 .then(response => {
                     if (response.error) {
-                        toast("Failed to Send Request: " + response.error.message);
+                        toast("Failed to Send Request: " + response.error.message, {
+                            position: "bottom-right",
+                            theme: "light",
+                            type: "error"
+                        });
                     } else {
-                        toast("Contact Request Sent!");
+                        toast("Contact Request Sent!", {
+                            position: "bottom-right",
+                            theme: "light",
+                            type: "success"
+                        });
                     }
     
                 })
