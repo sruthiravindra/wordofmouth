@@ -13,6 +13,12 @@
     margin: 0.8em 0.3em;
     padding: 0.5em 0.6em;
   }
+
+  .site-footer a.btn:hover {
+    color: white;
+    border: none;
+    background-color: rgb(208, 203, 203);
+  }
   
   .site-footer div.row {
     text-align: center;

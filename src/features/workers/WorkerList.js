@@ -5,8 +5,9 @@ import { Pagination, PaginationItem, PaginationLink } from "reactstrap";
 import { useState } from "react";
 
 const WorkerList = ({ currentUserGeocode }) => {
-    const workers = useSelector((state) => state.workers.workerSearchArray)
-    const isLoading = useSelector((state) => state.workers.isLoading)
+    const workers = useSelector((state) => state.workers.workerSearchArray);
+    const isLoading = useSelector((state) => state.workers.isLoading);
+    const errMsg = useSelector((state) => state.workers.errMsg);
 
     const [currentPage, setCurrentPage] = useState(0);
     const pageSize = 10;
@@ -20,9 +21,13 @@ const WorkerList = ({ currentUserGeocode }) => {
         searchElement.focus();
     }
 
-    return isLoading ? (
-        <Loading />
-    ): (
+    return isLoading 
+    ? (<Loading />)
+    : errMsg
+    ? (<p>{errMsg}</p>)
+    : workers.length === 0
+    ? (<p className='text-center mb-4'>No results...</p>) 
+    : (
         <>
             {
                 workers.slice(

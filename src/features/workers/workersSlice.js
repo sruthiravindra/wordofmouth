@@ -31,6 +31,7 @@ export const fetchWorkersByServiceId = createAsyncThunk(
     "workers/fetchWorkersByServiceId",
     async(serviceId) => {
         try {
+            console.log(`workers fetched by service id ${serviceId}`)
             const response = await axiosGet(`workers/${serviceId}`);
             return response.data.profiles;
         } catch (err) {

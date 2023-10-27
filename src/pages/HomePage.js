@@ -59,8 +59,17 @@ const HomePage = () => {
                             className='img-fluid headshot'
                         />
                     </Col>
+                    <Col xs='9' lg='7'>
+                        <p className='about-name'>Effie Guenther</p>
+                        <p>Coming from a product development background, Effie has brought much of the aesthetic detail to this project. Her favorite contributions are the responsive navigation bar, worker summary cards, and the contact request ecosystem. After spending 5 months in Nepal, she has a personal connection to the concept and a unique insight into the user experience. She is currently based in New York City and is open to work.</p>
+                    </Col>
                     <Col>
-                        <p>Coming from a product development background, Effie has brought much of the aesthetic detail to this project. Her favorite contributions are the responsive navigation bar, worker summary cards, and the contact request ecosystem. After spending 5 months in Nepal, she has a personal connection to the concept and a unique insight into the user experience.</p>
+                    <p className='contact-links'>
+                            <a href='https://www.linkedin.com/in/effieguenther/' target='_blank'>LinkedIn</a>
+                            <a href='https://github.com/effieguenther' target='_blank'>Github</a>
+                            <a href='https://effie-guenther.com/' target='_blank'>Portfolio</a>
+                            <a href='mailto:effiegguenther@gmail.com' target='_blank'>Email</a>
+                    </p>
                     </Col>
                 </Row>
                 <Row className='team-member'>
@@ -71,8 +80,17 @@ const HomePage = () => {
                             className='img-fluid headshot'
                         />
                     </Col>
+                    <Col xs='9' lg='7'>
+                        <p className='about-name'>Sruthi Ravindran</p>
+                        <p>With 10+ years of experience as a backend developer, Sruthi has been vital to managing the data within this project. Her favorite contributions are the login/register modals, search bar functionality, and the edit profile page. Originally from Bangalore, India, she is very familiar with the ecosystem of freelance workers which is prominent in Southeast Asia that inspired the website. She is currently located in Dubai and is open to work starting in December.</p>
+                    </Col>
                     <Col>
-                        <p>With 10+ years of experience as a backend developer, Sruthi has been vital to managing the data within this project. Her favorite contributions are the login/register modals, search bar functionality, and the edit profile page. Originally from Bangalore, India, she is very familiar with the ecosystem of freelance workers which is prominent in Southeast Asia that inspired the website.</p>
+                        <p className='contact-links'>
+                            <a href='https://www.linkedin.com/in/sruthiravindran/' target='_blank'>LinkedIn</a>
+                            <a href='https://github.com/sruthiravindra' target='_blank'>Github</a>
+                            <a href='' target='_blank'>Portfolio</a>
+                            <a href='mailto:sruthi.ravindran@gmail.com' target='_blank'>Email</a>
+                        </p>
                     </Col>
                 </Row>
             </Container>

@@ -18,6 +18,7 @@ const WorkerSearchPage = () => {
     const [filterString, setFilterString] = useState(keyword);
     const [actionInProgress, setActionInProgress] = useState(false);
     const [typingTimeout, setTypingTimeout] = useState(null);
+    
     const serviceId = useSelector(selectServiceIdByTitle(filterString));
 
     //set the base value of the search bar to the param value
@@ -40,7 +41,17 @@ const WorkerSearchPage = () => {
                     .finally(() => setActionInProgress(false));
             }
         } 
-    }, [isLoading, keyword])
+    }, [isLoading, keyword, serviceId, dispatch])
+
+    const search = (e) => {
+        let keyword = e.target.value;
+        if (!isLoading && !actionInProgress) {
+            setActionInProgress(true);
+            console.log(`workers fetched by keyword ${keyword}`);
+            dispatch(fetchWorkersByKeyword(keyword))
+              .finally(() => setActionInProgress(false));
+        }
+    }
 
     return isLoading ? ( <div className='mt-3'><Loading /></div> ) : errMsg ? ( <p>{errMsg}</p> ) : (
         <Container>
@@ -56,18 +67,13 @@ const WorkerSearchPage = () => {
                             clearTimeout(typingTimeout)
                         }
                         const newTypingTimeout = setTimeout(() => {
-                            // The user has finished typing; execute your action here
-                            if (!isLoading && !actionInProgress) {
-                                setActionInProgress(true);
-                                console.log(`workers fetched by keyword ${e.target.value}`);
-                                dispatch(fetchWorkersByKeyword(e.target.value))
-                                  .finally(() => setActionInProgress(false));
-                            }
+                            // The user has finished typing
+                            search(e);
                           }, 500);
                           setTypingTimeout(newTypingTimeout);
                     }} 
                 />
-                <Button className='mx-1'>
+                <Button className='mx-1' onClick={search} value={filterString}>
                     <FontAwesomeIcon icon={faSearch} />
                 </Button>
             </div>

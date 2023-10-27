@@ -34,12 +34,13 @@ p.about-us-title {
   text-align: center;
   font-size: x-large;
   margin-top: 2em;
+  margin-bottom: 2em;
 }
 
 div.team-member {
   display: flex;
-  align-items: center;
-  margin-bottom: 2em;
+  align-items: start;
+  margin-top: 4em;
 }
 
 img.headshot {
@@ -55,3 +56,39 @@ a.read-me-link {
 div.home {
   border-bottom: 2px solid black;
 }
+
+p.contact-links {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 2em;
+}
+
+p.contact-links a {
+  color: black;
+  background-color: rgb(234, 226, 226);
+  padding: 0.2em 0.8em;
+  text-decoration: none;
+  border-radius: 0.5em;
+  min-width: 6em;
+  text-align: center;
+  margin-top: 0.3em;
+}
+
+@media (max-width: 992px) {
+  p.contact-links {
+    flex-direction: row;
+    justify-content: center;
+  }
+
+  p.contact-links a {
+    margin: 0em 0.25em;
+  }
+}
+
+p.about-name {
+  font-weight: bold;
+  font-size: large;
+  margin-bottom: 0.5em;
+}
+

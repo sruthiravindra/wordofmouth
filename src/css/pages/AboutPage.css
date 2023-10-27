@@ -2,3 +2,26 @@ span.feature {
     font-weight: bold;
     color: rgb(196, 31, 9);
 }
+
+div.code-links {
+    display: flex;
+    justify-content: center;
+}
+
+div.code-links a {
+    color: black;
+    background-color: rgb(234, 228, 228);
+    text-decoration: none;
+    margin: 1em;
+    padding: 0.5em 1em;
+    border-radius: 1em;
+}
+
+p.author {
+    font-style: italic;
+    padding-left: 2em;
+}
+
+span.bold {
+    font-weight: bold;
+}
