@@ -112,9 +112,7 @@ const WorkerProfilePage = () => {
                         <StarRating rating={worker.rating}/>
                         <p className='rating'>({worker.rating})</p>
                     </div>
-                    <ServiceList serviceIds={
-                        worker.services.map(service => service._id)
-                    }/>
+                    <ServiceList serviceIds={worker.services}/>
                 </Col>
                 <Col className='request-btn-col'>
                     <RequestContactButton />
