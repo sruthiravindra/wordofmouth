@@ -24,7 +24,6 @@ const WorkerCard = ({ worker }) => {
     const [requestLoading, setRequestLoading] = useState(false);
     const [phoneTooltip, setPhoneTooltip] = useState(false);
     const [emailTooltip, setEmailTooltip] =  useState(false);
-    const [imgTooltip, setImgTooltip] =  useState(false);
     let inContacts = null;
     let requestSent = useSelector(findRequestByToId(id));
     const dispatch = useDispatch();
@@ -107,15 +106,6 @@ const WorkerCard = ({ worker }) => {
                             alt='profile picture'
                             className='img-fluid profile-pic-small'/>
                         </div>
-                        <Tooltip
-                            placement = "bottom"
-                            isOpen = {imgTooltip}
-                            toggle = {() => setImgTooltip(!imgTooltip)}
-                            autohide = {true}
-                            target = {`#img-${id}`}
-                        >
-                            {email}
-                        </Tooltip>
                     </Col>
                     <Col xs='6' md='7' className='worker-info'>
                         <div className='name-and-rating'>

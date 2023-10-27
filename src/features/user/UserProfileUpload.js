@@ -23,9 +23,8 @@ const UserProfileUpload = () => {
         uploadTask.on(
             "state_changed",
             (snapshot) => {
-                const progress =
-                    (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-                toast("Upload inprogress..", {
+                const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+                toast("Upload in progress..", {
                     toastId: 'picuploadinprogress',
                     position: "bottom-right",
                     theme: "light"
