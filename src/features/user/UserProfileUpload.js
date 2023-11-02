@@ -65,7 +65,7 @@ const UserProfileUpload = () => {
     };
 
     return (
-        <div>
+        <div className='prof-pic-container'>
             {currentUser.profile_pic && <img
                 src={currentUser.profile_pic}
                 alt='profile'

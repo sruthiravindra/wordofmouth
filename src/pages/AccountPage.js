@@ -10,7 +10,7 @@ const AccountPage = () => {
     const toggleEdit = () => setEditProfile(!editProfile);
 
     return(
-        <Container>
+        <Container fluid className='pe-4'>
             { !editProfile && <UserAccountInfo toggleEdit={toggleEdit} />}
             { editProfile && <UserEditProfile toggleEdit={toggleEdit} /> }
         </Container>

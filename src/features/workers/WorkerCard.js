@@ -75,7 +75,11 @@ const WorkerCard = ({ worker }) => {
                     setRequestLoading(false);
                 });
         } else {
-            alert('Must be logged in to request contact');
+            toast("Must be logged in to request a contact", {
+                position: "bottom-right",
+                theme: "light",
+                type: "error"
+            })
         }
     }
 

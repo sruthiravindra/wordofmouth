@@ -64,8 +64,8 @@ const UserLoginForm = (props) => {
                 <ModalBody>
                     <Formik
                         initialValues={{
-                            email: '',
-                            password: ''
+                            email: 'joshi.sujata@basyal.com',
+                            password: 'e4990e01'
                         }}
                         onSubmit={LoginUser}
                         validate={validateUserLoginForm}
@@ -102,14 +102,20 @@ const UserLoginForm = (props) => {
                                 (<></>)
                             }
                             {/* <p><Link to="/">Forgot Password</Link></p> */}
-                            <p>Not a registered user?
-                                {' '}
-                                <Button
-                                    variant="contained"
-                                    color="secondary"
-                                    onClick={() => props.onFormSwitch('register')} >Click here to register</Button>
+                            {
+                                isLoading ? (<></>)
+                                : (
+                                    <p>Not a registered user?
+                                        <Button
+                                            variant="contained"
+                                            color="secondary"
+                                            onClick={() => props.onFormSwitch('register')} >Click here to register
+                                        </Button>
+                                    </p>
+                                )
+                            }
 
-                            </p>
+                            
                         </Form>
                     </Formik>
                 </ModalBody>

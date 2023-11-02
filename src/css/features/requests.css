@@ -1,4 +1,4 @@
-/* CONTACT CARD */
+/* ========== CONTACT CARD ========== */
 
 div.contact-card {
     padding: 0.5em;
@@ -22,7 +22,7 @@ div.contact-info-btns {
   justify-content: end;
 }
 
-div.contact-info-btns button {
+div.contact-card div.contact-info-btns a {
   display: flex;
   align-items: center;
   padding: 0.5em 0.25em;
@@ -46,7 +46,7 @@ div.contact-card div.star-rating {
   color: rgb(196, 31, 9);
 }
 
-/* CONTACT REQUEST CARD */
+/* ========== CONTACT REQUEST CARD ========== */
 
 div.contact-request {
   padding: 0.25em;
@@ -90,7 +90,7 @@ div.contact-request-btns {
   justify-content: end;
 }
 
-/* CONTACT REQUEST LIST */
+/* ========== CONTACT REQUEST LIST ========== */
 
 p.no-requests {
   text-align: center;

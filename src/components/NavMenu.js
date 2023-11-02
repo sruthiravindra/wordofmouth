@@ -91,7 +91,7 @@ const NavMenu = () => {
 
     useEffect(() => {
         const handleResize = () => {
-            setIsAccordian(window.innerWidth <= 768);
+            setIsAccordian(window.innerWidth < 768);
         };
         window.addEventListener('resize', handleResize);
         handleResize();

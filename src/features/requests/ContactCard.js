@@ -34,15 +34,15 @@ const ContactCard = ({ contact }) => {
                                 {/* <Button>Leave a review</Button> */}
                                 {
                                     phone && (<>
-                                        <Button id = {`phone-${_id}`}>
+                                        <Button id={`phone-${_id}`} href={`tel:${phone}`}>
                                             <FontAwesomeIcon icon={faPhone} />
                                         </Button>
                                         <Tooltip
-                                            placement = "bottom"
-                                            isOpen = {phoneTooltip}
-                                            toggle = {() => setPhoneTooltip(!phoneTooltip)}
-                                            autohide = {false}
-                                            target = {`#phone-${_id}`}
+                                            placement="bottom"
+                                            isOpen={phoneTooltip}
+                                            toggle={() => setPhoneTooltip(!phoneTooltip)}
+                                            autohide={false}
+                                            target={`#phone-${_id}`}
                                         >
                                             {phone}
                                         </Tooltip>
@@ -50,15 +50,15 @@ const ContactCard = ({ contact }) => {
                                 }
                                 {
                                     email && (<>
-                                        <Button id = {`email-${_id}`}>
+                                        <Button id={`email-${_id}`} href={`mailto:${email}`}>
                                             <FontAwesomeIcon icon={faEnvelope} />
                                         </Button>
                                         <Tooltip
-                                            placement = "bottom"
-                                            isOpen = {emailTooltip}
-                                            toggle = {() => setEmailTooltip(!emailTooltip)}
-                                            autohide = {false}
-                                            target = {`email-${_id}`}
+                                            placement="bottom"
+                                            isOpen={emailTooltip}
+                                            toggle={() => setEmailTooltip(!emailTooltip)}
+                                            autohide={false}
+                                            target={`email-${_id}`}
                                         >
                                             {email}
                                         </Tooltip>

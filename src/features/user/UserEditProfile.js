@@ -2,7 +2,7 @@ import React from "react";
 import { ErrorMessage, Field, Form, Formik } from "formik";
 import { useSelector, useDispatch } from 'react-redux';
 import { useRef } from "react";
-import { Container, Row, Col, FormGroup, Label, Button } from "reactstrap";
+import { Row, Col, FormGroup, Label, Button } from "reactstrap";
 import { toast } from "react-toastify";
 import DropdownTreeSelect from 'react-dropdown-tree-select'
 import 'react-dropdown-tree-select/dist/styles.css'
@@ -10,9 +10,9 @@ import 'react-dropdown-tree-select/dist/styles.css'
 import { selectCurrentUser } from "./userSlice";
 import { updateUserProfile } from "../user/userSlice";
 import { selectAllServices } from "../services/servicesSlice";
-import SubHeader from "../../components/SubHeader";
 import UserProfileUpload from "./UserProfileUpload";
 import CustomPhoneField from "../../utils/CustomPhoneField";
+import { validateUserEditProfileForm } from '../../utils/validateUserEditProfileForm';
 import Loading from "../../components/Loading";
 
 const UserEditProfile = (props) => {
@@ -46,13 +46,34 @@ const UserEditProfile = (props) => {
             // console.log('onChange::', currentNode, selectedNodes, "selectedValue", selectedValue)
         }
         return (
-            <DropdownTreeSelect name={fldName} data={optionslist} onChange={onChange} />
+            <DropdownTreeSelect name={fldName} data={optionslist} onChange={onChange} className='dropdown' />
         )
     }
 
     const handleSubmit = (values) => {
         values.services = selectedValue.current;
-        dispatch(updateUserProfile({ currentUserId: currentUser._id, profile: { ...values } }))
+        const updatedProfile = {
+            first_name: values.first_name.trim(),
+            last_name: values.last_name.trim(),
+            email: values.email.trim(),
+            phone: values.phone.trim(),
+            gender: values.gender,
+            address: {
+              address_line_1: values.address_line_1.trim(),
+              address_line_2: values.address_line_2 ? values.address_line_2.trim() : null,
+              address_line_3: values.address_line_3 ? values.address_line_3.trim() : null,
+              city: values.city.trim(),
+              province: values.province.trim(),
+              postal_code: values.postal_code.trim(),
+              country: values.country.trim()
+            },
+          services: values.services
+        }
+        console.log('updates', updatedProfile);
+        dispatch(updateUserProfile({ 
+            currentUserId: currentUser._id, 
+            profile: updatedProfile 
+        }))
             .then(response => {
                 if (response.error) {
                     toast("Profile Update Failed: " + response.error.message, {
@@ -72,49 +93,57 @@ const UserEditProfile = (props) => {
     }
 
     return (
-        <Container>
-            <SubHeader current='Profile' />
-            <Row>
-                <Col xs='4' md='3'>
+        <>
+            <Row className='user-edit-profile'>
+                <Col xs='12'sm='4' md='3' xxl='2'>
                     <UserProfileUpload />
                 </Col>
-                <Col className="">
+                <Col className=''>
                     <Formik
                         initialValues={{
                             first_name: currentUser.first_name,
                             last_name: currentUser.last_name,
                             email: currentUser.email,
                             phone: currentUser.phone,
+                            gender: currentUser.gender,
+                            address_line_1: currentUser.address.address_line_1,
+                            address_line_2: currentUser.address.address_line_2,
+                            address_line_3: currentUser.address.address_line_3,
+                            city: currentUser.address.city,
+                            province: currentUser.address.province,
+                            postal_code: currentUser.address.postal_code,
+                            country: currentUser.address.country,
                             services: currentUser.services
                         }}
                         onSubmit={handleSubmit}
-                    // validate={validateForm }
+                        validate={validateUserEditProfileForm}
                     >
                         {(formik) => (
                             <Form>
-                                <FormGroup className="col-md-10">
-                                    <Label htmlFor="first_name">First Name</Label>
-                                    <Field id="first_name" name="first_name" placeholder="Enter First Name" className="form-control" />
+                                <div className='edit-info'>
+                                <FormGroup className='row'>
+                                    <Label htmlFor="first_name" className='col-4 col-md-3 col-lg-2'>First Name</Label>
+                                    <Field id="first_name" name="first_name" placeholder="Enter First Name" className="form-control col" />
                                     <ErrorMessage name="first_name">
-                                        {(msg) => <p className="text-danger">{msg}</p>}
+                                        {(msg) => <p className="err-msg">{msg}</p>}
                                     </ErrorMessage>
                                 </FormGroup>
-                                <FormGroup className="col-md-10">
-                                    <Label htmlFor="last_name">Last Name</Label>
-                                    <Field id="last_name" name="last_name" placeholder="Enter Last Name" className="form-control" />
+                                <FormGroup className='row'>
+                                    <Label htmlFor="last_name" className='col-4 col-md-3 col-lg-2'>Last Name</Label>
+                                    <Field id="last_name" name="last_name" placeholder="Enter Last Name" className="form-control col" />
                                     <ErrorMessage name="last_name">
-                                        {(msg) => <p className="text-danger">{msg}</p>}
+                                        {(msg) => <p className="err-msg">{msg}</p>}
                                     </ErrorMessage>
                                 </FormGroup>
-                                <FormGroup className="col-md-10">
-                                    <Label htmlFor="email">Email</Label>
-                                    <Field id="email" name="email" disabled={true} placeholder="Enter Email Address" className="form-control" />
+                                <FormGroup className='row'>
+                                    <Label htmlFor="email" className='col-4 col-md-3 col-lg-2'>Email</Label>
+                                    <Field id="email" name="email" disabled={true} placeholder="Enter Email Address" className="form-control col" />
                                     <ErrorMessage name="email">
-                                        {(msg) => <p className="text-danger">{msg}</p>}
+                                        {(msg) => <p className="err-msg">{msg}</p>}
                                     </ErrorMessage>
                                 </FormGroup>
-                                <FormGroup className="col-md-10">
-                                    <Label htmlFor="phone">Phone Number</Label>
+                                <FormGroup className='row'>
+                                    <Label htmlFor="phone" className='col-4 col-md-3 col-lg-2'>Phone</Label>
                                     <CustomPhoneField
                                         ref={ref}
                                         disabled={true}
@@ -122,14 +151,80 @@ const UserEditProfile = (props) => {
                                         formik={formik}
                                         defaultValue={currentUser.phone}
                                         onChange={e => formik.setFieldValue("phone", e)}
+                                        className='col-8'
                                     />
                                     <ErrorMessage name="phone">
-                                        {(msg) => <p className="text-danger">{msg}</p>}
+                                        {(msg) => <p className="err-msg">{msg}</p>}
+                                    </ErrorMessage>
+                                </FormGroup>
+                                <FormGroup className='row'>
+                                    <Label htmlFor="gender" className='col-4 col-md-3 col-lg-2'>Gender</Label>
+                                    <Field id="gender" name="gender" placeholder="Enter gender" className="form-control col" as='select'>
+                                        <option value='male'>male</option>
+                                        <option value='female'>female</option>
+                                        <option value='non-binary'>non-binary</option>
+                                        <option value='unspecified'>unspecified</option>
+                                    </Field>
+                                    <ErrorMessage name="gender">
+                                        {(msg) => <p className="err-msg">{msg}</p>}
                                     </ErrorMessage>
                                 </FormGroup>
 
-                                <FormGroup>
-                                    <Label >Services you can provide</Label>
+                                <hr />
+                                <p className='sub-header'>Address</p>
+                                <FormGroup className='row'>
+                                    <Label htmlFor="address_line_1" className='col-4 col-md-3 col-lg-2'>Line 1</Label>
+                                    <Field id="address_line_1" name="address_line_1" placeholder="Enter Address" className="form-control col" />
+                                    <ErrorMessage name="address_line_1">
+                                        {(msg) => <p className="err-msg">{msg}</p>}
+                                    </ErrorMessage>
+                                </FormGroup>
+                                <FormGroup className='row'>
+                                    <Label htmlFor="address_line_2" className='col-4 col-md-3 col-lg-2'>Line 2</Label>
+                                    <Field id="address_line_2" name="addres_line_2" placeholder="Enter Address" className="form-control col" />
+                                    <ErrorMessage name="address_line_2">
+                                        {(msg) => <p className="err-msg">{msg}</p>}
+                                    </ErrorMessage>
+                                </FormGroup>
+                                <FormGroup className='row'>
+                                    <Label htmlFor="address_line_3" className='col-4 col-md-3 col-lg-2'>Line 3</Label>
+                                    <Field id="address_line_3" name="addres_line_3" placeholder="Enter Address" className="form-control col" />
+                                    <ErrorMessage name="address_line_3">
+                                        {(msg) => <p className="err-msg">{msg}</p>}
+                                    </ErrorMessage>
+                                </FormGroup>
+                                <FormGroup className='row'>
+                                    <Label htmlFor="city" className='col-4 col-md-3 col-lg-2'>City</Label>
+                                    <Field id="city" name="city" placeholder="Enter City" className="form-control col" />
+                                    <ErrorMessage name="city">
+                                        {(msg) => <p className="err-msg">{msg}</p>}
+                                    </ErrorMessage>
+                                </FormGroup>
+                                <FormGroup className='row'>
+                                    <Label htmlFor="province" className='col-4 col-md-3 col-lg-2'>Province</Label>
+                                    <Field id="province" name="province" placeholder="Enter Province" className="form-control col" />
+                                    <ErrorMessage name="province">
+                                        {(msg) => <p className="err-msg">{msg}</p>}
+                                    </ErrorMessage>
+                                </FormGroup>
+                                <FormGroup className='row'>
+                                    <Label htmlFor="postal_code" className='col-4 col-md-3 col-lg-2'>Postal Code</Label>
+                                    <Field id="postal_code" name="postal_code" placeholder="Enter Postal Code" className="form-control col" />
+                                    <ErrorMessage name="postal_code">
+                                        {(msg) => <p className="err-msg">{msg}</p>}
+                                    </ErrorMessage>
+                                </FormGroup>
+                                <FormGroup className='row'>
+                                    <Label htmlFor="country" className='col-4 col-md-3 col-lg-2'>Country</Label>
+                                    <Field id="country" name="country" placeholder="Enter Country" className="form-control col" />
+                                    <ErrorMessage name="country">
+                                        {(msg) => <p className="err-msg">{msg}</p>}
+                                    </ErrorMessage>
+                                </FormGroup>
+
+                                <hr />
+                                <FormGroup className='row'>
+                                    <Label className='text-center'>Services</Label>
                                     <ServicesDropdownList
                                         ref={ref}
                                         fldName="services"
@@ -137,21 +232,21 @@ const UserEditProfile = (props) => {
                                         defaultValue={currentUser.services}
                                         onFormChange={e => formik.setFieldValue("services", e)} />
                                 </FormGroup>
+                                </div>
                                 {
                                     isLoading
                                     ? (<Loading />)
-                                    : (<>
+                                    : (<div className='sub-cancel-btns'>
                                         <Button className='mb-4' type="submit">Submit</Button>
                                         <Button className='mb-4 mx-2' onClick={props.toggleEdit}>Cancel</Button>
-                                    </>)
+                                    </div>)
                                 }
                             </Form>
                         )}
                     </Formik>
-
                 </Col>
             </Row>
-        </Container>
+        </>
     );
 }
 

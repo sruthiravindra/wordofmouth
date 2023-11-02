@@ -17,31 +17,26 @@ const HomePage = () => {
     const [keyword, setKeyword] = useState('');
     
     return (
-        <>
+        <Container fluid>
             <Row className='home'>
-                <Col>
-                    <div
-                        className='text-center bg-image m-0'
-                        style={{ backgroundImage: "url('" + ktmAerialImg + "')", height: 550}}
-                    >
-                        <div className='home-mask'>
-                            <div className='home-body'>
-                                <animated.div style={fadeProps}>
-                                    <h2 className='home-msg'>Find top-rated service professionals in your area</h2>
-                                    <div className='home-search'>
-                                        <input 
-                                            type='text' 
-                                            onChange={(e) => setKeyword(e.target.value)}
-                                        />
-                                        <Link to={`/search/${keyword}`}>
-                                            <Button>Go</Button>
-                                        </Link>
-                                    </div>
-                                </animated.div>
-                            </div>
+                <div style={{ backgroundImage: "url('" + ktmAerialImg + "')"}}>
+                    <div className='home-mask'>
+                        <div className='home-body'>
+                            <animated.div style={fadeProps}>
+                                <h2 className='home-msg'>Find top-rated service professionals in your area</h2>
+                                <div className='home-search'>
+                                    <input 
+                                        type='text' 
+                                        onChange={(e) => setKeyword(e.target.value)}
+                                    />
+                                    <Link to={`/search/${keyword}`}>
+                                        <Button>Go</Button>
+                                    </Link>
+                                </div>
+                            </animated.div>
                         </div>
                     </div>
-                </Col>
+                </div>
             </Row>
             <Container className='mb-5'>
                 <Row>
@@ -95,7 +90,7 @@ const HomePage = () => {
                 </Row>
             </Container>
             
-        </> 
+        </Container> 
     );
 }
 

@@ -1,18 +1,18 @@
-/* USER LOGIN FORM */
+/* ========= USER LOGIN FORM ========= */
 
 .err-msg {
     color: red;
     margin-top: 0.5em;
 }
   
-/* USER MENU */
+/* ========= USER MENU ========= */
 
 button.dropdown-item a.nav-link {
     color: black;
     padding: 0;
 }
 
-/* USER PROFILE UPLOAD */
+/* ========= USER PROFILE UPLOAD ========= */
 
 .profile-image-input {
     color: grey;
@@ -24,4 +24,146 @@ button.dropdown-item a.nav-link {
     justify-content: center;
     align-items: center;
     border-radius: 0.2em;
+}
+
+.profile-image-input:hover {
+    cursor: pointer;   
+}
+
+/* ========= USER ACCOUNT INFO ========= */
+
+div.account-info {
+    margin-top: 2em;
+}
+
+div.account-info div.row {
+    border-bottom: 1px solid rgb(231, 231, 231);
+    padding: 0.25em 0em;
+}
+
+div.account-info div.top {
+    border-top: 1px solid rgb(223, 223, 223);
+    padding-top: 0.25em;
+}
+
+div.account-info div.info {
+    border-left: 1px solid grey;
+    margin-left: 0.5em;
+}
+
+div.account-info img {
+    border-radius: 10em;
+    border: 1px solid rgb(223, 223, 223);
+    padding: 0.25em;
+}
+
+div.account-info div.prof-pic-container {
+    display: flex;
+    justify-content: center;
+    align-items: start;
+    padding-bottom: 2em;
+}
+
+div.account-info p {
+    margin-bottom: 0em;
+}
+
+div.account-info p.info-title {
+    font-weight: bold;
+    margin-left: 0.5em;
+}
+
+div.account-info div.address {
+    margin-bottom: 0.5em;
+}
+
+div.account-info div.address p {
+    margin-bottom: 0em;
+}
+
+div.account-info div.service-display {
+    margin: 0.5em 0em;
+}
+
+div.account-info div.service-display div {
+    color: black;
+    background-color: rgb(237, 237, 237);
+    border: 1px solid black;
+}
+
+div.edit-profile-btn {
+    display: flex;
+    padding: 3em 0em;
+    justify-content: end;
+    align-items: end;
+}
+
+div.edit-profile-btn button {
+    margin-left: auto;
+    width: auto;
+}
+
+/* ========= USER EDIT PROFILE ========= */
+
+div.user-edit-profile {
+    margin-top: 2em;
+}
+
+div.user-edit-profile .row {
+    display: flex;
+    align-items: center;
+}
+
+div.user-edit-profile div.edit.row {
+    align-items: start;
+}
+
+div.user-edit-profile div.edit-info {
+    border-left: 1px solid grey;
+    padding-left: 1em;
+}
+
+div.user-edit-profile img {
+    border-radius: 10em;
+    border: 1px solid rgb(223, 223, 223);
+    padding: 0.25em;
+    margin-bottom: 0.5em;
+}
+
+div.user-edit-profile div.prof-pic-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    align-items: center;
+    padding-bottom: 2em;
+}
+
+div.user-edit-profile label {
+    font-weight: bold;
+    margin: 0em;
+}
+
+div.user-edit-profile p.sub-header {
+    text-align: center;
+    font-weight: bold;
+    padding: 0.5em 0em;
+}
+
+div.user-edit-profile div.dropdown {
+    display: flex;
+    justify-content: center;
+    padding: 0.5em 0.25em;
+}
+
+div.sub-cancel-btns {
+    display: flex;
+    justify-content: end;
+    margin: 2em 0em;
+}
+
+div.user-edit-profile p.err-msg {
+    color: red;
+    text-align: end;
+    margin-bottom: 0em;
+    margin-top: 0.25em;
 }

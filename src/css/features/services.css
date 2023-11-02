@@ -1,13 +1,13 @@
 /* SERVICE LIST */
 
-.service-display {
+div.service-display {
     list-style-type: none;
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
   }
   
-.col.service-display div {
+div.service-display div {
   color: white;
   font-size: small;
   background-color: rgb(184, 176, 176);
